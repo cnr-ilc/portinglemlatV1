@@ -28,11 +28,11 @@ public class TabSFCodSet {
 
     /**
      * getSF_cod_set with case 2
-     * @param C_COD
-     * @param C_COD_P
-     * @param C_COD_S
-     * @param C_COD_P2
-     * @param C_COD_S2 
+     * @param C_COD comp_cod 
+     * @param C_COD_P p_cod from sm1
+     * @param C_COD_S s_cod from sm1
+     * @param C_COD_P2 p_cod from sm2
+     * @param C_COD_S2 s_cod from sm2
      */
     public TabSFCodSet(String C_COD,String C_COD_P, String C_COD_S,String C_COD_P2, String C_COD_S2) {
         this.C_COD = C_COD;
@@ -46,9 +46,9 @@ public class TabSFCodSet {
     
     /**
      * getSF_cod_set with case 1
-     * @param C_COD
-     * @param C_COD_P
-     * @param C_COD_S 
+     * @param C_COD comp_code
+     * @param C_COD_P p_cod from sm1
+     * @param C_COD_S s_cod from sm1
      */
     public TabSFCodSet(String C_COD,String C_COD_P, String C_COD_S) {
         this.C_COD = C_COD;
@@ -58,7 +58,7 @@ public class TabSFCodSet {
     
     /**
      * getSF_cod_set with case 0 and 3
-     * @param C_COD
+     * @param C_COD comp_code
      */
     public TabSFCodSet(String C_COD) {
         this.C_COD = C_COD;
@@ -67,7 +67,7 @@ public class TabSFCodSet {
     }
 
     /**
-     * 
+     * void constructor
      */
     public TabSFCodSet() {
         setC_COD(C_COD);

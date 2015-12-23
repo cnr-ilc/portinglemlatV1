@@ -13,7 +13,8 @@ import it.cnr.ilc.jauceps.lib.impl.Vars;
 import it.cnr.ilc.jauceps.lib.impl.table.TabSPF;
 import static it.cnr.ilc.jauceps.lib.structs.Segments.SPF1;
 import static it.cnr.ilc.jauceps.lib.structs.Segments.SPF2;
-import it.cnr.ilc.jauceps.lib.structs.TravellingTables;
+import it.cnr.ilc.jauceps.lib.travellingobjects.TravellingTables;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;

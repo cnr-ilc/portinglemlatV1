@@ -1,4 +1,4 @@
-package it.cnr.ilc.jauceps.lib.structs;
+package it.cnr.ilc.jauceps.lib.travellingobjects;
 
 import it.cnr.ilc.jauceps.lib.impl.table.query.TabCodLeQuery;
 import it.cnr.ilc.jauceps.lib.impl.table.query.TabEaglesQuery;

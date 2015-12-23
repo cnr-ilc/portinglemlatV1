@@ -33,7 +33,7 @@ public class TabLemmaEnding {
     /**
      * Full constructor
      *
-     * @param cur_lemma
+     * @param cur_lemma current lemma
      */
     public TabLemmaEnding(String cur_lemma) {
         this.cur_lemma = cur_lemma;

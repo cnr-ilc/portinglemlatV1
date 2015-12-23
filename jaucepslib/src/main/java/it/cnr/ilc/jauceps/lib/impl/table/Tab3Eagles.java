@@ -34,10 +34,10 @@ public class Tab3Eagles {
     /**
      * Full constructor
      *
-     * @param codLem
-     * @param c01
-     * @param c02
-     * @param c03
+     * @param codLem the lem code
+     * @param c01 first code
+     * @param c02 second code
+     * @param c03 third code
      */
     public Tab3Eagles(String codLem, String c01, String c02, String c03) {
         this.codLem = codLem;

@@ -8,7 +8,7 @@ package it.cnr.ilc.jauceps.lib.impl.table;
 import it.cnr.ilc.jauceps.lib.impl.Vars;
 
 /**
- * This class manages the table lessario</p>
+ * <p>This class manages the table lessario</p>
  *
  * @author Riccardo Del Gratta &lt;riccardo.delgratta@ilc.cnr.it&gt;
  */

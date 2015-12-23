@@ -7,7 +7,8 @@ package it.cnr.ilc.jauceps.lib.headers.table.query;
 
 import it.cnr.ilc.jauceps.lib.impl.table.Tab3Eagles;
 import it.cnr.ilc.jauceps.lib.structs.THREE_EAGLES_MODE;
-import it.cnr.ilc.jauceps.lib.structs.TravellingTables;
+
+import it.cnr.ilc.jauceps.lib.travellingobjects.TravellingTables;
 import java.sql.Connection;
 import java.util.List;
 

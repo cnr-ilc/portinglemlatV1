@@ -35,14 +35,15 @@ public class TabFECodMorSet {
     
 
     /**
-     *
-     * @param COD_4
-     * @param COD_5
-     * @param COD_6
-     * @param COD_7
-     * @param COD_8
-     * @param COD_9
-     * @param COD_10
+     * Constructor
+     * @param COD_4 code 4
+     * @param COD_5 code 5
+     * @param COD_6 code 6
+     * @param COD_7 code 7
+     * @param COD_8 code 8
+     * @param COD_9 code 9
+     * @param COD_10 code 10
+     * @param  codes the concatenation of codes
      */
     public TabFECodMorSet(String COD_4, String COD_5, String COD_6, String COD_7, String COD_8, String COD_9, String COD_10, String codes) {
         this.COD_4 = COD_4;

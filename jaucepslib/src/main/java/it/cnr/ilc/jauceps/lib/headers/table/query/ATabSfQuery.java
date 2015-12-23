@@ -9,7 +9,8 @@ package it.cnr.ilc.jauceps.lib.headers.table.query;
 import it.cnr.ilc.jauceps.lib.impl.table.TabSF;
 import it.cnr.ilc.jauceps.lib.impl.table.TabSFCodMorSet;
 import it.cnr.ilc.jauceps.lib.impl.table.TabSFCodSet;
-import it.cnr.ilc.jauceps.lib.structs.TravellingTables;
+import it.cnr.ilc.jauceps.lib.travellingobjects.TravellingTables;
+
 import java.sql.Connection;
 import java.util.List;
 

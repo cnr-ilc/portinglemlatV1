@@ -7,6 +7,7 @@ package it.cnr.ilc.jauceps.lib.structs;
 
 import java.util.Date;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 
 /**
  * <P>
@@ -402,5 +403,12 @@ public class SilType {
     public void setSilId(String silId) {
         this.silId = silId;
     }
+
+    @Override
+    public String toString() {
+        return "SilType{" + "silId=" + silId + ", radical=" + radical + ", form=" + form + ", lemma=" + lemma + ", codice=" + codice + ", eagles3=" + Arrays.toString(eagles3) + ", rad_sf=" + rad_sf + ", rad_si=" + rad_si + ", rad_spfe=" + rad_spfe + ", rad_spf=" + rad_spf + ", rad_sm1=" + rad_sm1 + ", rad_sm2=" + rad_sm2 + ", rad_alt=" + rad_alt + ", rad_sai=" + rad_sai + ", ind_alt=" + ind_alt + ", segment=" + Arrays.toString(segment) + ", part=" + part + ", isLE=" + isLE + '}';
+    }
+    
+    
 
 }

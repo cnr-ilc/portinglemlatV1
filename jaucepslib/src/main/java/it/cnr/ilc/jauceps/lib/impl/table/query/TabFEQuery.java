@@ -24,7 +24,8 @@ import it.cnr.ilc.jauceps.lib.impl.Vars;
 import it.cnr.ilc.jauceps.lib.impl.table.TabFE;
 import it.cnr.ilc.jauceps.lib.impl.table.TabFE3CodSet;
 import it.cnr.ilc.jauceps.lib.impl.table.TabFECodMorSet;
-import it.cnr.ilc.jauceps.lib.structs.TravellingTables;
+import it.cnr.ilc.jauceps.lib.travellingobjects.TravellingTables;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;

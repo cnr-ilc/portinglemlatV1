@@ -29,8 +29,8 @@ public class TabSM {
 
     
     /**
-     * 
-     * @param segment 
+     * constructor
+     * @param segment the segment
      */
     public TabSM(String segment) {
         this.SM=segment;

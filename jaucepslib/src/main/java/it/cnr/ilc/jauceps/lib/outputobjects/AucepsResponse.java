@@ -21,6 +21,7 @@ public class AucepsResponse {
     private SilType sil;
     private Analysis cur_analysis;
     private String resId="";
+    private int status =0;
 
     public AucepsResponse(Analyses analyses, SilType sil, Analysis cur_analysis) {
         this.analyses = analyses;
@@ -34,9 +35,12 @@ public class AucepsResponse {
 
     @Override
     public String toString() {
-        //return "AucepsResponse{" + "analyses=" + analyses.toString() + ", sil=" + sil + ", cur_analysis=" + cur_analysis.toString() + '}';
-        return "AucepsResponse{" + "analyses=" + getAnalyses() + ", sil=" + getSil() + ", cur_analysis=" + getCur_analysis() + '}';
+        return "AucepsResponse{" + "analyses=" + getAnalyses() + ", sil=" + getSil() + ", cur_analysis=" + getCur_analysis() + ", resId=" + getResId() + ", status=" + getStatus() + '}';
     }
+
+    
+    
+    
 
     /**
      * @return the resId
@@ -92,6 +96,20 @@ public class AucepsResponse {
      */
     public void setCur_analysis(Analysis cur_analysis) {
         this.cur_analysis = cur_analysis;
+    }
+
+    /**
+     * @return the status
+     */
+    public int getStatus() {
+        return status;
+    }
+
+    /**
+     * @param status the status to set
+     */
+    public void setStatus(int status) {
+        this.status = status;
     }
     
 

@@ -5,6 +5,7 @@
  */
 package it.cnr.ilc.jauceps.app;
 
+import it.cnr.ilc.jauceps.lib.impl.InputFunctions;
 import it.cnr.ilc.jauceps.lib.impl.Interact;
 import it.cnr.ilc.jauceps.lib.impl.Lib;
 import it.cnr.ilc.jauceps.lib.impl.Vars;
@@ -53,6 +54,8 @@ public class JAucepsApp {
         Connection conn;
         TravellingTables travellingtables;
         TravellingQueries travellingqueries;
+        InputFunctions inputfunctions;
+        AucepsResponse response = null;
 
         //fields
         PrintStream po = null;
@@ -142,12 +145,11 @@ public class JAucepsApp {
                 logmess = String.format("OPERATION Instantiating TravellingTables with conn -%s- and id -%s-", conn.toString(), sil.getSilId());
                 log.debug(logmess);
             }
-
+            travellingtables = new TravellingTables(conn);
+            travellingtables.setTtId(sil.getSilId());
             travellingqueries = new TravellingQueries(conn);
             travellingqueries.setTqId(sil.getSilId());
 
-            travellingtables = new TravellingTables(conn);
-            travellingtables.setTtId(sil.getSilId());
             if (callerDebug) {
                 logmess = String.format("CALLING -prompt- in Interact.java. CALLER: %s", routine);
                 log.debug(logmess);
@@ -157,11 +159,26 @@ public class JAucepsApp {
                 if (interact.getSw_file() == 0) {
                     wordform = interact.prompt("type the WORD-FORM you wish to analyze. end to exit");
                     if (wordform != null) {
+
                         if (operationDebug) {
-                            logmess = String.format("DEEPFLOW Instantiating InputFunctions with travellingtables and travellingqueries status -%d-", travellingtables.getStatus());
+                            logmess = String.format("DEEPFLOW Instantiating AucepsResponse with silId -%s-", sil.getSilId());
                             log.debug(logmess);
                         }
-
+                        response = new AucepsResponse(sil);
+                        response.setResId(sil.getSilId());
+                        if (operationDebug) {
+                            logmess = String.format("DEEPFLOW Instantiating InputFunctions with travellingtables and travellingqueries status -%d- and id -%s-", travellingtables.getStatus(), response.getResId());
+                            log.debug(logmess);
+                        }
+                        inputfunctions = new InputFunctions(response, travellingtables, travellingqueries);
+                        inputfunctions.silcall(conn, sil, wordform);
+                        response = inputfunctions.getResponse();
+                        try {
+                            System.out.println("XXXX " + response.toString());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            System.err.println("EXIT WITH RESPONSE " + e.getMessage());
+                        }
                     }
 
                 }
@@ -171,13 +188,15 @@ public class JAucepsApp {
                 }
 
             } while (wordform != null);
-            
-            AucepsResponse response = new AucepsResponse(sil);
-            System.out.println("XXXX "+response.toString());
-        }
-        
-        // print the results//
 
+            try {
+                System.out.println("XXXX " + response.toString());
+            } catch (Exception e) {
+                System.err.println("EXIT WITH RESPONSE " + e.getMessage());
+            }
+        }
+
+        // print the results//
         //end//
         if (flowDebug || deepFlowDebug) {
             logmess = String.format("DEEPFLOW END -%s-", routine);

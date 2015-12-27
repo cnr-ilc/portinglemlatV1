@@ -17,9 +17,10 @@ import it.cnr.ilc.jauceps.lib.structs.SilType;
  */
 public class AucepsResponse {
 
-    Analyses analyses;
-    SilType sil;
-    Analysis cur_analysis;
+    private Analyses analyses;
+    private SilType sil;
+    private Analysis cur_analysis;
+    private String resId="";
 
     public AucepsResponse(Analyses analyses, SilType sil, Analysis cur_analysis) {
         this.analyses = analyses;
@@ -33,7 +34,64 @@ public class AucepsResponse {
 
     @Override
     public String toString() {
-        return "AucepsResponse{" + "analyses=" + analyses.toString() + ", sil=" + sil + ", cur_analysis=" + cur_analysis.toString() + '}';
+        //return "AucepsResponse{" + "analyses=" + analyses.toString() + ", sil=" + sil + ", cur_analysis=" + cur_analysis.toString() + '}';
+        return "AucepsResponse{" + "analyses=" + getAnalyses() + ", sil=" + getSil() + ", cur_analysis=" + getCur_analysis() + '}';
+    }
+
+    /**
+     * @return the resId
+     */
+    public String getResId() {
+        return resId;
+    }
+
+    /**
+     * @param resId the resId to set
+     */
+    public void setResId(String resId) {
+        this.resId = resId;
+    }
+
+    /**
+     * @return the analyses
+     */
+    public Analyses getAnalyses() {
+        return analyses;
+    }
+
+    /**
+     * @return the sil
+     */
+    public SilType getSil() {
+        return sil;
+    }
+
+    /**
+     * @return the cur_analysis
+     */
+    public Analysis getCur_analysis() {
+        return cur_analysis;
+    }
+
+    /**
+     * @param analyses the analyses to set
+     */
+    public void setAnalyses(Analyses analyses) {
+        this.analyses = analyses;
+    }
+
+    /**
+     * @param sil the sil to set
+     */
+    public void setSil(SilType sil) {
+        this.sil = sil;
+    }
+
+    /**
+     * @param cur_analysis the cur_analysis to set
+     */
+    public void setCur_analysis(Analysis cur_analysis) {
+        this.cur_analysis = cur_analysis;
     }
     
 

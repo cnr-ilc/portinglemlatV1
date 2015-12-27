@@ -13,10 +13,10 @@ import java.util.Arrays;
  */
 public class Analysis {
     private String[] segments = new String[7];
-    private short part;
-    private short n_cod_morf;
+    private short part=0;
+    private short n_cod_morf=0;
     private String[] cod_morf_4_10=new String[20]; /*MAX_N_COD_MORF 20*/ 
-    private Lemmas lemmas;
+    private Lemmas lemmas=new Lemmas();
 
     /**
      * @return the segments
@@ -90,6 +90,7 @@ public class Analysis {
 
     @Override
     public String toString() {
+        //return "AAAA ";
         return "Analysis{" + "segments=" + Arrays.toString(segments) + ", part=" + part + ", n_cod_morf=" + n_cod_morf + ", cod_morf_4_10=" + Arrays.toString(cod_morf_4_10) + ", lemmas=" + lemmas.toString() + '}';
     }
     

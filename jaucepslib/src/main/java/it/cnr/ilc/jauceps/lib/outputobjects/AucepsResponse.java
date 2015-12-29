@@ -8,7 +8,6 @@ package it.cnr.ilc.jauceps.lib.outputobjects;
 import it.cnr.ilc.jauceps.lib.structs.Analyses;
 import it.cnr.ilc.jauceps.lib.structs.Analysis;
 import it.cnr.ilc.jauceps.lib.structs.SilType;
-import it.cnr.ilc.jauceps.lib.travellingobjects.TravellingTables;
 
 /**
  * This class contains the update @SilType and the last @see Analysis and @see
@@ -38,12 +37,15 @@ public class AucepsResponse {
     private boolean exitInCompsf;
     private boolean exitInCompsm1;
     private boolean exitInCompsm2;
+    private boolean exitInLemtiz;
+    private boolean exitInLemv;
+   
     
     private Analyses analyses;
     private SilType sil;
     private Analysis cur_analysis;
     private String resId="";
-    private int status =0;
+    private String status ="0";
 
     public AucepsResponse(Analyses analyses, SilType sil, Analysis cur_analysis) {
         this.analyses = analyses;
@@ -128,14 +130,14 @@ public class AucepsResponse {
     /**
      * @return the status
      */
-    public int getStatus() {
+    public String getStatus() {
         return status;
     }
 
     /**
      * @param status the status to set
      */
-    public void setStatus(int status) {
+    public void setStatus(String status) {
         this.status = status;
     }
 
@@ -389,6 +391,34 @@ public class AucepsResponse {
      */
     public void setExitInCompsm2(boolean exitInCompsm2) {
         this.exitInCompsm2 = exitInCompsm2;
+    }
+
+    /**
+     * @return the exitInLemtiz
+     */
+    public boolean isExitInLemtiz() {
+        return exitInLemtiz;
+    }
+
+    /**
+     * @param exitInLemtiz the exitInLemtiz to set
+     */
+    public void setExitInLemtiz(boolean exitInLemtiz) {
+        this.exitInLemtiz = exitInLemtiz;
+    }
+
+    /**
+     * @return the exitInLemv
+     */
+    public boolean isExitInLemv() {
+        return exitInLemv;
+    }
+
+    /**
+     * @param exitInLemv the exitInLemv to set
+     */
+    public void setExitInLemv(boolean exitInLemv) {
+        this.exitInLemv = exitInLemv;
     }
 
     

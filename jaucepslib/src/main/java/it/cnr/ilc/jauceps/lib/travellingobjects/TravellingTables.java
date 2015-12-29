@@ -58,7 +58,7 @@ public class TravellingTables {
      * </ul>
      *
      */
-    private int status = 0;
+    private String status = "0";
     private String ttId="";
 
     // connection
@@ -441,14 +441,16 @@ public class TravellingTables {
     /**
      * @return the status
      */
-    public int getStatus() {
-        return status;
+    public String getStatus() {
+        return status+"-";
     }
 
     /**
      * @param status the status to set
      */
-    public void setStatus(int status) {
+    public void setStatus(String status) {
+        String prev=getStatus();
+        status=prev+status;
         this.status = status;
     }
 

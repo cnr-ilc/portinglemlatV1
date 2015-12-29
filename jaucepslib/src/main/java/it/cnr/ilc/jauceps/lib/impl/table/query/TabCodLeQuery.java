@@ -68,10 +68,12 @@ public class TabCodLeQuery extends ATabCodLEQuery {
             log.debug(logmess);
         }
 
-        sel = "SELECT %s, %s,%s,%s,%s,%s,%s,%s, CONCAT(%s,%s,%s,%s,%s,%s,%s) as codes FROM %s WHERE (%s=\'%c\') ";
+        sel = "SELECT  %s as C04C ,%s as C05C,%s as C06C,"
+                + "%s as C07C,%s as C08C,%s as C09C,%s as C10C, "
+                + "CONCAT(%s,%s,%s,%s,%s,%s,%s) as codes FROM %s WHERE (%s=\'%s\') ";
 
         selectRec = String.format(sel,
-                str, C04C, C05C, C06C, C07C, C08C, C09C, C10C, C04C, C05C, C06C, C07C, C08C, C09C, C10C, TAB_CODLE_NAME, CODle, str);
+                C04C, C05C, C06C, C07C, C08C, C09C, C10C, C04C, C05C, C06C, C07C, C08C, C09C, C10C, TAB_CODLE_NAME, CODle, str);
 
         if (sqlDebug) {
             logmess = String.format("SQL Executing %s in TabLeQuery.java with query: %s", routine, selectRec);
@@ -82,7 +84,7 @@ public class TabCodLeQuery extends ATabCodLEQuery {
             // Result set get the result of the SQL query
             resultSet = statement
                     .executeQuery(selectRec);
-            tabs = loopOverRS(resultSet);
+            tabs = loopOverRS(resultSet, str);
 
         } catch (Exception e) {
             logmess = String.format("FATAL SQL Error in %s. Message from DB: %s. Query: %s", routine, e.getMessage(), selectRec);
@@ -108,29 +110,38 @@ public class TabCodLeQuery extends ATabCodLEQuery {
      * @return
      * @throws SQLException
      */
-    private List<TabCodLE> loopOverRS(ResultSet rs) throws SQLException {
+    private List<TabCodLE> loopOverRS(ResultSet rs, String codLe) throws SQLException {
         List<TabCodLE> rettabs = new ArrayList<>();
-        String CODle = "";
-        String C04C = "";
-        String C05C = "";
-        String C06C = "";
-        String C07C = "";
-        String C08C = "";
-        String C09C = "";
-        String C10C = "";
+        
+        String C04C = "C04C";
+        String C05C = "C05C";
+        String C06C = "C06C";
+        String C07C = "C07C";
+        String C08C = "C08C";
+        String C09C = "C09C";
+        String C10C = "C10C";
         String codes = "codes";
 
         while (rs.next()) {
-            CODle = rs.getString(CODle);
-            C04C = rs.getString(C04C);
-            C05C = rs.getString(C05C);
-            C06C = rs.getString(C06C);
-            C07C = rs.getString(C07C);
-            C08C = rs.getString(C08C);
-            C09C = rs.getString(C09C);
-            C10C = rs.getString(C10C);
-            codes = rs.getString(codes);
-            rettabs.add(new TabCodLE(CODle, C04C, C05C, C06C, C07C, C08C, C09C, C10C, codes));
+            C04C= rs.getString(1);
+            C05C= rs.getString(2);
+            C06C= rs.getString(3);
+            C07C= rs.getString(4);
+            C08C= rs.getString(5);
+            C09C= rs.getString(6);
+            C10C= rs.getString(7);
+            codes= rs.getString(8);
+            
+            
+//            C04C= rs.getString(C04C);
+//            C05C = rs.getString(C05C);
+//            C06C = rs.getString(C06C);
+//            C07C = rs.getString(C07C);
+//            C08C = rs.getString(C08C);
+//            C09C = rs.getString(C09C);
+//            C10C = rs.getString(C10C);
+//            codes = rs.getString(codes);
+            rettabs.add(new TabCodLE(codLe, C04C, C05C, C06C, C07C, C08C, C09C, C10C, codes));
         }
         return rettabs;
     }

@@ -13,7 +13,7 @@ import it.cnr.ilc.jauceps.lib.headers.AVars;
  */
 public class Vars extends AVars {
 
-    private String EOS = "EOS";
+    private String EOS = "";
 
     private boolean sqlDebug = true;
 

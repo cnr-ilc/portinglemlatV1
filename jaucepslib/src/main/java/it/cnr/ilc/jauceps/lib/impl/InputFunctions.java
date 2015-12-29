@@ -273,7 +273,7 @@ public class InputFunctions {
 
                 }
                 travellingtables.setFirstTabSpf(tabSpf_1);
-                travellingtables.setStatus(1);
+                travellingtables.setStatus("1");
                 if (deepFlowDebug) {
                     logmess = String.format("DEEPFLOW LOOP SPF1. "
                             + "Counters spf1 -%d- "
@@ -288,7 +288,7 @@ public class InputFunctions {
                             + "isanySF -%s- "
                             + "isanySM1 -%s- "
                             + "isanySM2 -%s- "
-                            + "travellingtabes.status -%d-",
+                            + "travellingtabes.status -%s-",
                             spf_1,
                             spf_2,
                             si,
@@ -362,7 +362,7 @@ public class InputFunctions {
 
                     }
                     travellingtables.setSecondTabSpf(tabSpf_2);
-                    travellingtables.setStatus(2);
+                    travellingtables.setStatus("2");
                     if (deepFlowDebug) {
                         logmess = String.format("DEEPFLOW LOOP SPF2. "
                                 + "Counters spf1 -%d- "
@@ -377,7 +377,7 @@ public class InputFunctions {
                                 + "isanySF -%s- "
                                 + "isanySM1 -%s- "
                                 + "isanySM2 -%s- "
-                                + "travellingtabes.status -%d-",
+                                + "travellingtabes.status -%s-",
                                 spf_1,
                                 spf_2,
                                 si,
@@ -461,7 +461,7 @@ public class InputFunctions {
 
                         }
                         travellingtables.setTabSI(tabSi);
-                        travellingtables.setStatus(3);
+                        travellingtables.setStatus("3");
                         if (deepFlowDebug) {
                             logmess = String.format("DEEPFLOW LOOP SI. "
                                     + "Counters spf1 -%d- "
@@ -476,7 +476,7 @@ public class InputFunctions {
                                     + "isanySF -%s- "
                                     + "isanySM1 -%s- "
                                     + "isanySM2 -%s- "
-                                    + "travellingtabes.status -%d-",
+                                    + "travellingtabes.status -%s-",
                                     spf_1,
                                     spf_2,
                                     si,
@@ -585,7 +585,7 @@ public class InputFunctions {
 
                             }
                             travellingtables.setTabSf(tabSf);
-                            travellingtables.setStatus(20);
+                            travellingtables.setStatus("20");
                             if (deepFlowDebug) {
                                 logmess = String.format("DEEPFLOW LOOP SF. "
                                         + "Counters spf1 -%d- "
@@ -600,7 +600,7 @@ public class InputFunctions {
                                         + "isanySF -%s- "
                                         + "isanySM1 -%s- "
                                         + "isanySM2 -%s- "
-                                        + "travellingtabes.status -%d-",
+                                        + "travellingtabes.status -%s-",
                                         spf_1,
                                         spf_2,
                                         si,
@@ -617,6 +617,60 @@ public class InputFunctions {
                                 log.debug(logmess);
                             }
                             // ADD CODE B4 SM1
+                            segment = sil.getSegment();
+                            
+                            if (deepFlowDebug) {
+                                logmess = String.format("DEEPFLOW ****ASSIGNING EOS to sil.segment[2] in routine %s", routine);
+                                log.debug(logmess);
+                                logmess = String.format("DEEPFLOW ****ASSIGNING EOS to sil.segment[3] in routine %s", routine);
+                                log.debug(logmess);
+                            }
+                            segment[2] = EOS;
+                            segment[3] = EOS;
+                            
+
+                            if (callerDebug) {
+                                logmess = String.format("CALLING sfiric in  Sillib.java. CALLER %s", routine);
+                                log.debug(logmess);
+                            }
+                            sil = sillib.sfric(sil,tabSf);
+                            if (deepFlowDebug) {
+                                logmess = String.format("DEEPFLOW ****ASSIGNING getSF to sil.segment[4] in routine %s", routine);
+                                log.debug(logmess);
+                                logmess = String.format("DEEPFLOW ****ASSIGNING getRad_sf to sil.segment[1] in routine %s", routine);
+                                log.debug(logmess);
+                            }
+                            segment[1] = sil.getRad_sf();
+                            segment[4] = tabSf.getSEG();
+                            sil.setSegment(segment);
+                            if (valueDebug) {
+                                for (int i = 0; i < segment.length; i++) {
+                                    logmess = String.format("****VALUES IN LOOP getSFset Segment at index -%d- with value -%s-", i, segment[i]);
+                                    log.debug(logmess);
+                                }
+                            }
+                            if (deepFlowDebug) {
+                                logmess = String.format("DEEPFLOW ****ASSIGNED EOS to sil.segment[2] in routine %s", routine);
+                                log.debug(logmess);
+                                logmess = String.format("DEEPFLOW ****ASSIGNED EOS to sil.segment[3] in routine %s", routine);
+                                log.debug(logmess);
+                                logmess = String.format("DEEPFLOW ****ASSIGNED getSF -%s- to sil.segment[4] in routine %s", routine, tabSf.getSEG());
+                                log.debug(logmess);
+                                logmess = String.format("DEEPFLOW ****ASSIGNED getRad_sf -%s- to sil.segment[1] in routine %s", routine, sil.getRad_sf());
+                                log.debug(logmess);
+                            }
+                            sil.setSegment(segment);
+                            if (sil.getRad_sf().compareTo("") != 0) {
+                                if (callerDebug) {
+                                    logmess = String.format("CALLING analysis (1) in Sillib.java CALLER %s  with parameter sil.rad_sf -%s- FROM LOOP getSFset",
+                                            routine, sil.getRad_sf());
+                                    log.debug(logmess);
+                                }
+                                /*instantiate tabsm */
+                                
+                                //ARRIVATO QUI 29/12/15
+                                //getSillib().analysis(conn, tabLe, tabSf, tabSm_1, tabSm_2, tabSpf_1, tabSpf_2, tabSi, sil.getRad_sf(), tabspfq_1.isAny(), tabspfq_2.isAny(), tabsiq.isAny(), false, false);
+                            }
                             // LOOP SM1
                             if (callerDebug || deepFlowDebug) {
                                 logmess = String.format("CALLING getSMset_1 in TabSmQuery.java with parameters: rad_sf -%s-. CALLER %s", sil.getRad_sf(), routine);
@@ -647,7 +701,7 @@ public class InputFunctions {
 
                                 }
                                 travellingtables.setFirstTabSm(tabSm_1);
-                                travellingtables.setStatus(21);
+                                travellingtables.setStatus("21");
                                 if (deepFlowDebug) {
                                     logmess = String.format("DEEPFLOW LOOP SM1. "
                                             + "Counters spf1 -%d- "
@@ -662,7 +716,7 @@ public class InputFunctions {
                                             + "isanySF -%s- "
                                             + "isanySM1 -%s- "
                                             + "isanySM2 -%s- "
-                                            + "travellingtabes.status -%d-",
+                                            + "travellingtabes.status -%s-",
                                             spf_1,
                                             spf_2,
                                             si,
@@ -710,7 +764,7 @@ public class InputFunctions {
 
                                     }
                                     travellingtables.setSecondTabSm(tabSm_2);
-                                    travellingtables.setStatus(22);
+                                    travellingtables.setStatus("22");
                                     if (deepFlowDebug) {
                                         logmess = String.format("DEEPFLOW LOOP SM2. "
                                                 + "Counters spf1 -%d- "
@@ -725,7 +779,7 @@ public class InputFunctions {
                                                 + "isanySF -%s- "
                                                 + "isanySM1 -%s- "
                                                 + "isanySM2 -%s- "
-                                                + "travellingtabes.status -%d-",
+                                                + "travellingtabes.status -%s-",
                                                 spf_1,
                                                 spf_2,
                                                 si,
@@ -860,7 +914,7 @@ public class InputFunctions {
 
             }
             travellingtables.setTabLe(tabLe);
-            travellingtables.setStatus(4);
+            travellingtables.setStatus("4");
             //for (Iterator<TabLE> TabLEit = tabsLe.iterator(); TabLEit.hasNext();) {
 
             //setTabLe(TabLEit.next());
@@ -876,7 +930,7 @@ public class InputFunctions {
                         + "isanySF -%s- "
                         + "isanySM1 -%s- "
                         + "isanySM2 -%s- "
-                        + "travellingtabes.status -%d-",
+                        + "travellingtabes.status -%s-",
                         le,
                         les,
                         isanyle,
@@ -925,7 +979,7 @@ public class InputFunctions {
 
                 }
                 travellingtables.setTabLessario(tabLessario);
-                travellingtables.setStatus(5);
+                travellingtables.setStatus("5");
                 //for (Iterator<TabLessario> TabLESit = tabsLessario.iterator(); TabLESit.hasNext();) {
                 //tabLessario = TabLESit.next(); /* ATTENTION: only one row or null*/
 
@@ -941,7 +995,7 @@ public class InputFunctions {
                             + "isanySF -%s- "
                             + "isanySM1 -%s- "
                             + "isanySM2 -%s- "
-                            + "travellingtabes.status -%d-",
+                            + "travellingtabes.status -%s-",
                             le,
                             les,
                             isanyle,
@@ -1306,14 +1360,15 @@ public class InputFunctions {
             log.debug(logmess);
         }
         setTravellingtables(travellingtables);
-        sil = sillib.getSil();
-        setSil(sil);
+        
+        
         if (deepFlowDebug) {
             logmess = String.format("DEEPFLOW ****ASSIGNING in %s isLe -%d- to sil.isLE", routine, 0);
             log.debug(logmess);
         }
-
-        getSil().setIsLE(0);
+        sil=response.getSil();
+        sil.setIsLE(0);
+        response.setSil(sil);
         if (deepFlowDebug) {
             logmess = String.format("DEEPFLOW ****ASSIGNED in %s isLe -%d- to sil.isLE", routine, 0);
             log.debug(logmess);
@@ -1324,7 +1379,7 @@ public class InputFunctions {
         }
         // PARTIREDAQUI//
         travellingtables = sillib.getTravellingtables();
-        sillib.lemv(sil, travellingtables, travellingqueries, IPERLEMMA);
+        response=sillib.lemv(response, travellingtables, travellingqueries, IPERLEMMA);
 
         //sillib.lemv(copiedLessario, tabLe, IPERLEMMA);
         if (flowDebug || deepFlowDebug) {
@@ -1332,9 +1387,10 @@ public class InputFunctions {
             log.debug(logmess);
         }
         travellingtables = sillib.getTravellingtables();
-        setSil(sil);
+        response.setSil(sil);
         setTravellingtables(travellingtables);
-        return true;
+        response.setExitInComp_le(true);
+        return response;
     } // end comp_le 
 
     /**

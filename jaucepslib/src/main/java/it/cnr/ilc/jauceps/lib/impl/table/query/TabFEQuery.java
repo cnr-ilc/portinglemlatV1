@@ -86,7 +86,7 @@ public class TabFEQuery extends ATabFEQuery{
                 LES_ID, ADD_LEM, ENC, TAB_FE_NAME, LES_ID, les_id);
 
         if (sqlDebug) {
-            logmess = String.format("SQL Executing %s in TabSiQuery.java with query: %s", routine, selectRec);
+            logmess = String.format("SQL Executing %s in TabFEQuery.java with query: %s", routine, selectRec);
             log.debug(logmess);
         }
         try {
@@ -103,11 +103,11 @@ public class TabFEQuery extends ATabFEQuery{
         }
 
         if (sqlDebug) {
-            logmess = String.format("LQS Executing %s in TabSiQuery.java with  query: %s", routine, selectRec);
+            logmess = String.format("LQS Executing %s in TabFEQuery.java with  query: %s", routine, selectRec);
             log.debug(logmess);
         }
         if (flowDebug || deepFlowDebug) {
-            logmess = String.format("DEEPFLOW START Executing %s in TabSiQuery.java", routine);
+            logmess = String.format("DEEPFLOW START Executing %s in TabFEQuery.java", routine);
             log.debug(logmess);
         }
         return tabs;

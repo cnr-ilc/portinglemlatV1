@@ -51,6 +51,8 @@ public class TravellingTables {
      * <li>8 loop tablessario (in lemv sillib)</li>
      * <li>9 loop tabcodmorset (in pushlemma sillib)</li>
      * <li>10 loop 3cod_set from fe (in pushlemma sillib)</li>
+     * <li>11 loop tabSAI (in analysis)</li>
+     * <li>12 loop tablessario (in analysis)</li>
      * <li>20 loop tabsf</li>
      * <li>21 loop tabsm1 </li>
      * <li>22 loop tabsm1</li>

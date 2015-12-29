@@ -12,6 +12,7 @@ import it.cnr.ilc.jauceps.lib.impl.table.TabFE3CodSet;
 import it.cnr.ilc.jauceps.lib.impl.table.TabFECodMorSet;
 import it.cnr.ilc.jauceps.lib.impl.table.TabLE;
 import it.cnr.ilc.jauceps.lib.impl.table.TabLessario;
+import it.cnr.ilc.jauceps.lib.impl.table.TabSAI;
 import it.cnr.ilc.jauceps.lib.impl.table.TabSF;
 import it.cnr.ilc.jauceps.lib.impl.table.TabSFCodMorSet;
 import it.cnr.ilc.jauceps.lib.impl.table.TabSI;
@@ -204,6 +205,53 @@ public class Sillib {
 
         return sil;
     } // end siric
+    public SilType sairic(SilType sil,TabSAI tabSai) {
+        //SilType lsil = getSil();
+        String routine = CLASS_NAME + "/sairic";
+        String logmess = "";
+        int index = tabSai.getSAI().length();
+        int radLength = sil.getRadical().length();
+        String ind_alt = "", rad_alt = "", rad_sai = "";
+        if (flowDebug || deepFlowDebug) {
+            logmess = String.format("DEEPFLOW START Executing %s in Sillib.java", routine);
+            log.debug(logmess);
+        }
+        /* copying the substring check lenght*/
+        if (deepFlowDebug) {
+            logmess = String.format("DEEPFLOW ****COPYING in %s N chars %d of sil.radical %s on sil.rad_sai %s", routine, index, sil.getRadical(), sil.getRad_sai());
+            log.debug(logmess);
+            logmess = String.format("DEEPFLOW ****COPYING in %s  getSai_cod -%s- on sil.ind_alt %s", routine, tabSai.getSAI_cod(), sil.getInd_alt());
+            log.debug(logmess);
+            logmess = String.format("DEEPFLOW ****COPYING in %s  getSai_alt -%s- on sil.rad_alt %s", routine, tabSai.getSAI_alt(), sil.getRad_alt());
+            log.debug(logmess);
+
+        }
+        if (index > radLength) {
+            rad_sai = "";
+
+        } else {
+            rad_sai = sil.getRadical().substring(index);
+        }
+        sil.setRad_sai(rad_sai);
+
+        ind_alt = tabSai.getSAI_cod();
+        sil.setInd_alt(ind_alt);
+        rad_alt = tabSai.getSAI_alt() + rad_sai;
+        sil.setRad_alt(rad_alt);
+
+        if (deepFlowDebug) {
+            logmess = String.format("DEEPFLOW ****COPIED in %s N chars %d of sil.radical %s on sil.rad_sai %s", routine, index, sil.getRadical(), sil.getRad_sai());
+            log.debug(logmess);
+            logmess = String.format("DEEPFLOW ****COPIED in %s  getSai_cod -%s- on sil.ind_alt %s", routine, tabSai.getSAI_cod(), sil.getInd_alt());
+            log.debug(logmess);
+            logmess = String.format("DEEPFLOW ****COPIED in %s  getSai_alt -%s- on sil.rad_alt %s", routine, tabSai.getSAI_alt(), sil.getRad_alt());
+            log.debug(logmess);
+
+        }
+        //setSil(sil);
+        return sil;
+
+    } // end sairic
 
     public AucepsResponse lemtiz(AucepsResponse response, TravellingTables travellingtables, TravellingQueries travellingqueries, LEM_TYPE lem_type) {
         String routine = CLASS_NAME + "/lemtiz";

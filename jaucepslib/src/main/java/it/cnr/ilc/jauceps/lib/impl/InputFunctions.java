@@ -666,6 +666,7 @@ public class InputFunctions {
                                             routine, sil.getRad_sf());
                                     log.debug(logmess);
                                 }
+                                RunStaticAnalyses.test();
                                 /*instantiate tabsm */
                                 
                                 //ARRIVATO QUI 29/12/15

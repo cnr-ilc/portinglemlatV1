@@ -660,13 +660,14 @@ public class InputFunctions {
                                 log.debug(logmess);
                             }
                             sil.setSegment(segment);
+                            response.setSil(sil);
                             if (sil.getRad_sf().compareTo("") != 0) {
                                 if (callerDebug) {
-                                    logmess = String.format("CALLING analysis (1) in Sillib.java CALLER %s  with parameter sil.rad_sf -%s- FROM LOOP getSFset",
+                                    logmess = String.format("CALLING analysis (1) in InputFunctions.java CALLER %s  with parameter sil.rad_sf -%s- FROM LOOP getSFset",
                                             routine, sil.getRad_sf());
                                     log.debug(logmess);
                                 }
-                                RunStaticAnalyses.test();
+                                response=RunStaticAnalyses.analysis(response, travellingtables, travellingqueries);
                                 /*instantiate tabsm */
                                 
                                 //ARRIVATO QUI 29/12/15

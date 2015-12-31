@@ -226,8 +226,8 @@ public final class RunStaticAnalyses {
                 log.debug(logmess);
             }
             tabsLessario = tablessarioq.getLESset(sil.getRadical(), BY_LES);
-            for (TabLessario tabLessario:tabsLessario){
-            //for (Iterator<TabLessario> TabLESit = tabsLessario.iterator(); TabLESit.hasNext();) {
+            for (TabLessario tabLessario : tabsLessario) {
+                //for (Iterator<TabLessario> TabLESit = tabsLessario.iterator(); TabLESit.hasNext();) {
                 if (operationDebug) {
                     logmess = String.format("OPERATIONDEBUG SETTING setTabLessario in -%s-", routine);
                     log.debug(logmess);
@@ -243,9 +243,7 @@ public final class RunStaticAnalyses {
                     log.debug(logmess);
                 }
                 response = comp(response, travellingtables, travellingqueries, rad);
-                
 
-                
                 les++;
             }// rof getLES 
             travellingtables.setIsanyLes(false);
@@ -279,7 +277,7 @@ public final class RunStaticAnalyses {
         SilType sil = response.getSil();
 
         if (flowDebug || deepFlowDebug) {
-            logmess = String.format("DEEPFLOW START Executing %s in CompLe.java. Parameter %s", routine, rad_sf);
+            logmess = String.format("DEEPFLOW START Executing %s in RunStaticAnalyses.java. Parameter %s", routine, rad_sf);
             log.debug(logmess);
         }
 
@@ -345,6 +343,15 @@ public final class RunStaticAnalyses {
                 response.setCompai(true);
                 response.setExitInCompai(false);
             }
+            if (operationDebug) {
+                logmess = String.format("OPERATIONDEBUG SETTING  travellingtables after GETTING travellingtables from comparator in compai in -%s-", routine);
+                log.debug(logmess);
+                logmess = String.format("OPERATIONDEBUG GETTING tabLessario getTabLessario after compai in -%s-", routine);
+                log.debug(logmess);
+            }
+            travellingtables = comparator.getTravellingtables();
+            setTravellingtables(travellingtables);
+            tabLessario = travellingtables.getTabLessario();
 
         } else {// else sil.ind_alt
             if (deepFlowDebug) {
@@ -360,31 +367,56 @@ public final class RunStaticAnalyses {
         }
 
         //System.err.println("SPF: "+tabspf_2.getSPF());
-        if (!comparator.compsi(travellingtables)) {
+        if (travellingtables.isIsanySI() && !tabSi.getSI().equals("")) {// getSI
             if (deepFlowDebug) {
-                logmess = String.format("DEEPFLOW ****CHECKED compsi in routine %s in with parameters getSI: -%s-  EXIT FALSE", tabSi.getSI(), routine);
+                logmess = String.format("DEEPFLOW ****CHECKED tabSi.getSI() -%s- in %s: WAS NOT ''", tabSi.getSI(), routine);
                 log.debug(logmess);
             }
-            // RETURN 0 FALSE
+            if (callerDebug) {
+                logmess = String.format("CALLING compsi with parameters getSI: -%s-  CALLER %s ", tabSi.getSI(), routine);
+                log.debug(logmess);
+            }
+            if (!comparator.compsi(travellingtables)) {
+                if (deepFlowDebug) {
+                    logmess = String.format("DEEPFLOW ****CHECKED compsi in routine %s in with parameters getSI: -%s-  EXIT FALSE", tabSi.getSI(), routine);
+                    log.debug(logmess);
+                }
+                // RETURN 0 FALSE
+                if (operationDebug) {
+                    logmess = String.format("OPERATIONDEBUG SETTING travellingtables after GETTING travellingtables from comparator in compsi in -%s- BRANCH FALSE", routine);
+                    log.debug(logmess);
+                    logmess = String.format("OPERATIONDEBUG GETTING tabLessario getTabLessario after compsi in -%s-", routine);
+                    log.debug(logmess);
+                }
+                travellingtables = comparator.getTravellingtables();
+                setTravellingtables(travellingtables);
+                response.setCompsi(false);
+                response.setExitInCompsi(true);
+                return response;
+            } else { //else compsi
+                if (deepFlowDebug) {
+                    logmess = String.format("DEEPFLOW ****CHECKED compsi in routine %s in with parameters getSI: -%s-  EXIT TRUE -CONTINUE-", routine, tabSi.getSI());
+                    log.debug(logmess);
+                }
+                response.setCompsi(true);
+                response.setExitInCompsi(false);
+            }
+
             if (operationDebug) {
-                logmess = String.format("OPERATIONDEBUG SETTING travellingtables after GETTING travellingtables from comparator in compsi in -%s- BRANCH FALSE", routine);
+                logmess = String.format("OPERATIONDEBUG SETTING travellingtables after GETTING travellingtables from comparator in compsi in -%s-", routine);
                 log.debug(logmess);
                 logmess = String.format("OPERATIONDEBUG GETTING tabLessario getTabLessario after compsi in -%s-", routine);
                 log.debug(logmess);
             }
             travellingtables = comparator.getTravellingtables();
             setTravellingtables(travellingtables);
-            response.setCompsi(false);
-            response.setExitInCompsi(true);
-            return response;
-        } else { //else compsi
+            tabLessario = travellingtables.getTabLessario();
+        } else { // else  getSI
             if (deepFlowDebug) {
-                logmess = String.format("DEEPFLOW ****CHECKED compsi in routine %s in with parameters getSI: -%s-  EXIT TRUE -CONTINUE-", routine, tabSi.getSI());
+                logmess = String.format("DEEPFLOW ****CHECKED tabSi.getSI() -%s- in %s: WAS ''", tabSi.getSI(), routine);
                 log.debug(logmess);
             }
-            response.setCompsi(true);
-            response.setExitInCompsi(false);
-        }
+        } // end getSI
 
         if (deepFlowDebug) {
             logmess = String.format("DEEPFLOW ****CHECKING getSPF_1 -%s- in %s", tabspf_1.getSPF(), routine);
@@ -518,8 +550,8 @@ public final class RunStaticAnalyses {
                 logmess = String.format("CALLING compsm2 with parameters getSPF: -%s-  CALLER %s ", tabspf_2.getSPF(), routine);
                 log.debug(logmess);
             }
-            response=comparator.compsm2(response, travellingtables,travellingqueries);
-            travellingtables=comparator.getTravellingtables();
+            response = comparator.compsm2(response, travellingtables, travellingqueries);
+            travellingtables = comparator.getTravellingtables();
             //comparator.compsm2(tabLe, tabLessario, tabSf, tabSm_1, tabSm_2, isanysm1, isanysm2);
 
             // RETURN 0 TRUE
@@ -532,8 +564,8 @@ public final class RunStaticAnalyses {
                 log.debug(logmess);
             }
         }
-
-        if (travellingtables.isIsanySM1()) { // getSM_1
+        if (true){ 
+        //if (travellingtables.isIsanySM1()) { // getSM_1
             if (deepFlowDebug) {
                 logmess = String.format("DEEPFLOW ****CHECKED isanysm1 -%s- in %s: WAS TRUE", travellingtables.isIsanySM1(), routine);
                 log.debug(logmess);
@@ -542,8 +574,8 @@ public final class RunStaticAnalyses {
                 logmess = String.format("CALLING compsm1 with parameters getSPF: -%s-  CALLER %s ", tabspf_2.getSPF(), routine);
                 log.debug(logmess);
             }
-            response=comparator.compsm1(response, travellingtables,travellingqueries);
-            travellingtables=comparator.getTravellingtables();
+            response = comparator.compsm1(response, travellingtables, travellingqueries);
+            travellingtables = comparator.getTravellingtables();
             // RETURN 0 TRUE
             response.setExitInComp(true);
             response.setCompsm1(true);
@@ -557,10 +589,10 @@ public final class RunStaticAnalyses {
 
         // sillib.compsf(tabSi, tabLessario, a_gra);
         if (callerDebug) {
-                logmess = String.format("CALLING compsf with parameters getSPF: -%s-  CALLER %s ", tabspf_2.getSPF(), routine);
-                log.debug(logmess);
-            }
-    //comparator.compsf();
+            logmess = String.format("CALLING compsf with parameters getSPF: -%s-  CALLER %s ", tabspf_2.getSPF(), routine);
+            log.debug(logmess);
+        }
+        //comparator.compsf();
         if (flowDebug || deepFlowDebug) {
             logmess = String.format("DEEPFLOW STOP Executing %s in Comp.java", routine);
             log.debug(logmess);

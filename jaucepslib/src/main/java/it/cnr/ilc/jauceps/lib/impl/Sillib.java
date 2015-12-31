@@ -801,7 +801,7 @@ public class Sillib {
         tabfeq.setConn(travellingqueries.getConn());
 
         if (flowDebug || deepFlowDebug) {
-            logmess = String.format("DEEPFLOW START Executing %s in Sillib.java with s.pr_key -%s- and lem_type -%s-", routine, areal.getPr_key(), lem_type.toString());
+            logmess = String.format("DEEPFLOW START Executing %s in lib.java with s.pr_key -%s- and lem_type -%s-", routine, areal.getPr_key(), lem_type.toString());
             log.debug(logmess);
         }
 

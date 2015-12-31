@@ -311,9 +311,9 @@ public class TabSfQuery extends ATabSfQuery {
                 break;
             case 1:
                 sel = "SELECT DISTINCT %s,%s,%s "
-                        + "FROM %s,%s WHERE (%s.%s=\\'%s\\') "
-                        + "AND (%s.%s=\\'%s\\') "
-                        + "AND (%s=IF( LEFT(%s,1)=\\'v\\', LEFT(%s,LENGTH(%s)), %s ) ) "
+                        + "FROM %s,%s WHERE (%s.%s='%s') "
+                        + "AND (%s.%s='%s') "
+                        + "AND (%s=IF( LEFT(%s,1)='v', LEFT(%s,LENGTH(%s)), %s ) ) "
                         + "AND (%s)";
                 selectRec = String.format(sel,
                         C_COD, C_COD_P, C_COD_S,
@@ -327,9 +327,9 @@ public class TabSfQuery extends ATabSfQuery {
             case 2:
                 sel = "SELECT DISTINCT %s,TSM1.%s,TSM1.%s,%s,%s "
                         + "FROM %s,%s as %s,%s as TSM1 "
-                        + "WHERE (%s.%s=\\'%s\\') AND (TSM1.%s=\\'%s\\') "
+                        + "WHERE (%s.%s='%s') AND (TSM1.%s='%s') "
                         + "AND (%s=\\'%s\\') AND (%s=TSM1.%s) "
-                        + "AND (TSM1.%s=IF( LEFT(TSM1.%s,1)=\\'v\\', LEFT(%s,LENGTH(TSM1.%s)), %s ) ) AND (%s)";
+                        + "AND (TSM1.%s=IF( LEFT(TSM1.%s,1)='v', LEFT(%s,LENGTH(TSM1.%s)), %s ) ) AND (%s)";
 
                 selectRec = String.format(sel,
                         C_COD, C_COD_P, C_COD_S, C_COD_P2, C_COD_S2,
@@ -368,7 +368,7 @@ public class TabSfQuery extends ATabSfQuery {
                         + "AND (%s=%s) AND (%s=%s) "
                         + "AND (%s=%s) AND (%s=%s)  "
                         + "AND %s AND ( %s IS NULL ) "
-                        + "AND (%s=\'%s\') AND (%s=\'%c\')";
+                        + "AND (%s='%s') AND (%s='%c')";
                 selectRec = String.format(sel, C_COD,
                         TAB_SF_NAME, TAB_CODLE_NAME,
                         C04C, C04F, C05C, C05F, C06C, C06F, C07C, C07F, C08C, C08F, C09C, C09F, C10C, C10F,

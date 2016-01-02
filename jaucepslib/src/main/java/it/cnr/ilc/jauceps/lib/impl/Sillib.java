@@ -30,6 +30,7 @@ import static it.cnr.ilc.jauceps.lib.structs.LES_Q_MODE.BY_CLEM;
 import static it.cnr.ilc.jauceps.lib.structs.LES_Q_MODE.BY_KEY;
 import it.cnr.ilc.jauceps.lib.structs.Lemma;
 import it.cnr.ilc.jauceps.lib.structs.Lemmas;
+import static it.cnr.ilc.jauceps.lib.structs.Segments.SM1;
 import it.cnr.ilc.jauceps.lib.structs.SilType;
 import static it.cnr.ilc.jauceps.lib.structs.THREE_EAGLES_MODE.BY_CODLEM;
 import static it.cnr.ilc.jauceps.lib.structs.THREE_EAGLES_MODE.BY_CODLES;
@@ -136,15 +137,15 @@ public class Sillib {
 
         return sil;
     }
-    
-    public SilType sfric(SilType sil,TabSF tabSf) {
+
+    public SilType sfric(SilType sil, TabSF tabSf) {
         String routine = CLASS_NAME + "/sfric";
         String logmess = "";
         int length = 0;
         int diff = 0;
         String rad_sf = "";
         length = tabSf.getLSEG();
-       
+
         diff = sil.getRad_si().length() - length;
         if (flowDebug || deepFlowDebug) {
             logmess = String.format("DEEPFLOW START Executing %s in Sillib.java", routine);
@@ -169,7 +170,7 @@ public class Sillib {
             logmess = String.format("DEEPFLOW STOP Executing %s in Sillib.java", routine);
             log.debug(logmess);
         }
-        
+
         return sil;
 
     }
@@ -205,7 +206,8 @@ public class Sillib {
 
         return sil;
     } // end siric
-    public SilType sairic(SilType sil,TabSAI tabSai) {
+
+    public SilType sairic(SilType sil, TabSAI tabSai) {
         //SilType lsil = getSil();
         String routine = CLASS_NAME + "/sairic";
         String logmess = "";
@@ -252,6 +254,55 @@ public class Sillib {
         return sil;
 
     } // end sairic
+
+    public SilType smric(SilType sil, TravellingTables travellingtables, String rad_sf, int sm_n) {
+
+        //smric(sil.getRad_sf(), sil.getRad_sm1(), SM1);
+        String routine = CLASS_NAME + "/smric";
+        String logmess = "";
+        String rad_sm = "";
+        int length = 0, length_sm = 0;
+
+        if (flowDebug || deepFlowDebug) {
+            logmess = String.format("DEEPFLOW START Executing %s in Sillib.java", routine);
+            log.debug(logmess);
+        }
+
+        if (sm_n == SM1) {
+            rad_sm = travellingtables.getFirstTabSm().getSM();
+
+        } else {
+            rad_sm = travellingtables.getSecondTabSm().getSM();
+
+        }
+        length_sm = rad_sm.length();
+        length = rad_sf.length() - rad_sm.length();
+        if (deepFlowDebug) {
+            logmess = String.format("DEEPFLOW ****COPYING in %s N chars  of sil.rad_sf %s on sil.rad_sm %s for mode -%d-", routine, rad_sm,sil.getRad_sf(), sm_n);
+            log.debug(logmess);
+            
+
+        }
+        rad_sm = rad_sf.substring(length);
+        if (sm_n == SM1) {
+            sil.setRad_sm1(rad_sm);
+        } else {
+            sil.setRad_sm2(rad_sm);
+        }
+        
+        if (deepFlowDebug) {
+            logmess = String.format("DEEPFLOW ****COPIED in %s N chars of sil.rad_sf %s on sil.rad_sm %s for mode -%d-", routine, rad_sm,sil.getRad_sf(), sm_n);
+            log.debug(logmess);
+            
+
+        }
+        if (flowDebug || deepFlowDebug) {
+            logmess = String.format("DEEPFLOW STOP Executing %s in Sillib.java", routine);
+            log.debug(logmess);
+        }
+        return sil;
+
+    }
 
     public AucepsResponse lemtiz(AucepsResponse response, TravellingTables travellingtables, TravellingQueries travellingqueries, LEM_TYPE lem_type) {
         String routine = CLASS_NAME + "/lemtiz";

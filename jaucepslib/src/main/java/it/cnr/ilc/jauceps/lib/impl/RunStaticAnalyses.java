@@ -17,7 +17,6 @@ import static it.cnr.ilc.jauceps.lib.structs.LES_Q_MODE.BY_LES;
 import it.cnr.ilc.jauceps.lib.structs.SilType;
 import it.cnr.ilc.jauceps.lib.travellingobjects.TravellingQueries;
 import it.cnr.ilc.jauceps.lib.travellingobjects.TravellingTables;
-import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.Logger;
 
@@ -46,19 +45,19 @@ public final class RunStaticAnalyses {
     }
     private static TravellingTables travellingtables;
 
-    private static boolean sqlDebug = StaticVars.isSqlDebug();
-    private static boolean flowDebug = StaticVars.isFlowDebug();
-    private static boolean valueDebug = StaticVars.isValueDebug();
-    private static boolean deepFlowDebug = StaticVars.isDeepFlowDebug();
-    private static boolean printSplash = StaticVars.isPrintSplash();
-    private static boolean callerDebug = StaticVars.isCallerDebug();
-    private static boolean analysisDebug = StaticVars.isAnalysisDebug();
-    private static boolean printStructDebug = StaticVars.isPrintStructDebug();
-    private static int printFormatted = StaticVars.getPrintFormatted();
-    private static boolean debugJson = StaticVars.isDebugJson();
-    private static boolean useInPipe = StaticVars.isUseInPipe();
-    private static boolean operationDebug = StaticVars.isOperationDebug();
-    private static String EOS = StaticVars.getEOS();
+    private static final boolean sqlDebug = StaticVars.isSqlDebug();
+    private static final boolean flowDebug = StaticVars.isFlowDebug();
+    private static final boolean valueDebug = StaticVars.isValueDebug();
+    private static final boolean deepFlowDebug = StaticVars.isDeepFlowDebug();
+    private static final boolean printSplash = StaticVars.isPrintSplash();
+    private static final boolean callerDebug = StaticVars.isCallerDebug();
+    private static final boolean analysisDebug = StaticVars.isAnalysisDebug();
+    private static final boolean printStructDebug = StaticVars.isPrintStructDebug();
+    private static final int printFormatted = StaticVars.getPrintFormatted();
+    private static final boolean debugJson = StaticVars.isDebugJson();
+    private static final boolean useInPipe = StaticVars.isUseInPipe();
+    private static final boolean operationDebug = StaticVars.isOperationDebug();
+    private static final  String EOS = StaticVars.getEOS();
 
     int loglevel = 0; /* only info */
 
@@ -66,7 +65,7 @@ public final class RunStaticAnalyses {
 
     static Logger log = Logger.getLogger(CLASS_NAME);
 
-    public static AucepsResponse analysis(AucepsResponse response, TravellingTables travellingtables, TravellingQueries travellingqueries) {
+    public static AucepsResponse analysis(AucepsResponse response, TravellingTables travellingtables, TravellingQueries travellingqueries, String rad) {
 
         String routine = CLASS_NAME + "/analysis";
         String logmess = "";
@@ -74,7 +73,7 @@ public final class RunStaticAnalyses {
 
         int sai = 0, les = 0;
         SilType sil = response.getSil();
-        String rad = sil.getRad_sf();
+        
 
         /*queries*/
         TabLessarioQuery tablessarioq = travellingqueries.getTablessarioq();
@@ -99,7 +98,7 @@ public final class RunStaticAnalyses {
         if (deepFlowDebug) {
             logmess = String.format("DEEPFLOW COPYING in %s in Sillib.java rad -%s- on sil.radical -%s-", routine, rad, sil.getRadical());
             log.debug(logmess);
-
+ 
         }
         sil.setRadical(rad);
         response.setSil(sil);
@@ -348,7 +347,7 @@ public final class RunStaticAnalyses {
             }
             travellingtables = comparator.getTravellingtables();
             setTravellingtables(travellingtables);
-            tabLessario = travellingtables.getTabLessario();
+            //tabLessario = travellingtables.getTabLessario();
 
         } else {// else sil.ind_alt
             if (deepFlowDebug) {
@@ -407,7 +406,7 @@ public final class RunStaticAnalyses {
             }
             travellingtables = comparator.getTravellingtables();
             setTravellingtables(travellingtables);
-            tabLessario = travellingtables.getTabLessario();
+            //tabLessario = travellingtables.getTabLessario();
         } else { // else  getSI
             if (deepFlowDebug) {
                 logmess = String.format("DEEPFLOW ****CHECKED tabSi.getSI() -%s- in %s: WAS ''", tabSi.getSI(), routine);

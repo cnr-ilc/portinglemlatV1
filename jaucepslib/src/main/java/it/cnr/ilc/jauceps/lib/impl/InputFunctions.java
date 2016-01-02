@@ -618,7 +618,7 @@ public class InputFunctions {
                             }
                             // ADD CODE B4 SM1
                             segment = sil.getSegment();
-                            
+
                             if (deepFlowDebug) {
                                 logmess = String.format("DEEPFLOW ****ASSIGNING EOS to sil.segment[2] in routine %s", routine);
                                 log.debug(logmess);
@@ -627,13 +627,12 @@ public class InputFunctions {
                             }
                             segment[2] = EOS;
                             segment[3] = EOS;
-                            
 
                             if (callerDebug) {
                                 logmess = String.format("CALLING sfiric in  Sillib.java. CALLER %s", routine);
                                 log.debug(logmess);
                             }
-                            sil = sillib.sfric(sil,tabSf);
+                            sil = sillib.sfric(sil, tabSf);
                             if (deepFlowDebug) {
                                 logmess = String.format("DEEPFLOW ****ASSIGNING getSF to sil.segment[4] in routine %s", routine);
                                 log.debug(logmess);
@@ -667,9 +666,10 @@ public class InputFunctions {
                                             routine, sil.getRad_sf());
                                     log.debug(logmess);
                                 }
-                                response=RunStaticAnalyses.analysis(response, travellingtables, travellingqueries);
+                                response = RunStaticAnalyses.analysis(response, travellingtables, travellingqueries, sil.getRad_sf());
+                                setResponse(response);
                                 /*instantiate tabsm */
-                                
+
                                 //ARRIVATO QUI 29/12/15
                                 //getSillib().analysis(conn, tabLe, tabSf, tabSm_1, tabSm_2, tabSpf_1, tabSpf_2, tabSi, sil.getRad_sf(), tabspfq_1.isAny(), tabspfq_2.isAny(), tabsiq.isAny(), false, false);
                             }
@@ -735,6 +735,58 @@ public class InputFunctions {
                                     log.debug(logmess);
                                 }
                                 // ADD CODE
+                                if (deepFlowDebug) {
+                                    logmess = String.format("DEEPFLOW ****ASSIGNING EOS to sil.segment[2] in routine %s", routine);
+                                    log.debug(logmess);
+
+                                }
+                                segment = sil.getSegment();
+                                segment[2] = EOS;
+                                sil.setSegment(segment);
+                                response.setSil(sil);
+                                if (deepFlowDebug) {
+                                    logmess = String.format("DEEPFLOW ****ASSIGNED EOS to sil.segment[2] in routine %s", routine);
+                                    log.debug(logmess);
+                                }
+                                if (callerDebug) {
+                                    logmess = String.format("CALLING smric in  Sillib.java. CALLER %s", routine);
+                                    log.debug(logmess);
+                                }
+
+                                sil = sillib.smric(sil, travellingtables, sil.getRad_sf(), SM1);
+
+                                if (deepFlowDebug) {
+                                    logmess = String.format("DEEPFLOW ****ASSIGNING getSm_1 to sil.segment[3] in routine %s", routine);
+                                    log.debug(logmess);
+                                    logmess = String.format("DEEPFLOW ****ASSIGNING rad_sm1 to sil.segment[1] in routine %s", routine);
+                                    log.debug(logmess);
+
+                                }
+                                segment = sil.getSegment();
+                                segment[3] = tabSm_1.getSM();
+                                segment[1] = sil.getRad_sm1();
+                                sil.setSegment(segment);
+                                response.setSil(sil);
+                                if (deepFlowDebug) {
+                                    logmess = String.format("DEEPFLOW ****ASSIGNED getSm_1 to sil.segment[3] in routine %s", routine);
+                                    log.debug(logmess);
+                                    logmess = String.format("DEEPFLOW ****ASSIGNED rad_sm1 to sil.segment[1] in routine %s", routine);
+                                    log.debug(logmess);
+
+                                }
+                                if (valueDebug) {
+                                    for (int i = 0; i < segment.length; i++) {
+                                        logmess = String.format("****VALUES IN LOOP getSM1set Segment at index -%d- with value -%s-", i, segment[i]);
+                                        log.debug(logmess);
+                                    }
+                                }
+                                if (callerDebug) {
+                                    logmess = String.format("CALLING analysis (2) in InputFunctions.java CALLER %s  with parameter sil.rad_sf -%s- FROM LOOP getSFset",
+                                            routine, sil.getRad_sf());
+                                    log.debug(logmess);
+                                }
+                                response = RunStaticAnalyses.analysis(response, travellingtables, travellingqueries, sil.getRad_sm1());
+                                setResponse(response);
                                 // ADD CODE B4 SM2
                                 // LOOP SM2
                                 if (callerDebug || deepFlowDebug) {
@@ -797,6 +849,59 @@ public class InputFunctions {
                                                 travellingtables.getStatus());
                                         log.debug(logmess);
                                     }
+                                    if (deepFlowDebug) {
+                                        logmess = String.format("DEEPFLOW ****ASSIGNING EOS to sil.segment[2] in routine %s", routine);
+                                        log.debug(logmess);
+
+                                    }
+                                    segment = sil.getSegment();
+                                    segment[2] = EOS;
+                                    sil.setSegment(segment);
+                                    response.setSil(sil);
+                                    if (deepFlowDebug) {
+                                        logmess = String.format("DEEPFLOW ****ASSIGNED EOS to sil.segment[2] in routine %s", routine);
+                                        log.debug(logmess);
+                                    }
+                                    if (callerDebug) {
+                                        logmess = String.format("CALLING smric in  Sillib.java. CALLER %s", routine);
+                                        log.debug(logmess);
+                                    }
+
+                                    sil = sillib.smric(sil, travellingtables, sil.getRad_sm1(), SM2);
+
+                                    if (deepFlowDebug) {
+                                        logmess = String.format("DEEPFLOW ****ASSIGNING getSm_2 to sil.segment[2] in routine %s", routine);
+                                        log.debug(logmess);
+                                        logmess = String.format("DEEPFLOW ****ASSIGNING rad_sm1 to sil.segment[1] in routine %s", routine);
+                                        log.debug(logmess);
+
+                                    }
+                                    segment = sil.getSegment();
+                                    segment[2] = tabSm_2.getSM();
+                                    segment[1] = sil.getRad_sm2();
+                                    sil.setSegment(segment);
+                                    response.setSil(sil);
+                                    if (deepFlowDebug) {
+                                        logmess = String.format("DEEPFLOW ****ASSIGNED getSm_1 to sil.segment[3] in routine %s", routine);
+                                        log.debug(logmess);
+                                        logmess = String.format("DEEPFLOW ****ASSIGNED rad_sm1 to sil.segment[1] in routine %s", routine);
+                                        log.debug(logmess);
+
+                                    }
+                                    if (valueDebug) {
+                                        for (int i = 0; i < segment.length; i++) {
+                                            logmess = String.format("****VALUES IN LOOP getSM1set Segment at index -%d- with value -%s-", i, segment[i]);
+                                            log.debug(logmess);
+                                        }
+                                    }
+                                    if (callerDebug) {
+                                        logmess = String.format("CALLING analysis (3) in InputFunctions.java CALLER %s  with parameter sil.rad_sf -%s- FROM LOOP getSFset",
+                                                routine, sil.getRad_sf());
+                                        log.debug(logmess);
+                                    }
+                                    response = RunStaticAnalyses.analysis(response, travellingtables, travellingqueries, sil.getRad_sm2());
+                                    setResponse(response);
+
                                     sm_2++;
                                 } // rof tabsm_2
                                 travellingtables.setIsanySM2(false);
@@ -1049,7 +1154,7 @@ public class InputFunctions {
         //tables
         TabSAI tabSai = travellingtables.getTabSAI();
         TabLessario tabLessario = travellingtables.getTabLessario();
-        TabLessario copiedLessario=travellingtables.getCopiedLessario(); //areal
+        TabLessario copiedLessario = travellingtables.getCopiedLessario(); //areal
         TabSI tabSi = travellingtables.getTabSI();
         TabSPF tabspf_1 = travellingtables.getFirstTabSpf();
         TabSPF tabspf_2 = travellingtables.getFirstTabSpf();
@@ -1349,8 +1454,8 @@ public class InputFunctions {
             logmess = String.format("CALLING lemtiz with copiedlessario with pr_key: -%s-  and IPOLEMMA CALLER %s ", copiedLessario.getPr_key(), routine);
             log.debug(logmess);
         }
-        
-        response=sillib.lemtiz(response, travellingtables, travellingqueries, IPOLEMMA);
+
+        response = sillib.lemtiz(response, travellingtables, travellingqueries, IPOLEMMA);
         // ARRIVATOQUI//
         //sillib.lemtiz(copiedLessario, tabLe, IPOLEMMA);
 
@@ -1362,13 +1467,12 @@ public class InputFunctions {
             log.debug(logmess);
         }
         setTravellingtables(travellingtables);
-        
-        
+
         if (deepFlowDebug) {
             logmess = String.format("DEEPFLOW ****ASSIGNING in %s isLe -%d- to sil.isLE", routine, 0);
             log.debug(logmess);
         }
-        sil=response.getSil();
+        sil = response.getSil();
         sil.setIsLE(0);
         response.setSil(sil);
         if (deepFlowDebug) {
@@ -1381,7 +1485,7 @@ public class InputFunctions {
         }
         // PARTIREDAQUI//
         travellingtables = sillib.getTravellingtables();
-        response=sillib.lemv(response, travellingtables, travellingqueries, IPERLEMMA);
+        response = sillib.lemv(response, travellingtables, travellingqueries, IPERLEMMA);
 
         //sillib.lemv(copiedLessario, tabLe, IPERLEMMA);
         if (flowDebug || deepFlowDebug) {

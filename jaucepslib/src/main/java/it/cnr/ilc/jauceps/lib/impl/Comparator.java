@@ -9,6 +9,7 @@ import static it.cnr.ilc.jauceps.lib.headers.table.definition.TabSmSm2Definition
 import static it.cnr.ilc.jauceps.lib.headers.table.definition.TabSmSm2Definition.C_COD_P2;
 import static it.cnr.ilc.jauceps.lib.headers.table.definition.TabSmSm2Definition.PM;
 import static it.cnr.ilc.jauceps.lib.headers.table.definition.TabSmSm2Definition.PM2;
+import static it.cnr.ilc.jauceps.lib.impl.RunStaticAnalyses.setTravellingtables;
 import it.cnr.ilc.jauceps.lib.impl.table.TabLessario;
 import it.cnr.ilc.jauceps.lib.impl.table.TabSF;
 import it.cnr.ilc.jauceps.lib.impl.table.TabSFCodSet;
@@ -21,10 +22,11 @@ import it.cnr.ilc.jauceps.lib.outputobjects.AucepsResponse;
 import it.cnr.ilc.jauceps.lib.structs.SilType;
 import it.cnr.ilc.jauceps.lib.travellingobjects.TravellingQueries;
 import it.cnr.ilc.jauceps.lib.travellingobjects.TravellingTables;
+import static it.cnr.ilc.latmorphlib.headers.table.definition.TabSfDefinition.C07F;
+import static it.cnr.ilc.latmorphlib.headers.table.definition.TabSfDefinition.C_COD;
 import static it.cnr.ilc.latmorphlib.structs.LEM_TYPE.IPERLEMMA;
 import static it.cnr.ilc.latmorphlib.structs.LEM_TYPE.IPERLEMMA_INT;
 import static it.cnr.ilc.latmorphlib.structs.LEM_TYPE.IPOLEMMA;
-import java.util.Iterator;
 import java.util.List;
 import org.apache.log4j.Logger;
 
@@ -592,7 +594,7 @@ public class Comparator {
 
         if (callerDebug && deepFlowDebug) {
             logmess = String.format("CALLING getSF_cod_set with condition -%s- getSF -%s- getSm_1 -%s-, "
-                    + "getSm_2 -%s- and mode -%d- CALLER -%s-", condition, tabSf.getSEG(), tabSm_1.getSM(), tabSm_2.getSM(), 2, routine);
+                    + "getSm_2 -%s- and mode -%d- CALLER -%s-", condition, tabSf.getSEG(), tabSm_1.getSM(), tabSm_2.getSM(), 1, routine);
             log.debug(logmess);
         }
         tabsCodSet = tabsfq.getSF_cod_set(condition, travellingtables, 1);
@@ -649,14 +651,14 @@ public class Comparator {
                     log.debug(logmess);
                 }
                 response = sillib.lemtiz(response, travellingtables, travellingqueries, IPERLEMMA_INT);
-                
+
             } else {
                 if (callerDebug) {
                     logmess = String.format("CALLING lemtiz with tabLes with pr_key: -%s- and IPERLEMMA  CALLER %s ", areal.getPr_key(), routine);
                     log.debug(logmess);
                 }
                 response = sillib.lemtiz(response, travellingtables, travellingqueries, IPERLEMMA);
-                
+
             }
             travellingtables = sillib.getTravellingtables();
             if (callerDebug) {
@@ -665,7 +667,7 @@ public class Comparator {
             }
             response = sillib.lemv(response, travellingtables, travellingqueries, IPERLEMMA);
             travellingtables = sillib.getTravellingtables();
-            
+
             areal = travellingtables.getCopiedLessario();
             //travellingtables.setCopiedLessario(areal);
         }
@@ -952,7 +954,186 @@ public class Comparator {
         }
         return response;
 
-    }
+    } // en lemsm2
+
+    public AucepsResponse compsf(AucepsResponse response, TravellingTables travellingtables, TravellingQueries travellingqueries) {
+        String routine = CLASS_NAME + "/compsf";
+        String logmess = "";
+        String buffer = "";
+        SilType sil = response.getSil();
+
+        // get the last updated tables
+        TabLessario areavs = travellingtables.getTabLessario();
+        TabLessario areal = travellingtables.getCopiedLessario();
+        TabSI tabSi = travellingtables.getTabSI();
+
+        String lesSi = areavs.getSi();
+        String a_gra = areavs.getA_gra();
+        String cod_noseg = areavs.getCodLE();
+        String gender = areavs.getGen();
+        String getSIcod = tabSi.getSI_cod();
+
+        Sillib sillib = new Sillib();
+
+        //List
+        List<TabSFCodSet> tabsCodSet = travellingtables.getListOfTabSFCodSet();
+
+        //queries
+        TabSfQuery tabsfq = travellingqueries.getTabsfq();
+        tabsfq.setConn(travellingqueries.getConn());
+
+        int mode = 0;
+        String condition = "";
+        if (flowDebug || deepFlowDebug) {
+            logmess = String.format("DEEPFLOW START Executing %s in Comparator.java with parameters a_gra -%s-", routine, a_gra);
+            log.debug(logmess);
+        }
+        if (areavs.getCodles().charAt(0) == 'v') {// if areavs.codles)[0] == 'v'
+
+            if (deepFlowDebug) {
+                logmess = String.format("DEEPFLOW ****CHECKED in %s areavs.codles[0] = v  OK", routine, areavs.getCodles().charAt(0));
+                log.debug(logmess);
+            }
+            condition = String.format("( LEFT(%s,%s) LIKE '%s' )",
+                    C_COD, areavs.getLes().length(), areavs.getLes());
+        } else {
+            if (deepFlowDebug) {
+                logmess = String.format("DEEPFLOW ****CHECKED in %s areavs.codles[0] = v  KO", routine, areavs.getCodles().charAt(0));
+                log.debug(logmess);
+            }
+            if (!cod_noseg.equals("")) { // if areavs.cod_noseg
+                if (deepFlowDebug) {
+                    logmess = String.format("DEEPFLOW ****CHECKED in %s cod_noseg -%s- NOT EMPTY", routine, cod_noseg);
+                    log.debug(logmess);
+                }
+
+                if (areavs.getPt().equals("x")) {
+                    mode = 5;
+                } else {
+                    mode = 3;
+                }
+                condition = String.format(
+                        "(%s='%s') WHERE (%s='%s') ",
+                        "cod_le.cod_LE", cod_noseg, C_COD, areavs.getCodles());
+            } else { // else areavs.cod_noseg
+                if (deepFlowDebug) {
+                    logmess = String.format("DEEPFLOW ****CHECKED in %s cod_noseg -%s-  EMPTY", routine, cod_noseg);
+                    log.debug(logmess);
+                }
+                if (areavs.getPt().equals("x")) {
+                    mode = 4;
+                }
+                condition = String.format("(%s='%s')", C_COD, areavs.getCodles());
+            } // end else areavs.cod_noseg
+
+            switch (gender) {
+                case "m":
+                case "f":
+                case "n":
+                    condition = String.format("%s AND (%s='%s') ", condition, C07F, gender);
+
+                    break;
+                case "1":
+                    condition = String.format("%s AND ( (%s='m') OR (%s='n')  ", condition, C07F, C07F);
+
+                    break;
+                case "2":
+                    condition = String.format("%s AND ( (%s='m') OR (%s='f') ) ", condition, C07F, C07F);
+
+                    break;
+                case "3":
+                    condition = String.format("%s AND ( (%s='n') OR (%s='f') ) ", condition, C07F, C07F);
+
+                    break;
+
+            }
+        }
+
+        travellingtables.setTabLessario(areavs);
+        setTravellingtables(travellingtables);
+
+        if (callerDebug && deepFlowDebug) {
+            logmess = String.format("CALLING getSF_cod_set with condition -%s- and mode -%d- CALLER -%s-", condition, mode, routine);
+            log.debug(logmess);
+        }
+        tabsCodSet = tabsfq.getSF_cod_set(condition, travellingtables, mode);
+        if (!tabsCodSet.isEmpty()) {
+            if (callerDebug) {
+                logmess = String.format("CALLING areacp with tabLes with pr_key: -%s-  CALLER %s ", areavs.getPr_key(), routine);
+                log.debug(logmess);
+            }
+            if (operationDebug) {
+//                logmess = String.format("OPERATIONDEBUG SETTING setTabSfCodSet in -%s-", routine);
+//                log.debug(logmess);
+                logmess = String.format("OPERATIONDEBUG SETTING status in travellingtables to 14 in -%s-", routine);
+                log.debug(logmess);
+                logmess = String.format("OPERATIONDEBUG SETTING setCopiedLessario in -%s-", routine);
+                log.debug(logmess);
+
+            }
+
+            //travellingtables.setTabSfCodSet(tabsfcset);
+            travellingtables.setStatus("16");
+            areal = areacp(areavs);
+            travellingtables.setCopiedLessario(areal);
+
+            if (deepFlowDebug) {
+                logmess = String.format("DEEPFLOW ****COPYING in %s areavs.les -%s- on sil.lemma -%s-", routine, areavs.getLes(), sil.getLemma());
+                log.debug(logmess);
+                logmess = String.format("DEEPFLOW ****COPYING in %s areavs.codles -%s- on sil.lemma -%s-", routine, areavs.getCodles(), sil.getCodice());
+                log.debug(logmess);
+
+            }
+            sil.setLemma(areavs.getLes());
+            sil.setCodice(areavs.getCodles());
+            response.setSil(sil);
+
+            if (deepFlowDebug) {
+                logmess = String.format("DEEPFLOW ****COPIED in %s areavs.les -%s- on sil.lemma -%s-", routine, areavs.getLes(), sil.getLemma());
+                log.debug(logmess);
+                logmess = String.format("DEEPFLOW ****COPIED in %s areavs.codles -%s- on sil.lemma -%s-", routine, areavs.getCodles(), sil.getCodice());
+                log.debug(logmess);
+
+            }
+            if (callerDebug) {
+                logmess = String.format("CALLING lemtiz with tabLes with pr_key: -%s- and IPOLEMMA  CALLER %s ", areal.getPr_key(), routine);
+                log.debug(logmess);
+            }
+            response = sillib.lemtiz(response, travellingtables, travellingqueries, IPOLEMMA);
+            //        int k = lemtiz(&areal, IPOLEMMA);
+            //        fprintf(stderr,"XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX K=%i XXX\n", k);
+            // if (lemtiz(&areal, IPOLEMMA)) {
+            if (response.isExitInLemtiz()) {
+
+                if (deepFlowDebug) {
+                    logmess = String.format("DEEPFLOW ****CHECKED in %s lemtiz -%s- TRUE", routine, response.isExitInLemtiz());
+                    log.debug(logmess);
+                }
+                if (callerDebug) {
+                    logmess = String.format("CALLING lemtiz with tabLes with pr_key: -%s- and IPERLEMMA  CALLER %s ", areal.getPr_key(), routine);
+                    log.debug(logmess);
+                }
+                response = sillib.lemv(response, travellingtables, travellingqueries, IPERLEMMA);
+
+            } else {
+                if (deepFlowDebug) {
+                    logmess = String.format("DEEPFLOW ****CHECKED in %s lemtiz -%s- TRUE", routine, response.isExitInLemtiz());
+                    log.debug(logmess);
+                }
+                if (callerDebug) {
+                    logmess = String.format("CALLING lemtiz with tabLes with pr_key: -%s- and IPERLEMMA  CALLER %s ", areal.getPr_key(), routine);
+                    log.debug(logmess);
+                }
+                response = sillib.lemv(response, travellingtables, travellingqueries, IPOLEMMA);
+            }
+        }
+
+        if (flowDebug || deepFlowDebug) {
+            logmess = String.format("DEEPFLOW STOP Executing %s in Comparator.java with parameters a_gra -%s-", routine, a_gra);
+            log.debug(logmess);
+        }
+        return response;
+    }// end compsf
 
     /**
      * @return the travellingtables

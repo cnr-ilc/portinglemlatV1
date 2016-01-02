@@ -55,6 +55,8 @@ public class TravellingTables {
      * <li>12 loop tablessario (in analysis)</li>
      * <li>13 loop tablessario (in analysis outloop)</li>
      * <li>14 loop tabfscodset (in compsm2)</li>
+     * <li>15 loop tabfscodset (in compsm1)</li>
+     * <li>16 loop tabfscodset (in compsf)</li>
      * <li>20 loop tabsf</li>
      * <li>21 loop tabsm1 </li>
      * <li>22 loop tabsm1</li>

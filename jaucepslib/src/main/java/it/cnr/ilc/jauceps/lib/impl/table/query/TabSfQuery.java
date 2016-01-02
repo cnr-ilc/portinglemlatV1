@@ -114,7 +114,7 @@ public class TabSfQuery extends ATabSfQuery {
         }
 
         sel = "SELECT  DISTINCT %s, LENGTH(%s) as %s"
-                + " FROM %s WHERE %s=RIGHT(\'%s\',LENGTH(%s)) "
+                + " FROM %s WHERE %s=RIGHT('%s',LENGTH(%s)) "
                 + " ORDER BY LENGTH(%s)";
         selectRec = String.format(sel,
                 SEG, SEG, LSEG, TAB_SF_NAME, SEG, str, SEG, SEG);
@@ -304,7 +304,7 @@ public class TabSfQuery extends ATabSfQuery {
         /*switch on mode*/
         switch (mode) {
             case 0:
-                sel = "SELECT DISTINCT %s FROM %s WHERE (%s=\\'%s\\') AND (%s)";
+                sel = "SELECT DISTINCT %s FROM %s WHERE (%s='%s') AND (%s)";
                 selectRec = String.format(sel,
                         C_COD, TAB_SF_NAME, SEG, getSF, condition);
 
@@ -328,7 +328,7 @@ public class TabSfQuery extends ATabSfQuery {
                 sel = "SELECT DISTINCT %s,TSM1.%s,TSM1.%s,%s,%s "
                         + "FROM %s,%s as %s,%s as TSM1 "
                         + "WHERE (%s.%s='%s') AND (TSM1.%s='%s') "
-                        + "AND (%s=\\'%s\\') AND (%s=TSM1.%s) "
+                        + "AND (%s='%s') AND (%s=TSM1.%s) "
                         + "AND (TSM1.%s=IF( LEFT(TSM1.%s,1)='v', LEFT(%s,LENGTH(TSM1.%s)), %s ) ) AND (%s)";
 
                 selectRec = String.format(sel,
@@ -348,7 +348,7 @@ public class TabSfQuery extends ATabSfQuery {
                         + "AND (%s=%s) AND (%s=%s) AND (%s=%s) "
                         + "AND (%s=%s) AND (%s=%s) AND (%s=%s) "
                         + "AND %s AND ( %s IS NULL ) "
-                        + "AND (%s=\'%s\')";
+                        + "AND (%s='%s')";
 
                 selectRec = String.format(sel, C_COD,
                         TAB_SF_NAME, TAB_CODLE_NAME,
@@ -358,7 +358,7 @@ public class TabSfQuery extends ATabSfQuery {
                 break;
             case 4:
 
-                sel = "SELECT DISTINCT %s FROM %s WHERE (%s=\'%s\') AND (%s=\'%c\') AND (%s)";
+                sel = "SELECT DISTINCT %s FROM %s WHERE (%s='%s') AND (%s='%c') AND (%s)";
                 selectRec = String.format(sel, C_COD, TAB_SF_NAME, SEG, getSF, C08, 'p', condition);
                 break;
             case 5:
@@ -458,11 +458,11 @@ public class TabSfQuery extends ATabSfQuery {
                     + "if(%s='=',%s,%s),"
                     + "if(%s='=',%s,%s),"
                     + "if(%s='=',%s,%s)) as codes"
-                    + " FROM %s,%s WHERE (%s.%s=\'%s\') "
-                    + "AND (%s.%s=\'%s\') "
-                    + "AND (%s=\'%s\') "
-                    + "AND (%s=\'%s\') "
-                    + "AND (%s=IF( LEFT(%s,1)=\'v\', LEFT(%s,LENGTH(%s)), %s ) )";
+                    + " FROM %s,%s WHERE (%s.%s='%s') "
+                    + "AND (%s.%s='%s') "
+                    + "AND (%s='%s') "
+                    + "AND (%s='%s') "
+                    + "AND (%s=IF( LEFT(%s,1)='v', LEFT(%s,LENGTH(%s)), %s ) )";
 
             selectRec = String.format(sel,
                     C04M, C04F, C04M, C05M, C05F, C05M,
@@ -484,7 +484,7 @@ public class TabSfQuery extends ATabSfQuery {
                 }
                 sel = "SELECT CONCAT(%s,%s,%s,%s,%s,%s,%s)"
                         + " FROM %s LEFT JOIN %s ON "
-                        + "( (%s=\'%c\')  "
+                        + "( (%s='%s')  "
                         + "AND (%s=%s) "
                         + "AND (%s=%s) "
                         + "AND (%s=%s) "
@@ -492,7 +492,7 @@ public class TabSfQuery extends ATabSfQuery {
                         + "AND (%s=%s) "
                         + "AND (%s=%s) "
                         + "AND (%s=%s) ) as codes"
-                        + "WHERE ( %s IS NULL ) AND (%s=\'%s\') AND (%s=\'%s\')";
+                        + "WHERE ( %s IS NULL ) AND (%s='%s') AND (%s='%s')";
                 selectRec = String.format(sel, C04F, C05F, C06F, C07F, C08F, C09F, C10F,
                         TAB_SF_NAME, TAB_CODLE_NAME,
                         CODle, cod_noseg,
@@ -506,7 +506,7 @@ public class TabSfQuery extends ATabSfQuery {
                     }
                     /* add sprintf(selectRec, "%s AND (%s=\'%c\') ",
                      selectRec, C08F, 'p');*/
-                    selectRec = String.format("%s AND (%s=\\'%c\\') ", selectRec, C08F, 'p');
+                    selectRec = String.format("%s AND (%s='%c') ", selectRec, C08F, 'p');
 
                 } else if (deepFlowDebug) {
                     logmess = String.format("DEEPFLOW ****CHECKED in %s isPt -%s-  EMPTY", routine, isPt);
@@ -519,7 +519,7 @@ public class TabSfQuery extends ATabSfQuery {
                     log.debug(logmess);
                 }
                 sel = "SELECT CONCAT(%s,%s,%s,%s,%s,%s,%s) "
-                        + "FROM %s WHERE (%s=\'%s\') ";
+                        + "FROM %s WHERE (%s='%s') ";
                 selectRec = String.format(sel, C04, C05, C06, C07, C08, C09, C10,
                         TAB_SF_NAME, SEG, seg);
 
@@ -530,7 +530,7 @@ public class TabSfQuery extends ATabSfQuery {
                     }
                     /*sprintf(selectRec, "%s AND (LEFT(%s,%u)=\'%s\') ",
                      selectRec, C_COD, strlen(cod), cod);*/
-                    selectRec = String.format("%s AND (LEFT(%s,%u)=\\'%s\\')", selectRec, C_COD, cod.length(), cod);
+                    selectRec = String.format("%s AND (LEFT(%s,%d)='%s')", selectRec, C_COD, cod.length(), cod);
 
                 } else {
                     if (deepFlowDebug) {
@@ -541,7 +541,7 @@ public class TabSfQuery extends ATabSfQuery {
                      sprintf(selectRec, "%s AND (%s=\'%s\') ",
                      selectRec, C_COD, cod);*/
 
-                    selectRec = String.format("%s AND (%s=\\'%s\\')  ", selectRec, C_COD, cod);
+                    selectRec = String.format("%s AND (%s='%s')  ", selectRec, C_COD, cod);
 
                     if (!isPt.equals("")) { //true if isPt==x
                         if (deepFlowDebug) {
@@ -550,7 +550,7 @@ public class TabSfQuery extends ATabSfQuery {
                         }
                         /*sprintf(selectRec, "%s AND (%s=\'%c\') ",
                          selectRec, C08, 'p');*/
-                        selectRec = String.format("%s AND (%s=\\'%c\\') ", selectRec, C08, 'p');
+                        selectRec = String.format("%s AND (%s='%c') ", selectRec, C08, 'p');
 
                     } else if (deepFlowDebug) {
                         logmess = String.format("DEEPFLOW ****CHECKED in %s isPt -%s- and cod_fp -%s  EMPTY", routine, isPt, cod_fp);
@@ -569,17 +569,17 @@ public class TabSfQuery extends ATabSfQuery {
             case "m":
             case "f":
             case "n":
-                selectRec = String.format("%s AND (%s=\'%c\') ", selectRec, C07F, gender);
+                selectRec = String.format("%s AND (%s='%s') ", selectRec, C07F, gender);
                 break;
             case "1":
-                selectRec = String.format("%s AND ( (%s=\\'m\\') OR (%s=\\'n\\')  ", selectRec, C07F, C07F);
+                selectRec = String.format("%s AND ( (%s='m') OR (%s='n')  ", selectRec, C07F, C07F);
                 break;
             case "2":
-                selectRec = String.format("%s AND ( (%s=\'m\') OR (%s=\'f\') ) ", selectRec, C07F, C07F);
+                selectRec = String.format("%s AND ( (%s='m') OR (%s='f') ) ", selectRec, C07F, C07F);
 
                 break;
             case "3":
-                selectRec = String.format("%s AND ( (%s=\'n\') OR (%s=\'f\') ) ", selectRec, C07F, C07F);
+                selectRec = String.format("%s AND ( (%s='n') OR (%s='f') ) ", selectRec, C07F, C07F);
 
                 break;
 

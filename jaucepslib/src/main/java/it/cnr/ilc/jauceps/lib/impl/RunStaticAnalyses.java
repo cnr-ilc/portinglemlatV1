@@ -261,10 +261,7 @@ public final class RunStaticAnalyses {
         return response;
     }
 
-    public static boolean test() {
-        return true;
-
-    }
+    
 
     //public boolean comp(TabLE tabLe, TabSF tabSf, TabSM tabSm_1, TabSM tabSm_2, String rad_sf, boolean isanyspf1, boolean isanyspf2, boolean isanysi, boolean isanysm1, boolean isanysm2) {
     public static AucepsResponse comp(AucepsResponse response, TravellingTables travellingtables,
@@ -564,8 +561,8 @@ public final class RunStaticAnalyses {
                 log.debug(logmess);
             }
         }
-        if (true){ 
-        //if (travellingtables.isIsanySM1()) { // getSM_1
+        //if (true){ 
+        if (travellingtables.isIsanySM1()) { // getSM_1
             if (deepFlowDebug) {
                 logmess = String.format("DEEPFLOW ****CHECKED isanysm1 -%s- in %s: WAS TRUE", travellingtables.isIsanySM1(), routine);
                 log.debug(logmess);
@@ -586,8 +583,11 @@ public final class RunStaticAnalyses {
                 log.debug(logmess);
             }
         }
-
-        // sillib.compsf(tabSi, tabLessario, a_gra);
+        if (callerDebug) {
+            logmess = String.format("CALLING compsf with parameters a_gra: -%s-  CALLER %s ", a_gra, routine);
+            log.debug(logmess);
+        }
+        response = comparator.compsf(response, travellingtables, travellingqueries);
         if (callerDebug) {
             logmess = String.format("CALLING compsf with parameters getSPF: -%s-  CALLER %s ", tabspf_2.getSPF(), routine);
             log.debug(logmess);

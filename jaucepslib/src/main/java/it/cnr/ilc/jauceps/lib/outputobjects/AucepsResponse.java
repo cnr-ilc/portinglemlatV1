@@ -39,6 +39,8 @@ public class AucepsResponse {
     private boolean exitInCompsm2;
     private boolean exitInLemtiz;
     private boolean exitInLemv;
+    
+    private boolean executedLemmiEcc;
    
     
     private Analyses analyses;
@@ -57,16 +59,13 @@ public class AucepsResponse {
         this.sil = sil;
     }
 
-//    @Override
-//    public String toString() {
-//        return "AucepsResponse{" + "analyses=" + getAnalyses() + ", sil=" + getSil() + ", cur_analysis=" + getCur_analysis() + ", resId=" + getResId() + ", status=" + getStatus() + '}';
-//    }
-
     @Override
     public String toString() {
-        return "AucepsResponse{" + "comp_le=" + comp_le + ", comp=" + comp + ", compai=" + compai + ", compsi=" + compsi + ", compspfe=" + compspfe + ", compspf=" + compspf + ", compsf=" + compsf + ", compsm1=" + compsm1 + ", compsm2=" + compsm2 + ", exitInComp_le=" + exitInComp_le + ", exitInComp=" + exitInComp + ", exitInCompai=" + exitInCompai + ", exitInCompsi=" + exitInCompsi + ", exitInCompspfe=" + exitInCompspfe + ", exitInCompspf=" + exitInCompspf + ", exitInCompsf=" + exitInCompsf + ", exitInCompsm1=" + exitInCompsm1 + ", exitInCompsm2=" + exitInCompsm2 + ", analyses=" + analyses + ", sil=" + sil + ", cur_analysis=" + cur_analysis + ", resId=" + resId + ", status=" + status + '}';
+        return "AucepsResponse={" + "comp_le=" + comp_le + ", comp=" + comp + ", compai=" + compai + ", compsi=" + compsi + ", compspfe=" + compspfe + ", compspf=" + compspf + ", compsf=" + compsf + ", compsm1=" + compsm1 + ", compsm2=" + compsm2 + ", exitInComp_le=" + exitInComp_le + ", exitInComp=" + exitInComp + ", exitInCompai=" + exitInCompai + ", exitInCompsi=" + exitInCompsi + ", exitInCompspfe=" + exitInCompspfe + ", exitInCompspf=" + exitInCompspf + ", exitInCompsf=" + exitInCompsf + ", exitInCompsm1=" + exitInCompsm1 + ", exitInCompsm2=" + exitInCompsm2 + ", exitInLemtiz=" + exitInLemtiz + ", exitInLemv=" + exitInLemv + ", executedLemmiEcc=" + executedLemmiEcc + ", analyses=" + analyses + ", sil=" + sil + ", cur_analysis=" + cur_analysis + ", resId=" + resId + ", status=" + status + '}';
     }
 
+
+    
     
     
     
@@ -419,6 +418,20 @@ public class AucepsResponse {
      */
     public void setExitInLemv(boolean exitInLemv) {
         this.exitInLemv = exitInLemv;
+    }
+
+    /**
+     * @return the executedLemmiEcc
+     */
+    public boolean isExecutedLemmiEcc() {
+        return executedLemmiEcc;
+    }
+
+    /**
+     * @param executedLemmiEcc the executedLemmiEcc to set
+     */
+    public void setExecutedLemmiEcc(boolean executedLemmiEcc) {
+        this.executedLemmiEcc = executedLemmiEcc;
     }
 
     

@@ -398,7 +398,7 @@ public class TabSfQuery extends ATabSfQuery {
             log.debug(logmess);
         }
         if (flowDebug || deepFlowDebug) {
-            logmess = String.format("DEEPFLOW START Executing %s in TabSfQuery.java", routine);
+            logmess = String.format("DEEPFLOW STOP Executing %s in TabSfQuery.java", routine);
             log.debug(logmess);
         }
         return tabscset;

@@ -27,7 +27,7 @@ public class Vars extends AVars {
 
     private boolean callerDebug = true;
 
-    private boolean analysisDebug = false;
+    private boolean analysisDebug = true;
 
     private boolean printStructDebug = false;
 

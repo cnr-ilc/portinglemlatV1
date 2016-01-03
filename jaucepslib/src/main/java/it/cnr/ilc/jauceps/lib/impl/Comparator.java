@@ -9,7 +9,6 @@ import static it.cnr.ilc.jauceps.lib.headers.table.definition.TabSmSm2Definition
 import static it.cnr.ilc.jauceps.lib.headers.table.definition.TabSmSm2Definition.C_COD_P2;
 import static it.cnr.ilc.jauceps.lib.headers.table.definition.TabSmSm2Definition.PM;
 import static it.cnr.ilc.jauceps.lib.headers.table.definition.TabSmSm2Definition.PM2;
-import static it.cnr.ilc.jauceps.lib.impl.RunStaticAnalyses.setTravellingtables;
 import it.cnr.ilc.jauceps.lib.impl.table.TabLessario;
 import it.cnr.ilc.jauceps.lib.impl.table.TabSF;
 import it.cnr.ilc.jauceps.lib.impl.table.TabSFCodSet;
@@ -303,18 +302,19 @@ public class Comparator {
                 logmess = String.format("DEEPFLOW ****CHECKED in %s getSPF(SPF2) -%s- (RETURNING TO CALLER) WAS NOT '' (KO) ", routine, spf2);
                 log.debug(logmess);
             }// end else getSPF(SPF2)        // second block
+            setSil(sil);
         }
         if (areavs_spf_0.compareTo(tabspf_2.getSPF_cod()) == 0) {
             //if (!strcmp(areavs.spf, getSPF_cod(SPF2))) { // if areavs.spf, getSPF_cod(SPF2
             if (deepFlowDebug) {
 
-                logmess = String.format("DEEPFLOW ****CHECKED in %s getSPF(SPF2)_cod -%s- and area_spf OK", routine, tabspf_2.getSPF_cod(), areavs_spf_0);
+                logmess = String.format("DEEPFLOW ****CHECKED in %s getSPF(SPF2)_cod -%s- and area_spf -%s- OK", routine, tabspf_2.getSPF_cod(), areavs_spf_0);
                 log.debug(logmess);
 
             }
             if (areavs_spf_0.compareTo("p") != 0) {
                 if (deepFlowDebug) {
-                    logmess = String.format("DEEPFLOW ****CHECKED in %s areavs.spf[0] != 'p' returning OK", routine);
+                    logmess = String.format("DEEPFLOW ****CHECKED in %s areavs.spf[0] != 'p' -%s- returning OK", routine,areavs_spf_0);
                     log.debug(logmess);
                 }
                 if (deepFlowDebug) {
@@ -328,6 +328,7 @@ public class Comparator {
                 }
             }
             setTravellingtables(travellingtables);
+            setSil(sil);
             return true;
         } else {// else areavs.spf, getSPF_cod(SPF2
 
@@ -521,12 +522,17 @@ public class Comparator {
             }
             response = sillib.lemv(response, travellingtables, travellingqueries, IPERLEMMA);
             travellingtables = sillib.getTravellingtables();
-//lemv(copiedLessario, tabLe, IPERLEMMA);
+
             areal = travellingtables.getCopiedLessario();
             travellingtables.setCopiedLessario(areal);
         }
         setTravellingtables(travellingtables);
         response.setExitInCompsm2(false);
+        if (flowDebug || deepFlowDebug) {
+            logmess = String.format("DEEPFLOW STOP Executing %s in Sillib.java with parameters areavs_smv -%s-", routine, areavs_smv);
+            log.debug(logmess);
+        }
+         //System.err.println("CCCCC "+sil);
         return response;
 
     } // end compsm2
@@ -685,6 +691,7 @@ public class Comparator {
         String lesId = "";
         Sillib sillib = new Sillib();
         SilType sil = response.getSil();
+//         System.err.println("BBBBB "+sil);
 
         //tables
         TabLessario areal = travellingtables.getCopiedLessario();

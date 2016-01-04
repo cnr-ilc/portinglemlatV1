@@ -193,43 +193,46 @@ public class TabSfQuery extends ATabSfQuery {
         while (rs.next()) {
             switch (mode) {
                 case 0:
-                    C_COD = rs.getString(C_COD);
+                    //C_COD = rs.getString(C_COD);
+                    
+                    C_COD=rs.getString(1);
                     tabcset = new TabSFCodSet(C_COD);
                     tabcset.setCodeSetMode(mode);
                     tabscset.add(tabcset);
                     break;
                 case 1:
-                    C_COD = rs.getString(C_COD);
-                    C_COD_P = rs.getString(C_COD_P);
-                    C_COD_S = rs.getString(C_COD_S);
+                    C_COD = rs.getString(1);
+                    C_COD_P = rs.getString(2);
+                    C_COD_S =rs.getString(3);
+                    
                     tabcset = new TabSFCodSet(C_COD, C_COD_P, C_COD_S);
                     tabcset.setCodeSetMode(mode);
                     tabscset.add(tabcset);
                     break;
                 case 2:
-                    C_COD = rs.getString(C_COD);
-                    C_COD_P = rs.getString(C_COD_P);
-                    C_COD_S = rs.getString(C_COD_S);
-                    C_COD_P2 = rs.getString(C_COD_P2);
-                    C_COD_S2 = rs.getString(C_COD_S2);
+                    C_COD = rs.getString(1);
+                    C_COD_P = rs.getString(2);
+                    C_COD_S = rs.getString(3);
+                    C_COD_P2 = rs.getString(4);
+                    C_COD_S2 = rs.getString(5);
                     tabcset = new TabSFCodSet(C_COD, C_COD_P, C_COD_S, C_COD_P2, C_COD_S2);
                     tabcset.setCodeSetMode(mode);
                     tabscset.add(tabcset);
                     break;
                 case 3:
-                    C_COD = rs.getString(C_COD);
+                    C_COD = rs.getString(1);
                     tabcset = new TabSFCodSet(C_COD);
                     tabcset.setCodeSetMode(mode);
                     tabscset.add(tabcset);
                     break;
                 case 4:
-                    C_COD = rs.getString(C_COD);
+                    C_COD = rs.getString(1);
                     tabcset = new TabSFCodSet(C_COD);
                     tabcset.setCodeSetMode(mode);
                     tabscset.add(tabcset);
                     break;
                 case 5:
-                    C_COD = rs.getString(C_COD);
+                    C_COD = rs.getString(1);
                     tabcset = new TabSFCodSet(C_COD);
                     tabcset.setCodeSetMode(mode);
                     tabscset.add(tabcset);
@@ -442,7 +445,7 @@ public class TabSfQuery extends ATabSfQuery {
          */
         if (flowDebug || deepFlowDebug) {
             logmess = String.format("DEEPFLOW START Executing %s in TabSfQuery.java "
-                    + "with segment -%s- pt -%s-  codle -%s-gender -%d-", routine, isPt, cod_noseg, gender);
+                    + "with segment -%s- pt -%s-  codle -%s- gender -%s-", routine, seg,isPt, cod_noseg, gender);
             log.debug(logmess);
         }
 
@@ -518,7 +521,7 @@ public class TabSfQuery extends ATabSfQuery {
                     logmess = String.format("DEEPFLOW ****CHECKED in %s cod_noseg -%s-  EMPTY", routine, cod_noseg);
                     log.debug(logmess);
                 }
-                sel = "SELECT CONCAT(%s,%s,%s,%s,%s,%s,%s) "
+                sel = "SELECT CONCAT(%s,%s,%s,%s,%s,%s,%s) as codes "
                         + "FROM %s WHERE (%s='%s') ";
                 selectRec = String.format(sel, C04, C05, C06, C07, C08, C09, C10,
                         TAB_SF_NAME, SEG, seg);

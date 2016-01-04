@@ -125,7 +125,7 @@ public class TabFEQuery extends ATabFEQuery{
             log.debug(logmess);
         }
 
-        sel = "SELECT  %s, %s, %s,CONCAT(%s, %s ,%s) as codes FROM %s WHERE (%s=%d) ";
+        sel = "SELECT  %s, %s, %s,CONCAT(%s, %s ,%s) as codes FROM %s WHERE (%s=%s) ";
         selectRec = String.format(sel, C01, C02, C03,
                 C01, C02, C03,
                 TAB_FE_NAME, LES_ID, les_id);
@@ -174,8 +174,8 @@ public class TabFEQuery extends ATabFEQuery{
         }
 
         sel = "SELECT  %s, %s, %s,%s,%s,%s,%s, CONCAT(%s, %s ,%s,%s, %s ,%s,%s) as codes "
-                + "FROM %s WHERE (%s=%d) AND CONCAT(%s,%s,%s)=\'%s\'";
-        selectRec = String.format(sel, C04, C05, C06, C07, C08, C09, C10,
+                + "FROM %s WHERE (%s=%s) AND CONCAT(%s,%s,%s)='%s'";
+        selectRec = String.format(sel, C04, C05, C06, C07, C08, C09, C10,C04, C05, C06, C07, C08, C09, C10,
                 TAB_FE_NAME, LES_ID, les_id, C01, C02, C03, fe3codes);
 
         if (sqlDebug) {
@@ -243,10 +243,10 @@ public class TabFEQuery extends ATabFEQuery{
         String C02 = "";
         String C03 = "";
         while (rs.next()) {
-            codes = rs.getString("codes");
-            C01 = rs.getString(C01);
-            C02 = rs.getString(C02);
-            C03 = rs.getString(C03);
+            codes = rs.getString(1);
+            C01 = rs.getString(2);
+            C02 = rs.getString(3);
+            C03 = rs.getString(4);
 
             tabs.add(new TabFE3CodSet(C01, C02, C03, codes));
         }
@@ -265,9 +265,9 @@ public class TabFEQuery extends ATabFEQuery{
         String C10 = "";
         while (rs.next()) {
             codes = rs.getString("codes");
-            C01 = rs.getString(C01);
-            C02 = rs.getString(C02);
-            C03 = rs.getString(C03);
+            C01 = rs.getString(1);
+            C02 = rs.getString(1);
+            C03 = rs.getString(3);
             TabFECodMorSet tab = new TabFECodMorSet(C04, C05, C06, C07, C08, C09, C10, codes);
             tab.setLesId(lesId);
             tabs.add(tab);

@@ -1112,7 +1112,7 @@ public class Comparator {
             if (deepFlowDebug) {
                 logmess = String.format("DEEPFLOW ****COPYING in %s areavs.les -%s- on sil.lemma -%s-", routine, areavs.getLes(), sil.getLemma());
                 log.debug(logmess);
-                logmess = String.format("DEEPFLOW ****COPYING in %s areavs.codles -%s- on sil.lemma -%s-", routine, areavs.getCodles(), sil.getCodice());
+                logmess = String.format("DEEPFLOW ****COPYING in %s areavs.codles -%s- on sil.codice -%s-", routine, areavs.getCodles(), sil.getCodice());
                 log.debug(logmess);
 
             }
@@ -1123,7 +1123,7 @@ public class Comparator {
             if (deepFlowDebug) {
                 logmess = String.format("DEEPFLOW ****COPIED in %s areavs.les -%s- on sil.lemma -%s-", routine, areavs.getLes(), sil.getLemma());
                 log.debug(logmess);
-                logmess = String.format("DEEPFLOW ****COPIED in %s areavs.codles -%s- on sil.lemma -%s-", routine, areavs.getCodles(), sil.getCodice());
+                logmess = String.format("DEEPFLOW ****COPIED in %s areavs.codles -%s- on sil.codice -%s-", routine, areavs.getCodles(), sil.getCodice());
                 log.debug(logmess);
 
             }

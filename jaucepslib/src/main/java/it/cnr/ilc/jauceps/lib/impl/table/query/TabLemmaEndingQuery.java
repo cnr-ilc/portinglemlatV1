@@ -66,14 +66,15 @@ public class TabLemmaEndingQuery extends ATabLemmaEndingQuery{
         setLemma(in_str);
 
         if (flowDebug || deepFlowDebug) {
-            logmess = String.format("DEEPFLOW START Executing %s in TabEaglesQuery.java", routine);
+            logmess = String.format("DEEPFLOW START Executing %s in TabEaglesQuery.java. Parameters in_str -%s- cod -%s-", routine, in_str,cod);
             log.debug(logmess);
         }
 
-        sel = "SELECT INSERT(\'%s\',LENGTH(\'%s\')-LENGTH(%s)+1,"
-                + "LENGTH(%s),%s) as % FROM %s WHERE %s=\'%s\' "
-                + "AND %s=RIGHT(\'%s\',LENGTH(%s)) "
+        sel = "SELECT INSERT('%s',LENGTH('%s')-LENGTH(%s)+1,"
+                + "LENGTH(%s),%s) as %s FROM %s WHERE %s='%s' "
+                + "AND %s=RIGHT('%s',LENGTH(%s)) "
                 + "ORDER BY LENGTH(%s) DESC LIMIT 1";
+        System.err.println("EEE "+sel);
         selectRec = String.format(sel,
                 in_str, in_str, IN_ENDING,
                 IN_ENDING, OUT_ENDING, CUR_LEMMA, TAB_LEMEMDING_NAME, CODLES,

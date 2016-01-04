@@ -20,6 +20,7 @@ import it.cnr.ilc.jauceps.lib.structs.Lemmas;
 import it.cnr.ilc.jauceps.lib.structs.SilType;
 import it.cnr.ilc.jauceps.lib.travellingobjects.TravellingQueries;
 import it.cnr.ilc.jauceps.lib.travellingobjects.TravellingTables;
+import java.util.Arrays;
 import java.util.List;
 import org.apache.log4j.Logger;
 
@@ -168,7 +169,7 @@ public class RunAnalyses {
 
         if (analysisDebug) {
 
-            logmess = String.format("ANALYSIS ****CURRENT ANALYSIS SEGMENTS -%s-", cur_analysis.getSegments().toString());
+            logmess = String.format("ANALYSIS ****CURRENT ANALYSIS SEGMENTS -%s-", Arrays.toString(cur_analysis.getSegments()));
             log.debug(logmess);
         }
 
@@ -447,6 +448,7 @@ public class RunAnalyses {
         TabSM tabsm_2 = travellingtables.getSecondTabSm();
 
         a_gra = tabLessario.getA_gra();
+        System.err.println("AAAAAA "+tabLessario.getCodles());
         SAI_cod = tabSai.getSAI_cod();
 
         /* SAIset is 0 or 1 record
@@ -731,7 +733,7 @@ public class RunAnalyses {
             return response;
         } else { //else getSM_2
             if (deepFlowDebug) {
-                logmess = String.format("DEEPFLOW ****CHECKED isanysm2 -%s- in %s: WAS FALSE", travellingtables.isIsanySM1(), routine);
+                logmess = String.format("DEEPFLOW ****CHECKED isanysm1 -%s- in %s: WAS FALSE", travellingtables.isIsanySM1(), routine);
                 log.debug(logmess);
             }
         }

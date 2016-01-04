@@ -328,6 +328,11 @@ public class Sillib {
         tablemmaendingq.setConn(travellingqueries.getConn());
         // list.
         List<TabFE> tabsFe;// = travellingtables.getListOfTabFE();
+        
+        if (flowDebug || deepFlowDebug) {
+            logmess = String.format("DEEPFLOW START Executing %s in %s with s.pr_key -%s-", routine, CLASS_NAME, areal.getPr_key());
+            log.debug(logmess);
+        }
 
         /* FORME ECC*/ if (callerDebug || deepFlowDebug) {
             logmess = String.format("CALLING getFEset les_id=-%s- CALLER %s", les_id, routine);
@@ -346,10 +351,7 @@ public class Sillib {
         List<TabLessario> tabsLessario;// = travellingtables.getListOfTabLessario();
         /* TABS LESSARIO */
 
-        if (flowDebug || deepFlowDebug) {
-            logmess = String.format("DEEPFLOW START Executing %s in %s with s.pr_key -%s-", routine, CLASS_NAME, areal.getPr_key());
-            log.debug(logmess);
-        }
+        
         /* FIRST BLOCK */
         if (areal.getCodles().compareTo("fe") == 0) {
             if (deepFlowDebug) {
@@ -385,7 +387,7 @@ public class Sillib {
         /* END FIRST BLOCK */
 
         /* SECOND  BLOCK */
-        if (areal.getLem() != null && !areal.getLem().equals(" ")) { // if second block IFSB_2
+        if (areal.getLem() != null && !areal.getLem().equals("")) { // if second block IFSB_2
 
             if (areal.getLem().startsWith("-") || areal.getLem().startsWith("=")) { //if third block IFSB_3
                 if (deepFlowDebug) {
@@ -432,7 +434,7 @@ public class Sillib {
 
                 if (valueDebug) {
 
-                    logmess = String.format("****VALUES of sil.lemma -%s- in routine", sil.getLemma(), routine);
+                    logmess = String.format("****VALUES of sil.lemma -%s- in routine -%s-", sil.getLemma(), routine);
                     log.debug(logmess);
                 }
             } // end if third block IFSB_3
@@ -476,7 +478,7 @@ public class Sillib {
                     log.debug(logmess);
                 }
                 if (callerDebug) {
-                    logmess = String.format("CALLING getAddLem in  Sillib.java. SECOND BLOCK IFSB_3 witn les_id -%d- CALLER %s", areal.getPr_key(), routine);
+                    logmess = String.format("CALLING getAddLem in  Sillib.java. SECOND BLOCK IFSB_3 witn les_id -%s- CALLER %s", areal.getPr_key(), routine);
                     log.debug(logmess);
                     logmess = String.format("CALLING getLESset in  Sillib.java. SECOND BLOCK IFSB_3 witn addLem -%s- and BY_KEY CALLER %s", add_lem, routine);
                     log.debug(logmess);
@@ -901,7 +903,7 @@ public class Sillib {
         tabfeq.setConn(travellingqueries.getConn());
 
         if (flowDebug || deepFlowDebug) {
-            logmess = String.format("DEEPFLOW START Executing %s in lib.java with s.pr_key -%s- and lem_type -%s-", routine, areal.getPr_key(), lem_type.toString());
+            logmess = String.format("DEEPFLOW START Executing %s in -%s- with s.pr_key -%s- and lem_type -%s-", routine, CLASS_NAME,areal.getPr_key(), lem_type.toString());
             log.debug(logmess);
         }
         if (analysisDebug) {
@@ -923,7 +925,7 @@ public class Sillib {
                         log.debug(logmess);
                     }
                     if (callerDebug) {
-                        logmess = String.format("CALLING newAnalysis. CALLER %s  with IPOLEMMA and IF1 \n", routine);
+                        logmess = String.format("CALLING newAnalysis. CALLER %s  with IPOLEMMA and IF1", routine);
                         log.debug(logmess);
                     }
 
@@ -1052,7 +1054,7 @@ public class Sillib {
 
                     travellingtables = getTravellingtables();
                     if (callerDebug || deepFlowDebug) {
-                        logmess = String.format("CALLING newLemma in Sillib.java with tabFe3CodSet NULL and lem_type -%s-  CALLER %s", routine, lem_type.toString());
+                        logmess = String.format("CALLING newLemma in %s with tabFe3CodSet NULL and lem_type -%s-  CALLER %s", CLASS_NAME, lem_type.toString(),routine);
                         log.debug(logmess);
 
                     }
@@ -1308,7 +1310,7 @@ public class Sillib {
     } // end pushLemma
 
     public AucepsResponse newLemma(AucepsResponse response, TravellingTables travellingtables, Analysis cur_analysis, LEM_TYPE lem_type, TabFE3CodSet tabFe3CodSet) {
-        String routine = CLASS_NAME + "/pushLemma";
+        String routine = CLASS_NAME + "/newLemma";
         String logmess = "";
         SilType sil = response.getSil();
         TabLessario areal = travellingtables.getCopiedLessario();
@@ -1361,6 +1363,7 @@ public class Sillib {
         curLemma.setOut_lemma(sil.getLemma());
         curLemma.setCod_lemma(sil.getCodice());
         curLemma.setLes_id(Integer.parseInt(areal.getPr_key()));
+        curLemma.setType(lem_type);
         if (tabFe3CodSet == null) {
             curLemma.setCod_morf_1_3(sil.getEagles3());
         } else {

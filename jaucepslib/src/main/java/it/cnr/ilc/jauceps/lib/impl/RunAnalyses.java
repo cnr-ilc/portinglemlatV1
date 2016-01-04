@@ -98,7 +98,7 @@ public class RunAnalyses {
 
         response.setAnalyses(init_analyses);
         response.setCur_analysis(cur_analysis);
-        
+
         if (analysisDebug) {
             logmess = String.format("ANALYSES DEBUG in -%s- AucepsResponse -%s-", routine, response.toString());
             log.debug(logmess);
@@ -206,7 +206,7 @@ public class RunAnalyses {
             log.debug(logmess);
         }
         if (flowDebug || deepFlowDebug) {
-            logmess = String.format("DEEPFLOW STOP Executing %s in RunAnalyses.java", routine);
+            logmess = String.format("DEEPFLOW STOP Executing %s in %s", routine,CLASS_NAME);
             log.debug(logmess);
         }
         response.setCur_analysis(analysis);
@@ -241,11 +241,11 @@ public class RunAnalyses {
 
         /*LESSARIO*/
         if (flowDebug || deepFlowDebug) {
-            logmess = String.format("DEEPFLOW START Executing %s in Sillib.java with sil.rad_sf -%s-", routine, rad);
+            logmess = String.format("DEEPFLOW START Executing %s in %s with sil.rad_sf -%s-", routine, CLASS_NAME, rad);
             log.debug(logmess);
         }
         if (deepFlowDebug) {
-            logmess = String.format("DEEPFLOW COPYING in %s in Sillib.java rad -%s- on sil.radical -%s-", routine, rad, sil.getRadical());
+            logmess = String.format("DEEPFLOW COPYING in %s in %s rad -%s- on sil.radical -%s-", routine, CLASS_NAME, rad, sil.getRadical());
             log.debug(logmess);
 
         }
@@ -273,6 +273,13 @@ public class RunAnalyses {
         }
         travellingtables.setListOfTabSAI(tabsSai);
         isanySAI = travellingtables.isIsanySAI();
+        if (valueDebug) {
+            logmess = String.format("****VALUES of getSAIset  -%d-", travellingtables.getListOfTabSAI().size());
+            log.debug(logmess);
+
+            logmess = String.format("****VALUES of getListOfTabSAI is -%d- ADDITIONAL LOOP SAI -%d-", travellingtables.getListOfTabSAI().size(), travellingtables.getListOfTabSAI().size());
+            log.debug(logmess);
+        }
         for (TabSAI tabSai : tabsSai) {
             //for (Iterator<TabSAI> TabSAIit = tabsSai.iterator(); TabSAIit.hasNext();) { // LOOP SAI
             //tabSai = TabSAIit.next();
@@ -289,6 +296,7 @@ public class RunAnalyses {
             }
             travellingtables.setTabSAI(tabSai);
             travellingtables.setStatus("11");
+            isanyLES=false;
             if (callerDebug || deepFlowDebug) {
                 logmess = String.format("CALLING sairic radical=-%s- CALLER %s", sil.getRadical(), routine);
                 log.debug(logmess);
@@ -340,7 +348,7 @@ public class RunAnalyses {
 
         /*records in tabsai*/
         if (deepFlowDebug) {
-            logmess = String.format("DEEPFLOW EXIT LOOP SAI. Counter sai -%d-  isanySAI -%s-", sai, isanySAI);
+            logmess = String.format("DEEPFLOW EXIT LOOP SAI. Counter sai -%d- les -%d- isanySAI -%s-", sai, les,isanySAI);
             log.debug(logmess);
         }
 
@@ -370,7 +378,7 @@ public class RunAnalyses {
             }
             /* loop over lessario */
             if (callerDebug) {
-                logmess = String.format("CALLING getLESset with parameters radical: -%s- CALLER %s OUTSIDE TABSAI", sil.getRadical(), routine);
+                logmess = String.format("CALLING getLESset OUTSIDE TABSAI with parameters radical: -%s- CALLER %s ", sil.getRadical(), routine);
                 log.debug(logmess);
             }
             tabsLessario = tablessarioq.getLESset(sil.getRadical(), BY_LES);
@@ -400,7 +408,7 @@ public class RunAnalyses {
                 log.debug(logmess);
             }
             if (flowDebug || deepFlowDebug) {
-                logmess = String.format("DEEPFLOW STOP Executing %s in Sillib.java with sil.rad_sf -%s- and radical -%s-", routine, rad, sil.getRadical());
+                logmess = String.format("DEEPFLOW STOP Executing %s in %s with sil.rad_sf -%s-", routine, CLASS_NAME, rad);
                 log.debug(logmess);
             }
             //setSil(lsil);
@@ -447,17 +455,16 @@ public class RunAnalyses {
          SAI_cod = tabsai.getSAI_cod();
          }
          */
-        
         //if (!sil.getInd_alt().equals("")) {
         //if (sil.getInd_alt().equals(EOS) || sil.getInd_alt().length()>=0) { /*ind_alt !='\0' check initialized */ 
-      //  System.err.println("AAAAA "+sil);
+        //  System.err.println("AAAAA "+sil);
         if (sil.getInd_alt() != null) {
             if (deepFlowDebug) {
                 logmess = String.format("DEEPFLOW ****CHECKED sil.ind_alt -%s- in %s: WAS NOT NULL", sil.getInd_alt(), routine);
                 log.debug(logmess);
             }
             if (callerDebug) {
-                logmess = String.format("CALLING compai with parameters a_gra: -%s- and SAI_cod -%s- CALLER %s ", a_gra, rad_sf, routine);
+                logmess = String.format("CALLING compai with parameters a_gra: -%s- and SAI_cod -%s- CALLER %s ", a_gra, SAI_cod, routine);
                 log.debug(logmess);
             }
 

@@ -232,7 +232,7 @@ public class Sillib {
             rad_sai = "";
 
         } else {
-            rad_sai = sil.getRadical().substring(index);
+            rad_sai = sil.getRadical().substring(0,index);
         }
         sil.setRad_sai(rad_sai);
 
@@ -275,6 +275,8 @@ public class Sillib {
             rad_sm = travellingtables.getSecondTabSm().getSM();
 
         }
+        
+        System.err.println("AAAAAA rad_sm -"+rad_sm+"- "+rad_sf+"-");
         length_sm = rad_sm.length();
         length = rad_sf.length() - rad_sm.length();
         if (deepFlowDebug) {
@@ -282,7 +284,7 @@ public class Sillib {
             log.debug(logmess);
 
         }
-        rad_sm = rad_sf.substring(length);
+        rad_sm = rad_sf.substring(0,length);
         if (sm_n == SM1) {
             sil.setRad_sm1(rad_sm);
         } else {
@@ -598,7 +600,6 @@ public class Sillib {
                         log.debug(logmess);
 
                     }
-                    
 
                 } // end isLE IFSB_5
 
@@ -608,10 +609,10 @@ public class Sillib {
                 }
                 response = set_codlem3eagles(response, travellingtables, travellingqueries, "");
                 if (analysisDebug) {
-                        logmess = String.format("ANALYSES DEBUG in -%s- IFSB_4 after set_codlem3eagles AucepsResponse -%s-", routine, response.toString());
-                        log.debug(logmess);
+                    logmess = String.format("ANALYSES DEBUG in -%s- IFSB_4 after set_codlem3eagles AucepsResponse -%s-", routine, response.toString());
+                    log.debug(logmess);
 
-                    }
+                }
 
                 if (callerDebug) {
                     logmess = String.format("CALLING pushLemma in  Sillib.java. CALLER %s", routine);
@@ -619,10 +620,10 @@ public class Sillib {
                 }
                 response = pushLemma(response, travellingtables, travellingqueries, lem_type);
                 if (analysisDebug) {
-                        logmess = String.format("ANALYSES DEBUG in -%s- IFSB_4 after pushLemma AucepsResponse -%s-", routine, response.toString());
-                        log.debug(logmess);
+                    logmess = String.format("ANALYSES DEBUG in -%s- IFSB_4 after pushLemma AucepsResponse -%s-", routine, response.toString());
+                    log.debug(logmess);
 
-                    }
+                }
                 //pushLemma(areal, lem_type);
                 if (flowDebug || deepFlowDebug) {
                     logmess = String.format("DEEPFLOW STOP Executing %s in Sillib.java with s.pr_key -%s- II BLOCK IFSB_4", routine, areal.getPr_key());
@@ -903,6 +904,11 @@ public class Sillib {
             logmess = String.format("DEEPFLOW START Executing %s in lib.java with s.pr_key -%s- and lem_type -%s-", routine, areal.getPr_key(), lem_type.toString());
             log.debug(logmess);
         }
+        if (analysisDebug) {
+            logmess = String.format("ANALYSES DEBUG in -%s- lem_type -%s- AucepsResponse -%s-", routine, lem_type.toString(), response.toString());
+            log.debug(logmess);
+
+        }
 
         switch (lem_type) {
             case IPOLEMMA:
@@ -923,6 +929,11 @@ public class Sillib {
 
                     // TO REVIEW ANALYSIS NEED TO GET ALL OLD ANALYSIS
                     response = runanalyses.newAnalysis(response);
+                    if (analysisDebug) {
+                        logmess = String.format("ANALYSES DEBUG in -%s- after runanalyses.newAnalysis IPOLEMMA IF1 AucepsResponse -%s-", routine, response.toString());
+                        log.debug(logmess);
+
+                    }
                     cur_analysis = response.getCur_analysis();
                     //setSil(sil);
                     sil = response.getSil();
@@ -980,6 +991,11 @@ public class Sillib {
                         } //rof getCod_morf_setLE
                         setTravellingtables(travellingtables);
                         response.setCur_analysis(cur_analysis);
+                        if (analysisDebug) {
+                            logmess = String.format("ANALYSES DEBUG in -%s- after getCod_morf_setLE and islE=1 IPOLEMMA IF1 AucepsResponse -%s-", routine, response.toString());
+                            log.debug(logmess);
+
+                        }
 
                         //setSil(sil);
                     } else { //isLE=0
@@ -1026,6 +1042,11 @@ public class Sillib {
                         } // rof tabsSfCodMorSet
                         setTravellingtables(travellingtables);
                         response.setCur_analysis(cur_analysis);
+                        if (analysisDebug) {
+                            logmess = String.format("ANALYSES DEBUG in -%s- after getSFCod_morf_set and islE=0 IPOLEMMA IF1 AucepsResponse -%s-", routine, response.toString());
+                            log.debug(logmess);
+
+                        }
 
                     } // end isLE=0
 
@@ -1037,6 +1058,11 @@ public class Sillib {
                     }
 
                     response = newLemma(response, travellingtables, cur_analysis, lem_type, null);
+                    if (analysisDebug) {
+                        logmess = String.format("ANALYSES DEBUG in -%s- after newLemma IPOLEMMA IF1 AucepsResponse -%s-", routine, response.toString());
+                        log.debug(logmess);
+
+                    }
                     // if needed get the new runanalyses
                 } else {//ELSE IF
                     /*if (callerDebug)
@@ -1075,8 +1101,13 @@ public class Sillib {
 
                         response = runanalyses.newAnalysis(response);
                         cur_analysis = response.getCur_analysis();
+                        if (analysisDebug) {
+                            logmess = String.format("ANALYSES DEBUG in -%s- after runanalyses.newAnalysis IPOLEMMA ELSE1 AucepsResponse -%s-", routine, response.toString());
+                            log.debug(logmess);
+
+                        }
                         // response.setSil(sil);
-                        sil = response.getSil();
+                        //sil = response.getSil();
                         if (callerDebug || deepFlowDebug) {
                             logmess = String.format("CALLING getCod_morf_set_fe in TabFEQuery.java with parameter: "
                                     + "areavs pk -%s- and tabfe3codes.codes -%s-. CALLER %s", areavs.getPr_key(), tabFe3CodSet.getCodes(), routine);
@@ -1113,6 +1144,14 @@ public class Sillib {
                         } //rof getCod_morf_set_fe
                         // new lemma with tabFe3CodSet not null
                         travellingtables = getTravellingtables();
+                        response.setCur_analysis(cur_analysis);
+
+                        if (analysisDebug) {
+                            logmess = String.format("ANALYSES DEBUG in -%s- after tabfeq.getCod_morf_set_fe IPOLEMMA ELSE1 AucepsResponse -%s-", routine, response.toString());
+                            log.debug(logmess);
+
+                        }
+
                         //sil = getSil();
                         if (callerDebug || deepFlowDebug) {
                             logmess = String.format("CALLING newLemma in Sillib.java with tabFe3CodSet NOT NULL (codes -%s-) and lem_type -%s-  CALLER %s", routine, tabFe3CodSet.getCodes(), lem_type.toString());
@@ -1121,6 +1160,11 @@ public class Sillib {
                         }
 
                         response = newLemma(response, travellingtables, cur_analysis, lem_type, tabFe3CodSet);
+                        if (analysisDebug) {
+                            logmess = String.format("ANALYSES DEBUG in -%s- after newLemma IPOLEMMA ELSE1 AucepsResponse -%s-", routine, response.toString());
+                            log.debug(logmess);
+
+                        }
                     } // rof tabsFe3CodSet
 
                 } //END IF1
@@ -1139,6 +1183,12 @@ public class Sillib {
                     }
 
                     response = newLemma(response, travellingtables, cur_analysis, lem_type, null);
+                    if (analysisDebug) {
+                        logmess = String.format("ANALYSES DEBUG in -%s- after newLemma lem_type -%s- IF2 AucepsResponse -%s-", routine,
+                                lem_type.toString(), response.toString());
+                        log.debug(logmess);
+
+                    }
 
                 } else {// ELSE IF2
                     if (callerDebug || deepFlowDebug) {
@@ -1175,6 +1225,12 @@ public class Sillib {
                         }
 
                         response = newLemma(response, travellingtables, cur_analysis, lem_type, tabFe3CodSet);
+                        if (analysisDebug) {
+                            logmess = String.format("ANALYSES DEBUG in -%s- after newLemma lem_type -%s- ELSE2 AucepsResponse -%s-", routine,
+                                    lem_type.toString(), response.toString());
+                            log.debug(logmess);
+
+                        }
 
                     } // rof tabsFe3CodSet
                 }
@@ -1193,6 +1249,12 @@ public class Sillib {
                     }
 
                     response = newLemma(response, travellingtables, cur_analysis, lem_type, null);
+                    if (analysisDebug) {
+                        logmess = String.format("ANALYSES DEBUG in -%s- after newLemma lem_type -%s- IF3 AucepsResponse -%s-", routine,
+                                lem_type.toString(), response.toString());
+                        log.debug(logmess);
+
+                    }
 
                 } else {// ELSE IF3
                     if (callerDebug || deepFlowDebug) {
@@ -1229,6 +1291,12 @@ public class Sillib {
                         }
 
                         response = newLemma(response, travellingtables, cur_analysis, lem_type, tabFe3CodSet);
+                        if (analysisDebug) {
+                            logmess = String.format("ANALYSES DEBUG in -%s- after newLemma lem_type -%s- ELSE3 AucepsResponse -%s-", routine,
+                                    lem_type.toString(), response.toString());
+                            log.debug(logmess);
+
+                        }
 
                     } // rof tabsFe3CodSet
                 }

@@ -256,7 +256,12 @@ public class Comparator {
         TabSPF tabspf_2 = travellingtables.getSecondTabSpf();
 
         String spf2 = tabspf_2.getSPF();
-        String areavs_spf_0 = tabLes.getSpf();
+        String areavs_spf = tabLes.getSpf();
+        String areavs_spf_0 = "";
+        
+        if (areavs_spf.length() > 0) {
+            areavs_spf_0 = Character.toString(areavs_spf.charAt(0));
+        }
 
         if (flowDebug || deepFlowDebug) {
             logmess = String.format("DEEPFLOW START Executing %s in Comparator.java with parameters getSPF(SPF1) -%s-  EXIT 0", routine, spf2);
@@ -273,38 +278,50 @@ public class Comparator {
             log.debug(logmess);
         }
 
-        if (spf2.equals("")) {// if getSPF(SPF2)==""
+        if (!spf2.equals("")) {// if getSPF(SPF2)=="" //IF1
             //if (!( * getSPF(SPF2))) { 
             //if (!(getSPF(SPF2)))
             if (deepFlowDebug) {
                 logmess = String.format("DEEPFLOW ****CHECKED in %s getSPF(SPF2) -%s- (RETURNING TO CALLER) WAS '' (OK) ", routine, spf2);
                 log.debug(logmess);
             }
-            if (areavs_spf_0.compareTo("p") == 0) {
+            if (areavs_spf_0.compareTo("p") == 0) { //IF2
                 if (deepFlowDebug) {
                     logmess = String.format("DEEPFLOW ****CHECKED in %s areavs.spf[0] == 'p' returning OK", routine);
                     log.debug(logmess);
                 }
                 setTravellingtables(travellingtables);
                 setSil(sil);
+                if (flowDebug || deepFlowDebug) {
+                    logmess = String.format("DEEPFLOW STOP Executing %s in Comparator.java with parameters getSPF(SPF1) -%s-  EXIT 0  IF1-IF2", routine, spf2);
+                    log.debug(logmess);
+                }
                 return false;
-            } else {
+            } else { //ELSE2
                 if (deepFlowDebug) {
                     logmess = String.format("DEEPFLOW ****CHECKED in %s areavs.spf[0] == 'p' returning KO", routine);
                     log.debug(logmess);
                 }
                 setTravellingtables(travellingtables);
                 setSil(sil);
+                if (flowDebug || deepFlowDebug) {
+                    logmess = String.format("DEEPFLOW STOP Executing %s in Comparator.java with parameters getSPF(SPF1) -%s-  EXIT 1 IF1-ELSE2", routine, spf2);
+                    log.debug(logmess);
+                }
                 return true;
             }
-        } else {// else getSPF(SPF2)
+        } else {// else getSPF(SPF2) //ELSE1
             if (deepFlowDebug) {
                 logmess = String.format("DEEPFLOW ****CHECKED in %s getSPF(SPF2) -%s- (RETURNING TO CALLER) WAS NOT '' (KO) ", routine, spf2);
                 log.debug(logmess);
             }// end else getSPF(SPF2)        // second block
             setSil(sil);
+            if (flowDebug || deepFlowDebug) {
+                logmess = String.format("DEEPFLOW CONTINUING Executing %s in Comparator.java with parameters getSPF(SPF1) -%s-  ELSE1", routine, spf2);
+                log.debug(logmess);
+            }
         }
-        if (areavs_spf_0.compareTo(tabspf_2.getSPF_cod()) == 0) {
+        if (areavs_spf.compareTo(tabspf_2.getSPF_cod()) == 0) { //IF3
             //if (!strcmp(areavs.spf, getSPF_cod(SPF2))) { // if areavs.spf, getSPF_cod(SPF2
             if (deepFlowDebug) {
 
@@ -314,7 +331,7 @@ public class Comparator {
             }
             if (areavs_spf_0.compareTo("p") != 0) {
                 if (deepFlowDebug) {
-                    logmess = String.format("DEEPFLOW ****CHECKED in %s areavs.spf[0] != 'p' -%s- returning OK", routine,areavs_spf_0);
+                    logmess = String.format("DEEPFLOW ****CHECKED in %s areavs.spf[0] != 'p' -%s- returning OK", routine, areavs_spf_0);
                     log.debug(logmess);
                 }
                 if (deepFlowDebug) {
@@ -329,16 +346,24 @@ public class Comparator {
             }
             setTravellingtables(travellingtables);
             setSil(sil);
+            if (flowDebug || deepFlowDebug) {
+                logmess = String.format("DEEPFLOW STOP Executing %s in Comparator.java with parameters getSPF(SPF1) -%s-  EXIT 1 IF3", routine, spf2);
+                log.debug(logmess);
+            }
             return true;
-        } else {// else areavs.spf, getSPF_cod(SPF2
+        } else {// else areavs.spf, getSPF_cod(SPF2 //ELSE3
 
             if (flowDebug || deepFlowDebug) {
-                logmess = String.format("DEEPFLOW STOP Executing %s in Comparator.java with parameters getSPF(SPF1) -%s-  EXIT 0", routine, spf2);
+                logmess = String.format("DEEPFLOW CONTINUING Executing %s in Comparator.java with parameters getSPF(SPF1) -%s-  ELSE3", routine, spf2);
                 log.debug(logmess);
             }
         }
         setTravellingtables(travellingtables);
         setSil(sil);
+        if (flowDebug || deepFlowDebug) {
+            logmess = String.format("DEEPFLOW STOP Executing %s in Comparator.java with parameters getSPF(SPF1) -%s-  EXIT 0 END ROUTINE", routine, spf2);
+            log.debug(logmess);
+        }
         return false;
     } // compspf
 
@@ -532,7 +557,7 @@ public class Comparator {
             logmess = String.format("DEEPFLOW STOP Executing %s in Sillib.java with parameters areavs_smv -%s-", routine, areavs_smv);
             log.debug(logmess);
         }
-         //System.err.println("CCCCC "+sil);
+        //System.err.println("CCCCC "+sil);
         return response;
 
     } // end compsm2
@@ -1002,7 +1027,7 @@ public class Comparator {
                 log.debug(logmess);
             }
             condition = String.format("( LEFT(%s,%s) LIKE '%s' )",
-                    C_COD, areavs.getLes().length(), areavs.getLes());
+                    C_COD, areavs.getCodles().length(), areavs.getCodles());
         } else {
             if (deepFlowDebug) {
                 logmess = String.format("DEEPFLOW ****CHECKED in %s areavs.codles[0] = v  KO", routine, areavs.getCodles().charAt(0));

@@ -278,11 +278,11 @@ public class Comparator {
             log.debug(logmess);
         }
 
-        if (!spf2.equals("")) {// if getSPF(SPF2)=="" //IF1
+        if (!(spf2 == null)) {// if getSPF(SPF2)=="" //IF1
             //if (!( * getSPF(SPF2))) { 
             //if (!(getSPF(SPF2)))
             if (deepFlowDebug) {
-                logmess = String.format("DEEPFLOW ****CHECKED in %s getSPF(SPF2) -%s- (RETURNING TO CALLER) WAS '' (OK) ", routine, spf2);
+                logmess = String.format("DEEPFLOW ****CHECKED in %s getSPF(SPF2) -%s-  WAS NOT NULL (OK) ", routine, spf2);
                 log.debug(logmess);
             }
             if (areavs_spf_0.compareTo("p") == 0) { //IF2

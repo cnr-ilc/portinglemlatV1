@@ -64,7 +64,7 @@ public class RunAnalyses {
 
         // init analyses
         if (flowDebug || deepFlowDebug) {
-            logmess = String.format("DEEPFLOW START Executing %s in RunAnalyses.java with parameters: wordforf -%s- alternative form -%s- nun of analysis %d", routine, forma_orig, forma_alt, init_analyses.getNumAnalysis());
+            logmess = String.format("DEEPFLOW START Executing %s in RunAnalyses.java with parameters: wordform -%s- alternative form -%s- nun of analysis %d", routine, forma_orig, forma_alt, init_analyses.getNumAnalysis());
             log.debug(logmess);
         }
         if (deepFlowDebug) {
@@ -460,7 +460,7 @@ public class RunAnalyses {
         //if (!sil.getInd_alt().equals("")) {
         //if (sil.getInd_alt().equals(EOS) || sil.getInd_alt().length()>=0) { /*ind_alt !='\0' check initialized */ 
         //  System.err.println("AAAAA "+sil);
-        if (sil.getInd_alt() != null) {
+        if (!sil.getInd_alt().equals("")) { //ind_alt <> ''
             if (deepFlowDebug) {
                 logmess = String.format("DEEPFLOW ****CHECKED sil.ind_alt -%s- in %s: WAS NOT NULL", sil.getInd_alt(), routine);
                 log.debug(logmess);
@@ -517,7 +517,7 @@ public class RunAnalyses {
         }
 
         //System.err.println("SPF: "+tabspf_2.getSPF());
-        if (travellingtables.isIsanySI() && !tabSi.getSI().equals("")) {// getSI
+        if (travellingtables.isIsanySI() && !tabSi.getSI().equals("")) {// getSI<>''
             if (deepFlowDebug) {
                 logmess = String.format("DEEPFLOW ****CHECKED tabSi.getSI() -%s- in %s: WAS NOT ''", tabSi.getSI(), routine);
                 log.debug(logmess);
@@ -572,7 +572,7 @@ public class RunAnalyses {
             logmess = String.format("DEEPFLOW ****CHECKING getSPF_1 -%s- in %s", tabspf_1.getSPF(), routine);
             log.debug(logmess);
         }
-        if (travellingtables.isIsanySPF1() && !tabspf_1.getSPF().equals("")) { // getSPF_1
+        if (travellingtables.isIsanySPF1() && !tabspf_1.getSPF().equals("")) { // getSPF_1<>''
             if (deepFlowDebug) {
                 logmess = String.format("DEEPFLOW ****CHECKED tabspf_1.getSPF() -%s- in %s: WAS NOT ''", tabspf_1.getSPF(), routine);
                 log.debug(logmess);
@@ -635,7 +635,7 @@ public class RunAnalyses {
             log.debug(logmess);
         }
 
-        if (travellingtables.isIsanySPF2()) { // getSPF_2
+        if (travellingtables.isIsanySPF2()) { // there is a potential segment spf2
             if (deepFlowDebug) {
                 logmess = String.format("DEEPFLOW ****CHECKED isanyspf2 -%s- in %s: WAS TRUE", travellingtables.isIsanySPF2(), routine);
                 log.debug(logmess);
@@ -698,7 +698,7 @@ public class RunAnalyses {
                 log.debug(logmess);
             }
             if (callerDebug) {
-                logmess = String.format("CALLING compsm2 with parameters getSPF: -%s-  CALLER %s ", tabspf_2.getSPF(), routine);
+                logmess = String.format("CALLING compsm2 with parameters area_smv: -%s-  CALLER %s ", tabLessario.getSmv(), routine);
                 log.debug(logmess);
             }
             response = comparator.compsm2(response, travellingtables, travellingqueries);
@@ -722,7 +722,7 @@ public class RunAnalyses {
                 log.debug(logmess);
             }
             if (callerDebug) {
-                logmess = String.format("CALLING compsm1 with parameters getSPF: -%s-  CALLER %s ", tabspf_2.getSPF(), routine);
+                logmess = String.format("CALLING compsm1 with parameters area_smv: -%s-  CALLER %s ", tabLessario.getSmv(), routine);
                 log.debug(logmess);
             }
             response = comparator.compsm1(response, travellingtables, travellingqueries);
@@ -742,11 +742,7 @@ public class RunAnalyses {
             log.debug(logmess);
         }
         response = comparator.compsf(response, travellingtables, travellingqueries);
-        if (callerDebug) {
-            logmess = String.format("CALLING compsf with parameters getSPF: -%s-  CALLER %s ", tabspf_2.getSPF(), routine);
-            log.debug(logmess);
-        }
-        //comparator.compsf();
+       
         if (flowDebug || deepFlowDebug) {
             logmess = String.format("DEEPFLOW STOP Executing %s in Comp.java", routine);
             log.debug(logmess);

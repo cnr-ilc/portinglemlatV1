@@ -170,15 +170,20 @@ public class JAucepsApp {
                             logmess = String.format("DEEPFLOW Instantiating InputFunctions with travellingtables and travellingqueries status -%s- and id -%s-", travellingtables.getStatus(), response.getResId());
                             log.debug(logmess);
                         }
+                        if (analysisDebug) {
+                            logmess = String.format("ANALYSES DEBUG in -%s- AucepsResponse -%s-", routine,response.toString());
+                            log.debug(logmess);
+                            
+                        }
                         inputfunctions = new InputFunctions(response, travellingtables, travellingqueries);
-                        inputfunctions.silcall(conn, sil, wordform);
-                        response = inputfunctions.getResponse();
-//                        try {
-//                            System.out.println("XXXX " + response.toString());
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                            System.err.println("EXIT WITH RESPONSE " + e.getMessage());
-//                        }
+                        response=inputfunctions.silcall(conn, sil, wordform);
+                        
+                        try {
+                            System.out.println("AucepsResponse " + response.toString());
+                        } catch (Exception e) {
+
+                            System.err.println("EXIT WITH RESPONSE " + e.getMessage());
+                        }
                     }
 
                 }

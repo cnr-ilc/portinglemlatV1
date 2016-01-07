@@ -125,7 +125,7 @@ public class TabFEQuery extends ATabFEQuery{
             log.debug(logmess);
         }
 
-        sel = "SELECT  %s, %s, %s,CONCAT(%s, %s ,%s) as codes FROM %s WHERE (%s=%s) ";
+        sel = "SELECT  DISTINCT CONCAT(%s, %s ,%s) as codes, %s, %s, %s FROM %s WHERE (%s=%s) ";
         selectRec = String.format(sel, C01, C02, C03,
                 C01, C02, C03,
                 TAB_FE_NAME, LES_ID, les_id);

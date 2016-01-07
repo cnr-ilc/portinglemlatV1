@@ -278,7 +278,7 @@ public class Comparator {
             log.debug(logmess);
         }
 
-        if (!(spf2 == null)) {// if getSPF(SPF2)=="" //IF1
+        if ((!(spf2 == null) && "".equals(spf2))) {// if getSPF(SPF2)=="" //IF1
             //if (!( * getSPF(SPF2))) { 
             //if (!(getSPF(SPF2)))
             if (deepFlowDebug) {
@@ -325,7 +325,7 @@ public class Comparator {
             //if (!strcmp(areavs.spf, getSPF_cod(SPF2))) { // if areavs.spf, getSPF_cod(SPF2
             if (deepFlowDebug) {
 
-                logmess = String.format("DEEPFLOW ****CHECKED in %s getSPF(SPF2)_cod -%s- and area_spf -%s- OK", routine, tabspf_2.getSPF_cod(), areavs_spf_0);
+                logmess = String.format("DEEPFLOW ****CHECKED in %s getSPF(SPF2)_cod -%s- and area_spf -%s- OK", routine, tabspf_2.getSPF_cod(), areavs_spf);
                 log.debug(logmess);
 
             }

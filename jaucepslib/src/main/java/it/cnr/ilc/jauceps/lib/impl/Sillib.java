@@ -440,7 +440,7 @@ public class Sillib {
             } // end if third block IFSB_3
             response.setSil(sil);
             if (callerDebug) {
-                logmess = String.format("CALLING set_codlem3eagles in  Sillib.java. CALLER %s", routine);
+                logmess = String.format("CALLING set_codlem3eagles in  Sillib.java. else if third block IFSB_3 (ELSESB_3) CALLER %s", routine);
                 log.debug(logmess);
             }
             //sil = set_codlem3eagles(areal, "");
@@ -671,6 +671,7 @@ public class Sillib {
                 log.debug(logmess);
             }
             sil.setCodice(areal.getCodlem());
+            codice=sil.getCodice();
             if (deepFlowDebug) {
 
                 logmess = String.format("DEEPFLOW ****ASSIGNED in %s areal.codlem -%s- to sil.codice -%s-", routine, areal.getCodlem(), sil.getCodice());

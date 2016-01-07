@@ -69,16 +69,26 @@ public class TabLemmaEndingQuery extends ATabLemmaEndingQuery{
             logmess = String.format("DEEPFLOW START Executing %s in TabEaglesQuery.java. Parameters in_str -%s- cod -%s-", routine, in_str,cod);
             log.debug(logmess);
         }
-
-        sel = "SELECT INSERT('%s',LENGTH('%s')-LENGTH(%s)+1,"
-                + "LENGTH(%s),%s) as %s FROM %s WHERE %s='%s' "
+        
+        sel = "SELECT CONCAT(INSERT('%s',LENGTH('%s')-LENGTH(%s)+1,"
+                + "LENGTH(%s),%s), %s) as %s FROM %s WHERE %s='%s' "
                 + "AND %s=RIGHT('%s',LENGTH(%s)) "
                 + "ORDER BY LENGTH(%s) DESC LIMIT 1";
-        System.err.println("EEE "+sel);
+       
         selectRec = String.format(sel,
                 in_str, in_str, IN_ENDING,
-                IN_ENDING, OUT_ENDING, CUR_LEMMA, TAB_LEMEMDING_NAME, CODLES,
+                IN_ENDING, OUT_ENDING, OUT_ENDING,CUR_LEMMA, TAB_LEMEMDING_NAME, CODLES,
                 cod, IN_ENDING, in_str, IN_ENDING, IN_ENDING);
+
+//        sel = "SELECT INSERT('%s',LENGTH('%s')-LENGTH(%s)+1,"
+//                + "LENGTH(%s),%s) as %s FROM %s WHERE %s='%s' "
+//                + "AND %s=RIGHT('%s',LENGTH(%s)) "
+//                + "ORDER BY LENGTH(%s) DESC LIMIT 1";
+//       
+//        selectRec = String.format(sel,
+//                in_str, in_str, IN_ENDING,
+//                IN_ENDING, OUT_ENDING, CUR_LEMMA, TAB_LEMEMDING_NAME, CODLES,
+//                cod, IN_ENDING, in_str, IN_ENDING, IN_ENDING);
 
 //"SELECT INSERT(\'%s\',LENGTH(\'%s\')-LENGTH(%s)+1,LENGTH(%s),%s) \
         //FROM %s WHERE %s=\'%s\' AND %s=RIGHT(\'%s\',LENGTH(%s)) \
@@ -97,7 +107,7 @@ public class TabLemmaEndingQuery extends ATabLemmaEndingQuery{
             // Result set get the result of the SQL query
             resultSet = statement
                     .executeQuery(selectRec);
-            tabs = loopOverRS(resultSet);
+            tabs = loopOverRS(in_str,resultSet);
 
         } catch (Exception e) {
             logmess = String.format("FATAL SQL Error in %s. Message from DB: %s. Qyery: %s", routine, e.getMessage(), selectRec);
@@ -124,7 +134,7 @@ public class TabLemmaEndingQuery extends ATabLemmaEndingQuery{
      * @return
      * @throws SQLException
      */
-    private List<TabLemmaEnding> loopOverRS(ResultSet rs) throws SQLException {
+    private List<TabLemmaEnding> loopOverRS(String in_str,ResultSet rs) throws SQLException {
         List<TabLemmaEnding> tabs = new ArrayList<>();
         String cur_lemma = "";
         String logmess = "";

@@ -5,6 +5,7 @@
  */
 package it.cnr.ilc.jauceps.app;
 
+import it.cnr.ilc.jauceps.app.api.PrintAnalyses;
 import it.cnr.ilc.jauceps.lib.impl.InputFunctions;
 import it.cnr.ilc.jauceps.lib.impl.Interact;
 import it.cnr.ilc.jauceps.lib.impl.Lib;
@@ -17,6 +18,7 @@ import it.cnr.ilc.jauceps.lib.travellingobjects.TravellingTables;
 import java.io.PrintStream;
 import java.sql.Connection;
 import org.apache.log4j.*;
+import utils.OutFormat;
 
 /**
  *
@@ -195,7 +197,13 @@ public class JAucepsApp {
             } while (wordform != null);
 
             try {
-                System.out.println("XXXX " + response.toString());
+                //System.out.println("XXXX " + response.toString());
+                if (callerDebug) {
+                logmess = String.format("CALLING -printAnalyses- in PrintAnalyses.java. CALLER: %s", routine);
+                log.debug(logmess);
+            }
+                PrintAnalyses printanalyses = new PrintAnalyses(response);
+                printanalyses.printAnalyses(OutFormat.COMPLETE, System.out);
             } catch (Exception e) {
                 System.err.println("EXIT WITH RESPONSE " + e.getMessage());
             }

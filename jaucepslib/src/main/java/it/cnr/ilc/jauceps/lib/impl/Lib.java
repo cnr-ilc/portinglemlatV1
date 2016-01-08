@@ -114,6 +114,46 @@ public class Lib extends ALib {
         
         return ret;
     }
+    
+    public SilType resetSil(SilType sil) {
+        String routine = Lib.class.getName() + "/initialize";
+        String logmess = "";
+        
+        Connection lconn = null;
+
+        boolean ret = false;
+
+        if (flowDebug || deepFlowDebug) {
+            logmess = String.format("DEEPFLOW START Executing %s in class Lib.java", routine);
+            log.debug(logmess);
+        }
+        
+        /*Init Sil */
+        if (flowDebug || deepFlowDebug) {
+            logmess = String.format("DEEPFLOW START Initialize SIL in class Lib.java");
+            log.debug(logmess);
+
+        }
+        sil.setInd_alt("");
+        /* Note 7 is the number of segments in the structure silType (TO CLARIFY)*/
+
+        for (int i = 0; i < 7; i++) {
+            sil.getSegment()[i] = null;
+        }
+        sil.setIsLE(0);
+        sil.setForm("");
+        sil.setCodice("");
+        
+        
+        if (flowDebug || deepFlowDebug) {
+            logmess = String.format("DEEPFLOW END Initialize SIL in class Lib.java");
+            log.debug(logmess);
+        }
+
+        
+        
+        return sil;
+    }
 
     @Override
     public void finalize(int stopServer) {

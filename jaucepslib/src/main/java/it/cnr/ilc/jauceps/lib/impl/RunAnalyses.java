@@ -113,16 +113,18 @@ public class RunAnalyses {
         String logmess = "";
         Analyses analyses = response.getAnalyses();
         List<Analysis> alreadyanalyzed = analyses.getListOfAnalysis();
-        Analysis cur_analysis = response.getCur_analysis();
+        //Analysis cur_analysis = response.getCur_analysis();
+        Analysis cur_analysis = new Analysis();//response.getCur_analysis();
         SilType sil = response.getSil();
 
-        int numA;
+        int numA=analyses.getNumAnalysis();
+        
         String[] silSegs = new String[7]; /* segments from sil */
 
         String[] anaSegs = new String[7]; /* segments from analysis */
 
         if (flowDebug || deepFlowDebug) {
-            logmess = String.format("DEEPFLOW START Executing %s in RunAnalyses.java", routine);
+            logmess = String.format("DEEPFLOW START Executing %s in %s. #Analysis -%d-", routine, CLASS_NAME, numA);
             log.debug(logmess);
         }
         silSegs = sil.getSegment();
@@ -174,20 +176,26 @@ public class RunAnalyses {
         }
 
         if (callerDebug) {
-            logmess = String.format("CALLING initLemmas in  RunAnalyses.java. CALLER %s", routine);
+            logmess = String.format("CALLING initLemmas in  %s. CALLER %s. #Analysis -%d-", routine, CLASS_NAME,numA);
             log.debug(logmess);
         }
+        response.setCur_analysis(cur_analysis);
         response = initLemmas(response);
 
         alreadyanalyzed.add(cur_analysis);
         analyses.setListOfAnalysis(alreadyanalyzed);
+        analyses.setNumAnalysis((short)alreadyanalyzed.size());
         response.setAnalyses(analyses);
         response.setCur_analysis(cur_analysis);
+        if (flowDebug || deepFlowDebug) {
+            logmess = String.format("DEEPFLOW STOP Executing %s in %s. #Analysis -%d-", routine, CLASS_NAME, numA);
+            log.debug(logmess);
+        }
         return response;
     }
 
     public AucepsResponse initLemmas(AucepsResponse response) {
-        String routine = RunAnalyses.class.getName() + "/initLemmas";
+        String routine = CLASS_NAME + "/initLemmas";
         String logmess = "";
         Analysis analysis = response.getCur_analysis();
         if (flowDebug || deepFlowDebug) {
@@ -200,6 +208,7 @@ public class RunAnalyses {
             log.debug(logmess);
         }
         Lemmas lemmas = analysis.getLemmas();
+        numL=lemmas.getNumL();
         lemmas.setNumL(numL);
         analysis.setLemmas(lemmas);
         if (deepFlowDebug) {

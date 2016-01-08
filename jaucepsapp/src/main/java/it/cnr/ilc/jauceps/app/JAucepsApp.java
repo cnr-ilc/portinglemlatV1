@@ -159,6 +159,7 @@ public class JAucepsApp {
 
             do {
                 if (interact.getSw_file() == 0) {
+                    sil=lib.resetSil(sil);
                     wordform = interact.prompt("type the WORD-FORM you wish to analyze. end to exit");
                     if (wordform != null) {
 
@@ -166,6 +167,7 @@ public class JAucepsApp {
                             logmess = String.format("DEEPFLOW Instantiating AucepsResponse with silId -%s-", sil.getSilId());
                             log.debug(logmess);
                         }
+                        
                         response = new AucepsResponse(sil);
                         response.setResId(sil.getSilId());
                         if (operationDebug) {
@@ -173,15 +175,18 @@ public class JAucepsApp {
                             log.debug(logmess);
                         }
                         if (analysisDebug) {
-                            logmess = String.format("ANALYSES DEBUG in -%s- AucepsResponse -%s-", routine,response.toString());
+                            logmess = String.format("ANALYSES DEBUG in -%s- AucepsResponse -%s-", routine, response.toString());
                             log.debug(logmess);
-                            
+
                         }
                         inputfunctions = new InputFunctions(response, travellingtables, travellingqueries);
-                        response=inputfunctions.silcall(conn, sil, wordform);
-                        
+                        response = inputfunctions.silcall(conn, sil, wordform);
+
                         try {
-                            System.out.println("AucepsResponse " + response.toString());
+                            PrintAnalyses printanalyses = new PrintAnalyses(response);
+                            printanalyses.printAnalyses(OutFormat.OLD_LL, System.out, System.out);
+                            sil=new SilType();
+                        
                         } catch (Exception e) {
 
                             System.err.println("EXIT WITH RESPONSE " + e.getMessage());
@@ -197,13 +202,13 @@ public class JAucepsApp {
             } while (wordform != null);
 
             try {
-                //System.out.println("XXXX " + response.toString());
+                System.out.println("XXXX " + response.toString());
                 if (callerDebug) {
-                logmess = String.format("CALLING -printAnalyses- in PrintAnalyses.java. CALLER: %s", routine);
-                log.debug(logmess);
-            }
+                    logmess = String.format("CALLING -printAnalyses- in PrintAnalyses.java. CALLER: %s", routine);
+                    log.debug(logmess);
+                }
                 PrintAnalyses printanalyses = new PrintAnalyses(response);
-                printanalyses.printAnalyses(OutFormat.COMPLETE, System.out);
+                printanalyses.printAnalyses(OutFormat.OLD_LL, System.out, System.out);
             } catch (Exception e) {
                 System.err.println("EXIT WITH RESPONSE " + e.getMessage());
             }

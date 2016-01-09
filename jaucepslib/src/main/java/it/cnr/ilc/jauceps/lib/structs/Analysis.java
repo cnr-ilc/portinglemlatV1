@@ -17,6 +17,7 @@ public class Analysis {
     private short n_cod_morf=0;
     private String[] cod_morf_4_10=new String[20]; /*MAX_N_COD_MORF 20*/ 
     private Lemmas lemmas=new Lemmas();
+    private int numCa=0;
 
     /**
      * @return the segments
@@ -92,6 +93,20 @@ public class Analysis {
     public String toString() {
         //return "AAAA ";
         return "Analysis{" + "segments=" + Arrays.toString(segments) + ", part=" + part + ", n_cod_morf=" + n_cod_morf + ", cod_morf_4_10=" + Arrays.toString(cod_morf_4_10) + ", lemmas=" + lemmas.toString() + '}';
+    }
+
+    /**
+     * @return the numCa
+     */
+    public int getNumCa() {
+        return numCa;
+    }
+
+    /**
+     * @param numCa the numCa to set
+     */
+    public void setNumCa(int numCa) {
+        this.numCa = numCa;
     }
     
     

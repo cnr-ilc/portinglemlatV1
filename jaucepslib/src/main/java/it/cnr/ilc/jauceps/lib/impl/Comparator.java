@@ -258,7 +258,7 @@ public class Comparator {
         String spf2 = tabspf_2.getSPF();
         String areavs_spf = tabLes.getSpf();
         String areavs_spf_0 = "";
-        
+
         if (areavs_spf.length() > 0) {
             areavs_spf_0 = Character.toString(areavs_spf.charAt(0));
         }
@@ -1142,7 +1142,7 @@ public class Comparator {
                     log.debug(logmess);
                 }
                 if (callerDebug) {
-                    logmess = String.format("CALLING lemtiz with tabLes with pr_key: -%s- and IPERLEMMA  CALLER %s ", areal.getPr_key(), routine);
+                    logmess = String.format("CALLING lemv with tabLes with pr_key: -%s- and IPERLEMMA  CALLER %s ", areal.getPr_key(), routine);
                     log.debug(logmess);
                 }
                 response = sillib.lemv(response, travellingtables, travellingqueries, IPERLEMMA);
@@ -1153,7 +1153,7 @@ public class Comparator {
                     log.debug(logmess);
                 }
                 if (callerDebug) {
-                    logmess = String.format("CALLING lemtiz with tabLes with pr_key: -%s- and IPERLEMMA  CALLER %s ", areal.getPr_key(), routine);
+                    logmess = String.format("CALLING lemv with tabLes with pr_key: -%s- and IPERLEMMA  CALLER %s ", areal.getPr_key(), routine);
                     log.debug(logmess);
                 }
                 response = sillib.lemv(response, travellingtables, travellingqueries, IPOLEMMA);
@@ -1164,6 +1164,9 @@ public class Comparator {
             logmess = String.format("DEEPFLOW STOP Executing %s in Comparator.java with parameters a_gra -%s-", routine, a_gra);
             log.debug(logmess);
         }
+
+        System.err.println("GIULIA 5 in COMPSF  AS " + response.getAnalyses().toString() + "-" + response.getAnalyses().getNumAnalysis() + "-");
+        System.err.println("GIULIA 5 in COMPSF CA " + response.getCur_analysis().toString());
         return response;
     }// end compsf
 

@@ -752,7 +752,8 @@ public class InputFunctions {
                                 response = runanalyses.analysis(response, travellingtables, travellingqueries, sil.getRad_sf());
                                 setResponse(response);
                                 /*instantiate tabsm */
-
+                                System.err.println("GIULIA 9 SILN (1) " + " analysis: -" + response.getAnalyses().getNumAnalysis() + "- " + response.getAnalyses().toString());
+                                System.err.println("GIULIA 9 SILN (1) " + " current: -" + response.getAnalyses().getNumAnalysis() + "- " + response.getCur_analysis().toString());
                                 //ARRIVATO QUI 29/12/15
                                 //getSillib().analysis(conn, tabLe, tabSf, tabSm_1, tabSm_2, tabSpf_1, tabSpf_2, tabSi, sil.getRad_sf(), tabspfq_1.isAny(), tabspfq_2.isAny(), tabsiq.isAny(), false, false);
                             }
@@ -790,7 +791,7 @@ public class InputFunctions {
                                 travellingtables.setStatus("21");
 
                                 // setting indicators to false
-                                isanySm_2=false;
+                                isanySm_2 = false;
                                 travellingtables.setIsanySM2(isanySm_2);
                                 if (deepFlowDebug) {
                                     logmess = String.format("DEEPFLOW LOOP SM1. "
@@ -875,6 +876,8 @@ public class InputFunctions {
                                 }
                                 response = runanalyses.analysis(response, travellingtables, travellingqueries, sil.getRad_sm1());
                                 setResponse(response);
+                                System.err.println("GIULIA 9 SILN (2) " + " analysis: -" + response.getAnalyses().getNumAnalysis() + "- " + response.getAnalyses().toString());
+                                System.err.println("GIULIA 9 SILN (2) " + " current: -" + response.getAnalyses().getNumAnalysis() + "- " + response.getCur_analysis().toString());
                                 // ADD CODE B4 SM2
                                 // LOOP SM2
                                 if (callerDebug || deepFlowDebug) {
@@ -990,6 +993,8 @@ public class InputFunctions {
                                     }
                                     response = runanalyses.analysis(response, travellingtables, travellingqueries, sil.getRad_sm2());
                                     setResponse(response);
+                                    System.err.println("GIULIA 9 SILN (3) " + " analysis: -" + response.getAnalyses().getNumAnalysis() + "- " + response.getAnalyses().toString());
+                                    System.err.println("GIULIA 9 SILN (3) " + " current: -" + response.getAnalyses().getNumAnalysis() + "- " + response.getCur_analysis().toString());
 
                                     sm_2++;
                                 } // rof tabsm_2

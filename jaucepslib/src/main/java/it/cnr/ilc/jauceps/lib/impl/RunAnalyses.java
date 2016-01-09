@@ -55,7 +55,7 @@ public class RunAnalyses {
 
     public AucepsResponse initAnalyses(AucepsResponse response, String forma_orig, String forma_alt) {
 
-        String routine = RunAnalyses.class.getName() + "/initAnalyses";
+        String routine = CLASS_NAME + "/initAnalyses";
         String logmess = "";
         Analyses init_analyses = new Analyses();
 
@@ -117,8 +117,8 @@ public class RunAnalyses {
         Analysis cur_analysis = new Analysis();//response.getCur_analysis();
         SilType sil = response.getSil();
 
-        int numA=analyses.getNumAnalysis();
-        
+        int numA = analyses.getNumAnalysis();
+
         String[] silSegs = new String[7]; /* segments from sil */
 
         String[] anaSegs = new String[7]; /* segments from analysis */
@@ -176,7 +176,7 @@ public class RunAnalyses {
         }
 
         if (callerDebug) {
-            logmess = String.format("CALLING initLemmas in  %s. CALLER %s. #Analysis -%d-", routine, CLASS_NAME,numA);
+            logmess = String.format("CALLING initLemmas in  %s. CALLER %s. #Analysis -%d-", CLASS_NAME, routine, numA);
             log.debug(logmess);
         }
         response.setCur_analysis(cur_analysis);
@@ -184,7 +184,7 @@ public class RunAnalyses {
 
         alreadyanalyzed.add(cur_analysis);
         analyses.setListOfAnalysis(alreadyanalyzed);
-        analyses.setNumAnalysis((short)alreadyanalyzed.size());
+        //analyses.setNumAnalysis((short)alreadyanalyzed.size());
         response.setAnalyses(analyses);
         response.setCur_analysis(cur_analysis);
         if (flowDebug || deepFlowDebug) {
@@ -197,26 +197,30 @@ public class RunAnalyses {
     public AucepsResponse initLemmas(AucepsResponse response) {
         String routine = CLASS_NAME + "/initLemmas";
         String logmess = "";
+
+        // for debug 
+        int numA = response.getAnalyses().getNumAnalysis();
         Analysis analysis = response.getCur_analysis();
         if (flowDebug || deepFlowDebug) {
-            logmess = String.format("DEEPFLOW START Executing %s in RunAnalyses.java", routine);
+            logmess = String.format("DEEPFLOW START Executing %s in RunAnalyses.java and #Analysis -%d-", routine, numA);
             log.debug(logmess);
         }
         int numL = 0;
+
+        Lemmas lemmas = analysis.getLemmas();
+        numL = lemmas.getNumL();
+        lemmas.setNumL(numL);
         if (deepFlowDebug) {
-            logmess = String.format("DEEPFLOW ****ASSIGNING 0  to numL");
+            logmess = String.format("DEEPFLOW ****ASSIGNING -%d-  to numL", numL);
             log.debug(logmess);
         }
-        Lemmas lemmas = analysis.getLemmas();
-        numL=lemmas.getNumL();
-        lemmas.setNumL(numL);
         analysis.setLemmas(lemmas);
         if (deepFlowDebug) {
             logmess = String.format("DEEPFLOW ****ASSIGNED 0  to numL -%d-", lemmas.getNumL());
             log.debug(logmess);
         }
         if (flowDebug || deepFlowDebug) {
-            logmess = String.format("DEEPFLOW STOP Executing %s in %s", routine,CLASS_NAME);
+            logmess = String.format("DEEPFLOW STOP Executing %s in %s and #Analysis -%d-", routine, CLASS_NAME, numA);
             log.debug(logmess);
         }
         response.setCur_analysis(analysis);
@@ -306,7 +310,7 @@ public class RunAnalyses {
             }
             travellingtables.setTabSAI(tabSai);
             travellingtables.setStatus("11");
-            isanyLES=false;
+            isanyLES = false;
             if (callerDebug || deepFlowDebug) {
                 logmess = String.format("CALLING sairic radical=-%s- CALLER %s", sil.getRadical(), routine);
                 log.debug(logmess);
@@ -344,6 +348,9 @@ public class RunAnalyses {
                     log.debug(logmess);
                 }
                 response = comp(response, travellingtables, travellingqueries, rad);
+
+                System.err.println("GIULIA 7 in ANALYSIS INLOOP AS " + response.getAnalyses().toString() + "-" + response.getAnalyses().getNumAnalysis() + "-");
+                System.err.println("GIULIA 7 in ANALYSIS INLOOP CA " + response.getCur_analysis().toString());
                 les++;
             }// rof getLES
             travellingtables.setIsanyLes(false);
@@ -358,7 +365,7 @@ public class RunAnalyses {
 
         /*records in tabsai*/
         if (deepFlowDebug) {
-            logmess = String.format("DEEPFLOW EXIT LOOP SAI. Counter sai -%d- les -%d- isanySAI -%s-", sai, les,isanySAI);
+            logmess = String.format("DEEPFLOW EXIT LOOP SAI. Counter sai -%d- les -%d- isanySAI -%s-", sai, les, isanySAI);
             log.debug(logmess);
         }
 
@@ -409,7 +416,8 @@ public class RunAnalyses {
                     log.debug(logmess);
                 }
                 response = comp(response, travellingtables, travellingqueries, rad);
-
+                System.err.println("GIULIA 7 in ANALYSIS OUTLOOP AS " + response.getAnalyses().toString() + "-" + response.getAnalyses().getNumAnalysis() + "-");
+                System.err.println("GIULIA 7 in ANALYSIS OUTLOOP CA " + response.getCur_analysis().toString());
                 les++;
             }// rof getLES 
             travellingtables.setIsanyLes(false);
@@ -423,7 +431,9 @@ public class RunAnalyses {
             }
             //setSil(lsil);
         }
-
+        
+        System.err.println("GIULIA 8 in ANALYSIS AS " + response.getAnalyses().toString() + "-" + response.getAnalyses().getNumAnalysis() + "-");
+        System.err.println("GIULIA 8 in ANALYSIS CA " + response.getCur_analysis().toString());
         return response;
     }
 
@@ -457,7 +467,7 @@ public class RunAnalyses {
         TabSM tabsm_2 = travellingtables.getSecondTabSm();
 
         a_gra = tabLessario.getA_gra();
-        System.err.println("AAAAAA "+tabLessario.getCodles());
+        System.err.println("AAAAAA " + tabLessario.getCodles());
         SAI_cod = tabSai.getSAI_cod();
 
         /* SAIset is 0 or 1 record
@@ -751,7 +761,7 @@ public class RunAnalyses {
             log.debug(logmess);
         }
         response = comparator.compsf(response, travellingtables, travellingqueries);
-       
+
         if (flowDebug || deepFlowDebug) {
             logmess = String.format("DEEPFLOW STOP Executing %s in Comp.java", routine);
             log.debug(logmess);
@@ -759,6 +769,8 @@ public class RunAnalyses {
         setTravellingtables(travellingtables);
         response.setExitInComp(true);
 
+        System.err.println("GIULIA 6 in COMP  AS " + response.getAnalyses().toString() + "-" + response.getAnalyses().getNumAnalysis() + "-");
+        System.err.println("GIULIA 6 in COMP  CA " + response.getCur_analysis().toString() + "-" + response.getAnalyses().getNumAnalysis() + "-");
         return response;
     } // end comp
 

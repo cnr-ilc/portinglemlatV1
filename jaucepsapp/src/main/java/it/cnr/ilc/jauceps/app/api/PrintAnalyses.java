@@ -129,6 +129,12 @@ public class PrintAnalyses {
                 po.println(codmorfHeader);
                 po.println(temp);
             }
+            
+            // lemmasur
+            String temp=curAnalysis.getLemmas().getLemmas().toString();
+            String lems=String.format("lemmas -%s- ",temp);
+            
+            po.println(lems);
 
         }
         footer = String.format("\n%s\n", "This is the end my friend");

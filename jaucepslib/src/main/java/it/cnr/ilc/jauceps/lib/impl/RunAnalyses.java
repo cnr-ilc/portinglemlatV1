@@ -129,6 +129,8 @@ public class RunAnalyses {
         }
         silSegs = sil.getSegment();
         anaSegs = cur_analysis.getSegments();
+        System.err.println("MARONNA X0NA " + response.toString());
+        System.err.println("MARONNA X0NA  CURRENT LEMMA "+ response.getSil().getLemma() + " CURRENT SIL "+sil);
         /*
          this is used for checking both logs
          we can use curAnalysis.setSegments(sil.getSegment());
@@ -191,6 +193,8 @@ public class RunAnalyses {
             logmess = String.format("DEEPFLOW STOP Executing %s in %s. #Analysis -%d-", routine, CLASS_NAME, numA);
             log.debug(logmess);
         }
+        System.err.println("MARONNA X0NAAIL " + response.toString());
+        System.err.println("MARONNA X0NAAIL  CURRENT LEMMA "+ response.getSil().getLemma() + " CURRENT SIL "+sil);
         return response;
     }
 
@@ -211,19 +215,20 @@ public class RunAnalyses {
         numL = lemmas.getNumL();
         lemmas.setNumL(numL);
         if (deepFlowDebug) {
-            logmess = String.format("DEEPFLOW ****ASSIGNING -%d-  to numL", numL);
+            logmess = String.format("DEEPFLOW ****ASSIGNING -%d- to numL for List of Lemmas -%s-", numL,lemmas.toString());
             log.debug(logmess);
         }
         analysis.setLemmas(lemmas);
-        if (deepFlowDebug) {
-            logmess = String.format("DEEPFLOW ****ASSIGNED 0  to numL -%d-", lemmas.getNumL());
-            log.debug(logmess);
-        }
+       
         if (flowDebug || deepFlowDebug) {
-            logmess = String.format("DEEPFLOW STOP Executing %s in %s and #Analysis -%d-", routine, CLASS_NAME, numA);
+            logmess = String.format("DEEPFLOW ****ASSIGNED 0  to numL -%d- for List of Lemmas -%s-", lemmas.getNumL(),analysis.getLemmas().toString());
             log.debug(logmess);
         }
         response.setCur_analysis(analysis);
+        if (flowDebug || deepFlowDebug) {
+            logmess = String.format("DEEPFLOW STOP Executing %s in RunAnalyses.java and #Analysis -%d-", routine, numA);
+            log.debug(logmess);
+        }
         return response;
 
     }

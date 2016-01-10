@@ -312,8 +312,15 @@ public class Sillib {
         String encFE = "", les_id, add_lem = null;
         SilType sil = response.getSil();
 
+        Analyses analyses = response.getAnalyses();
+
         // for debug
-        int numA = response.getAnalyses().getNumAnalysis();
+        int numA = analyses.getNumAnalysis();
+        Analysis cur_analysis = new Analysis();
+
+        System.err.println("GIULIA 3a in LEMTIZ  CA " + cur_analysis.toString() + "-" + numA + "-");
+        System.err.println("GIULIA 3b in LEMTIZ LOS " + analyses.getListOfAnalysis() + "-" + numA + "-");
+        System.err.println("GIULIA 3c in LEMTIZ RES " + response.toString() + "-" + numA + "-");
 
         // tables
         TabLessario areal = travellingtables.getCopiedLessario();
@@ -527,8 +534,10 @@ public class Sillib {
             response.setSil(sil);
             response.setExitInLemtiz(true);
 
-            System.err.println("GIULIA 3 in LEMTIZ II BLOCK IFSB_1 AS " + response.getAnalyses().toString() + "-" + numA + "-");
-            System.err.println("GIULIA 3 in LEMTIZ II BLOCK IFSB_1 CA" + response.getCur_analysis().toString());
+            System.err.println("GIULIA 3a in LEMTIZ II BLOCK IFSB_1 AS  CA " + cur_analysis.toString() + "-" + numA + "-");
+            System.err.println("GIULIA 3b in LEMTIZ II BLOCK IFSB_1 AS LOS " + analyses.getListOfAnalysis() + "-" + numA + "-");
+            System.err.println("GIULIA 3c in LEMTIZ II BLOCK IFSB_1 AS RES " + response.toString() + "-" + numA + "-");
+
             return response;
 
         } else // else if second block IFSB_2 (ELSESB_2)
@@ -616,13 +625,15 @@ public class Sillib {
                 logmess = String.format("CALLING set_codlem3eagles in  Sillib.java and #Analysis -%d-. CALLER %s", numA, routine);
                 log.debug(logmess);
             }
+            System.err.println("MARONNA X0PLB4SC3E" + response + "-" + numA + "-");
             response = set_codlem3eagles(response, travellingtables, travellingqueries, "");
             if (analysisDebug) {
                 logmess = String.format("ANALYSES DEBUG in -%s- IFSB_4 after set_codlem3eagles AucepsResponse -%s-", routine, response.toString());
                 log.debug(logmess);
 
             }
-
+            System.err.println("MARONNA X0PLASC3E" + response + "-" + numA + "-");
+            
             if (callerDebug) {
                 logmess = String.format("CALLING pushLemma in  Sillib.java and #Analysis -%d-. CALLER %s", numA, routine);
                 log.debug(logmess);
@@ -640,22 +651,24 @@ public class Sillib {
             }
             response.setSil(sil);
             response.setExitInLemtiz(true);
-
-            System.err.println("GIULIA 3 in LEMTIZ II BLOCK IFSB_4 AS " + response.getAnalyses().toString() + "-" + numA + "-");
-            System.err.println("GIULIA 3 in LEMTIZ II BLOCK IFSB_4 CA " + response.getCur_analysis().toString());
+            
+            System.err.println("GIULIA 3a in LEMTIZ II BLOCK IFSB_4   CA " + cur_analysis.toString() + "-" + numA + "-");
+            System.err.println("GIULIA 3b in LEMTIZ II BLOCK IFSB_4  LOS " + analyses.getListOfAnalysis() + "-" + numA + "-");
+            System.err.println("GIULIA 3c in LEMTIZ II BLOCK IFSB_4  RES " + response.toString() + "-" + numA + "-");
             return response;
 
         }//end if areal->codles, "fe" IFSB_4 // end if second block IFSB_2
         /* END SECOND BLOCK */
         //response.setSil(sil);
-            if (flowDebug || deepFlowDebug) {
-                logmess = String.format("DEEPFLOW STOP Executing %s in Sillib.java with s.pr_key -%s- III BLOCK", routine, areal.getPr_key());
-                log.debug(logmess);
-            }
+        if (flowDebug || deepFlowDebug) {
+            logmess = String.format("DEEPFLOW STOP Executing %s in Sillib.java with s.pr_key -%s- III BLOCK", routine, areal.getPr_key());
+            log.debug(logmess);
+        }
         response.setExitInLemtiz(false);
 
-        System.err.println("GIULIA 3 in LEMTIZ III BLOCK AS " + response.getAnalyses().toString() + "-" + numA + "-");
-        System.err.println("GIULIA 3 in LEMTIZ III BLOCK CA " + response.getCur_analysis().toString());
+        System.err.println("GIULIA 3a in LEMTIZ III BLOCK  CA " + cur_analysis.toString() + "-" + numA + "-");
+        System.err.println("GIULIA 3b in LEMTIZ III BLOCK LOS " + analyses.getListOfAnalysis() + "-" + numA + "-");
+        System.err.println("GIULIA 3c in LEMTIZ III BLOCK RES " + response.toString() + "-" + numA + "-");
         //response.getAnalyses().setNumAnalysis((short) (numA + 1));
         return response;
     } // end lmtiz
@@ -675,6 +688,7 @@ public class Sillib {
 
         // for debug
         int numA = response.getAnalyses().getNumAnalysis();
+        System.err.println("MARONNA X0SC3EI " + response + "-" + numA + "-");
         if (flowDebug || deepFlowDebug) {
             logmess = String.format("DEEPFLOW START Executing %s in Sillib.java with s.pr_key -%s- and codice -%s- and #Analysis -%d-", routine, areal.getPr_key(), codice, numA);
             log.debug(logmess);
@@ -703,6 +717,7 @@ public class Sillib {
                 logmess = String.format("DEEPFLOW ****ASSIGNING in %s eagles codes  to sil.eagles codes", routine);
                 log.debug(logmess);
             }
+            System.err.println("MARONNA X0SC3EI a " + response + "-" + numA + "-");
             tabs3e = tab3eq.get3EaglesSet(codice, BY_CODLEM);
             travellingtables.setListOfTab3Eagles(tabs3e);
 
@@ -716,6 +731,7 @@ public class Sillib {
             sil.setEagles3(codes);
             setTravellingtables(travellingtables);
             response.setSil(sil);
+            System.err.println("MARONNA X0SC3EI b " + response + "-" + numA + "-");
 
             if (deepFlowDebug) {
 
@@ -731,6 +747,7 @@ public class Sillib {
                     logmess = String.format("CALLING get3EaglesSet cod2search=-%s- CALLER %s and BY_CODLES IF2 and #Analysis -%d-", codice, routine, numA);
                     log.debug(logmess);
                 }
+                System.err.println("MARONNA X0SC3EI c " + response + "-" + numA + "-");
 
             } else { //else IF2 ELSE2
                 codice = areal.getCodles();
@@ -738,6 +755,7 @@ public class Sillib {
                     logmess = String.format("CALLING get3EaglesSet cod2search=-%s- CALLER %s and BY_CODLES ELSE IF2 and #Analysis -%d-", codice, routine, numA);
                     log.debug(logmess);
                 }
+                System.err.println("MARONNA X0SC3EI d " + response + "-" + numA + "-");
 
             }
             if (deepFlowDebug) {
@@ -746,19 +764,30 @@ public class Sillib {
                 logmess = String.format("DEEPFLOW ****ASSIGNING in %s eagles codes  to sil.eagles codes and #Analysis -%d-", routine, numA);
                 log.debug(logmess);
             }
+            System.err.println("MARONNA X0SC3EI e " + response + "-" + numA + "-");
             tabs3e = tab3eq.get3EaglesSet(codice, BY_CODLES);
             travellingtables.setListOfTab3Eagles(tabs3e);
+            System.err.println("MARONNA X0SC3EI e1 " + response + "-" + numA + "-");
 
-            String[] codes = sil.getEagles3();
+            String[] codes=new String[3];// = sil.getEagles3();
+            System.err.println("MARONNA X0SC3EI e2 " + response + "-" + numA + "-");
             String eCodLem;
             Tab3Eagles tab3e = tabs3e.iterator().next();
+            System.err.println("MARONNA X0SC3EI e31 " + response + "-" + numA + "-");
             travellingtables.setTab3e(tab3e);
+            System.err.println("MARONNA X0SC3EI e32 " + response + "-" + numA + "-");
             eCodLem = tab3e.getCodLem();
+            System.err.println("MARONNA X0SC3EI e33 " + response + "-" + numA + "-");
             codes[0] = tab3e.getC01();
+            System.err.println("MARONNA X0SC3EI e33a " + response + "-" + numA + "-");
             codes[1] = tab3e.getC02();
+            System.err.println("MARONNA X0SC3EI e33b " + response + "-" + numA + "-");
             codes[2] = tab3e.getC03();
+            System.err.println("MARONNA X0SC3EI e33c " + response + "-" + numA + "-");
+            System.err.println("MARONNA X0SC3EI e3 " + response + "-" + numA + "-");
             sil.setCodice(eCodLem);
             sil.setEagles3(codes);
+            System.err.println("MARONNA X0SC3EI e4 " + response + "-" + numA + "-");
             if (deepFlowDebug) {
                 logmess = String.format("DEEPFLOW ****ASSIGNED in %s eagles codlem -%s- to sil.codice -%s- and #Analysis -%d-", routine, eCodLem, sil.getCodice(), numA);
                 log.debug(logmess);
@@ -767,6 +796,7 @@ public class Sillib {
             }
             response.setSil(sil);
             setTravellingtables(travellingtables);
+            System.err.println("MARONNA X0SC3EI f " + response + "-" + numA + "-");
         }
         if (areal.getType() != null && !areal.getType().equals("")) {
             String[] codes = sil.getEagles3();
@@ -774,11 +804,13 @@ public class Sillib {
             sil.setEagles3(codes);
         }
         response.setSil(sil);
+        System.err.println("MARONNA X0SC3EI g " + response + "-" + numA + "-");
         if (flowDebug || deepFlowDebug) {
             logmess = String.format("DEEPFLOW STOP Executing %s in Sillib.java with s.pr_key -%s- and codice -%s- and #Analysis -%d-", routine, areal.getPr_key(), codice, numA);
             log.debug(logmess);
         }
         setTravellingtables(travellingtables);
+        System.err.println("MARONNA X0SC3E0" + response + "-" + numA + "-");
         return response;
     } // end set_codlem3eagles
 
@@ -864,9 +896,9 @@ public class Sillib {
                     log.debug(logmess);
                 }
                 response = lemtiz(response, travellingtables, travellingqueries, lem_type);
-                
-                System.err.println("GIULIA 4 in LEMV  AS " + response.getAnalyses().toString() + "-" +response.getAnalyses().getNumAnalysis() + "-");
-                System.err.println("GIULIA 4 in LEMV  CA " + response.getCur_analysis().toString()+ "-" + response.getAnalyses().getNumAnalysis() + "-");
+
+                System.err.println("GIULIA 4 in LEMV  AS " + response.getAnalyses().toString() + "-" + response.getAnalyses().getNumAnalysis() + "-");
+                System.err.println("GIULIA 4 in LEMV  CA " + response.getCur_analysis().toString() + "-" + response.getAnalyses().getNumAnalysis() + "-");
                 //lemtiz(areal, tabLe, lem_type);
             }
 
@@ -888,6 +920,7 @@ public class Sillib {
         String logmess = "";
 
         SilType sil = response.getSil();
+        System.err.println("MARONNA PLI " + response.toString());
 
         // Analyses
         Analyses analyses = response.getAnalyses();
@@ -912,7 +945,8 @@ public class Sillib {
         String codLE = areal.getCodLE();
 
         int n_cod_morf = 0;
-
+        
+        System.err.println("MARONNA X0  CURRENT LEMMA " + response.getSil().getLemma() + " CURRENT SIL " + sil);
         // queries
         TabCodLeQuery tabcodleq = travellingqueries.getTabcodleq();
         tabcodleq.setConn(travellingqueries.getConn());
@@ -924,7 +958,7 @@ public class Sillib {
         tabfeq.setConn(travellingqueries.getConn());
 
         if (flowDebug || deepFlowDebug) {
-            logmess = String.format("DEEPFLOW START Executing %s in -%s- with s.pr_key -%s- and lem_type -%s- #Analysis -%d-", routine, CLASS_NAME, areal.getPr_key(), lem_type.toString(), numA);
+            logmess = String.format("DEEPFLOW START Executing %s in -%s- with s.pr_key -%s- and lem_type -%s- #Analysis -%d- for lemma -%s-", routine, CLASS_NAME, areal.getPr_key(), lem_type.toString(), numA, response.getSil().getLemma());
             log.debug(logmess);
         }
         if (analysisDebug) {
@@ -1042,6 +1076,8 @@ public class Sillib {
                         /*a->codles, a->gen,
                          a->cod_noseg, a->pt == 'x');*/
                         // TO DO getCod_morf_set
+                        System.err.println("MARONNA X0PL " + response.toString());
+                        System.err.println("MARONNA X0PL  CURRENT LEMMA " + response.getSil().getLemma() + " CURRENT SIL " + sil);
                         tabsSfCodMorSet = tabsfq.getSFCod_morf_set(travellingtables, sil.getSegment()[4]); //getCod_morf_set
                         if (operationDebug) {
                             logmess = String.format("OPERATIONDEBUG SETTING setListOfTabSFCodMorSet in -%s-", routine);
@@ -1064,7 +1100,8 @@ public class Sillib {
                             n_cod_morf = cur_analysis.getN_cod_morf();
 
                             String[] tempcodes = cur_analysis.getCod_morf_4_10();
-                            System.err.println("ZZZZZZZZZZZZZ 1 " + n_cod_morf + " " + Arrays.toString(tempcodes));
+                            System.err.println("ZZZZZZZZZZZZZ 1a " + n_cod_morf + " " + Arrays.toString(tempcodes));
+                            System.err.println("ZZZZZZZZZZZZZ 1b " + cur_analysis.getLemmas() + " " + Arrays.toString(tempcodes));
                             tempcodes[n_cod_morf] = tabCodSfMorSet.getCodes();
                             cur_analysis.setCod_morf_4_10(tempcodes);
                             //cur_analysis.getCod_morf_4_10()[n_cod_morf] = tabCodSfMorSet.getCodes();
@@ -1072,6 +1109,9 @@ public class Sillib {
                             n_cod_morf++;
                             cur_analysis.setN_cod_morf((short) n_cod_morf);
                             System.err.println("ZZZZZZZZZZZZZ 2 " + n_cod_morf + " " + Arrays.toString(cur_analysis.getCod_morf_4_10()));
+
+                            System.err.println("MARONNA X0PLAGCMS " + response.toString());
+                            System.err.println("MARONNA X0PLAGCMS  CURRENT LEMMA " + response.getSil().getLemma() + " CURRENT SIL " + sil);
 
                         } // rof tabsSfCodMorSet
                         setTravellingtables(travellingtables);
@@ -1214,7 +1254,7 @@ public class Sillib {
                         log.debug(logmess);
 
                     }
-
+                    //System.err.println("MARONNA X1 " + response.toString());
                     response = newLemma(response, travellingtables, cur_analysis, lem_type, null);
                     if (analysisDebug) {
                         logmess = String.format("ANALYSES DEBUG in -%s- after newLemma lem_type -%s- IF2 AucepsResponse -%s-", routine,
@@ -1339,6 +1379,7 @@ public class Sillib {
         }
         analyses.setNumAnalysis((short) (numA + 1));
         response.setAnalyses(analyses);
+        System.err.println("MARONNA PLO " + response.toString());
         return response;
     } // end pushLemma
 
@@ -1355,14 +1396,16 @@ public class Sillib {
         int numL = lemmas.getNumL();
         List<Lemma> lems = lemmas.getLemmas();
         int numA = response.getAnalyses().getNumAnalysis();
+        System.err.println("MARONNA X0NLI " + response.toString());
+        System.err.println("MARONNA X0NLI  CURRENT LEMMA " + response.getSil().getLemma() + " CURRENT SIL " + sil);
 
         if (flowDebug || deepFlowDebug) {
             logmess = String.format("DEEPFLOW START Executing %s in Sillib.java with a.pr_key -%s- for #Analysis -%d-", routine, areal.getPr_key(), numA);
             log.debug(logmess);
         }
-        System.err.println("GIULIA 1a NULL in NEWLEMMA LEMMA  " + curLemma.getOut_lemma() + "-" + numA + "-"+ Arrays.toString(curLemma.getCod_morf_1_3()));
-        System.err.println("GIULIA 1b NULL in NEWLEMMA LEMMA  " + curLemma.getOut_lemma() + "-" + numA + "-"+ Arrays.toString(curLemma.getCod_morf_1_3()));
-        System.err.println("GIULIA 1b1 NULL in NEWLEMMA LEMMA  " + response.toString() + "-" + numA + "-"+ lemmas.toString());
+        System.err.println("GIULIA 1a NULL in NEWLEMMA LEMMA  " + curLemma.getOut_lemma() + "-" + numA + "-" + Arrays.toString(curLemma.getCod_morf_1_3()));
+        System.err.println("GIULIA 1b NULL in NEWLEMMA LEMMA  " + curLemma.getOut_lemma() + "-" + numA + "-" + Arrays.toString(curLemma.getCod_morf_1_3()));
+        System.err.println("GIULIA 1b1 NULL in NEWLEMMA LEMMA  " + response.toString() + "-" + numA + "-" + lemmas.toString());
 
         // COPYING //
         if (deepFlowDebug) {
@@ -1397,20 +1440,20 @@ public class Sillib {
         curLemma.setLes_id(Integer.parseInt(areal.getPr_key()));
         curLemma.setType(lem_type);
         if (tabFe3CodSet == null) {
-            System.err.println("GIULIA 2a NULL in NEWLEMMA LEMMA  " + curLemma.getOut_lemma() + "-" + numA + "-"+ Arrays.toString(curLemma.getCod_morf_1_3()));
+            System.err.println("GIULIA 2a NULL in NEWLEMMA LEMMA  " + curLemma.getOut_lemma() + "-" + numA + "-" + Arrays.toString(curLemma.getCod_morf_1_3()));
             curLemma.setCod_morf_1_3(sil.getEagles3());
-            System.err.println("GIULIA 2b NULL in NEWLEMMA LEMMA  " + curLemma.getOut_lemma() + "-" + numA + "-"+ Arrays.toString(curLemma.getCod_morf_1_3()));
-            System.err.println("GIULIA 2b1 NULL in NEWLEMMA LEMMA  " + response.toString() + "-" + numA + "-"+ lemmas.toString());
+            System.err.println("GIULIA 2b NULL in NEWLEMMA LEMMA  " + curLemma.getOut_lemma() + "-" + numA + "-" + Arrays.toString(curLemma.getCod_morf_1_3()));
+            System.err.println("GIULIA 2b1 NULL in NEWLEMMA LEMMA  " + response.toString() + "-" + numA + "-" + lemmas.toString());
         } else {
             String[] codes = new String[3];
             codes[0] = tabFe3CodSet.getC01();
             codes[1] = tabFe3CodSet.getC02();
             codes[2] = tabFe3CodSet.getC03();
-            System.err.println("GIULIA 2b NOT NULL in NEWLEMMA LEMMA  " + curLemma.getOut_lemma() + "-" + numA + "-"+ 
-                    Arrays.toString(curLemma.getCod_morf_1_3()));
+            System.err.println("GIULIA 2b NOT NULL in NEWLEMMA LEMMA  " + curLemma.getOut_lemma() + "-" + numA + "-"
+                    + Arrays.toString(curLemma.getCod_morf_1_3()));
             curLemma.setCod_morf_1_3(codes);
-            System.err.println("GIULIA 2b NOT NULL in NEWLEMMA LEMMA  " + curLemma.getOut_lemma() + "-" + numA + "-"+ Arrays.toString(curLemma.getCod_morf_1_3()));
-            System.err.println("GIULIA 2b1 NOT NULL in NEWLEMMA LEMMA  " + response.toString() + "-" + numA + "-"+ lemmas.toString());
+            System.err.println("GIULIA 2b NOT NULL in NEWLEMMA LEMMA  " + curLemma.getOut_lemma() + "-" + numA + "-" + Arrays.toString(curLemma.getCod_morf_1_3()));
+            System.err.println("GIULIA 2b1 NOT NULL in NEWLEMMA LEMMA  " + response.toString() + "-" + numA + "-" + lemmas.toString());
         }
 
         if (deepFlowDebug) {
@@ -1444,14 +1487,17 @@ public class Sillib {
 //        System.err.println("GIULIA 2 in NEWLEMMA AS " + response.getAnalyses().toString() + "-" + numA + "-");
 //        System.err.println("GIULIA 2 in NEWLEMMA CA " + cur_analysis.toString()+ "-" + numA + "-");
 //        
-        System.err.println("GIULIA 2c in NEWLEMMA LEMMA  " + curLemma.getOut_lemma() + "-" + numA + "-"+ lemmas.toString());
-        System.err.println("GIULIA 2d in NEWLEMMA LEMMA  " + response.toString() + "-" + numA + "-"+ lemmas.toString());
-        
+        System.err.println("GIULIA 2c in NEWLEMMA LEMMA  " + curLemma.getOut_lemma() + "-" + numA + "-" + lemmas.toString());
+        System.err.println("GIULIA 2d in NEWLEMMA LEMMA  " + response.toString() + "-" + numA + "-" + lemmas.toString());
 
         if (flowDebug || deepFlowDebug) {
             logmess = String.format("DEEPFLOW STOP Executing %s in Sillib.java with a.pr_key -%s-", routine, areal.getPr_key());
             log.debug(logmess);
         }
+        System.err.println("MARONNA X0NLO " + response.toString());
+        System.err.println("MARONNA X0NLO  CURRENT LEMMA " + curLemma.getOut_lemma() + " CURRENT SIL " + sil);
+        System.err.println("MARONNA X0NLO  CURRENT LEMMA AND CODES " + curLemma.getOut_lemma() + " - " +Arrays.toString(curLemma.getCod_morf_1_3())+ " -CURRENT SIL " + sil);
+        System.err.println("MARONNA X0NLO AGAIN " + response.toString());
         return response;
     } // end newLemma
 

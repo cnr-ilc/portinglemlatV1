@@ -92,7 +92,7 @@ public class Analyses {
 
     @Override
     public String toString() {
-        return "Analyses{" + "in_form=" + in_form + ", alt_in_form=" + alt_in_form + ", numAnalysis=" + numAnalysis + ", listOfAnalysis=" + listOfAnalysis.toString() + '}';
+        return "Analyses {" + "in_form=" + in_form + ", alt_in_form=" + alt_in_form + ", numAnalysis=" + numAnalysis + ", listOfAnalysis=" + listOfAnalysis.toString() + '}';
     }
     
 

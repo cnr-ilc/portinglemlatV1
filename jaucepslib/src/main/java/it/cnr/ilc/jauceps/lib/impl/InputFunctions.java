@@ -1287,7 +1287,8 @@ public class InputFunctions {
         }
         //if (!sil.getInd_alt().equals("")) {
         //if (sil.getInd_alt().equals(EOS) || sil.getInd_alt().length()>=0) { /*ind_alt !='\0' check initialized */ 
-        if (sil.getInd_alt() != null) {
+        if(!sil.getInd_alt().equals("")){
+        //if (sil.getInd_alt() != null) {
             if (deepFlowDebug) {
                 logmess = String.format("DEEPFLOW ****CHECKED sil.ind_alt -%s- in %s: WAS NOT NULL", sil.getInd_alt(), routine);
                 log.debug(logmess);

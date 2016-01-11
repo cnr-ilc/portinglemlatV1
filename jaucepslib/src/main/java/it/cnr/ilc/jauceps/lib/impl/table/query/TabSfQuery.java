@@ -266,7 +266,7 @@ public class TabSfQuery extends ATabSfQuery {
             COD_10 = rs.getString(COD_10);
             tabcmset = new TabSFCodMorSet(COD_4, COD_5, COD_6, COD_7, COD_8, COD_9, COD_10);
              */
-            codes = rs.getString("codes");
+            codes = rs.getString(1);
             tabcmset = new TabSFCodMorSet(codes);
             tabcmset.setGender(gender);
             tabcmset.setIsPT(isPt);
@@ -485,7 +485,7 @@ public class TabSfQuery extends ATabSfQuery {
                     logmess = String.format("DEEPFLOW ****CHECKED in %s cod_noseg -%s- NOT EMPTY", routine, cod_noseg);
                     log.debug(logmess);
                 }
-                sel = "SELECT CONCAT(%s,%s,%s,%s,%s,%s,%s)"
+                sel = "SELECT CONCAT(%s,%s,%s,%s,%s,%s,%s) as codes "
                         + " FROM %s LEFT JOIN %s ON "
                         + "( (%s='%s')  "
                         + "AND (%s=%s) "
@@ -494,8 +494,8 @@ public class TabSfQuery extends ATabSfQuery {
                         + "AND (%s=%s) "
                         + "AND (%s=%s) "
                         + "AND (%s=%s) "
-                        + "AND (%s=%s) ) as codes"
-                        + "WHERE ( %s IS NULL ) AND (%s='%s') AND (%s='%s')";
+                        + "AND (%s=%s) ) "
+                        + " WHERE ( %s IS NULL ) AND (%s='%s') AND (%s='%s')";
                 selectRec = String.format(sel, C04F, C05F, C06F, C07F, C08F, C09F, C10F,
                         TAB_SF_NAME, TAB_CODLE_NAME,
                         CODle, cod_noseg,

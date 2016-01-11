@@ -233,7 +233,7 @@ public class Sillib {
             rad_sai = "";
 
         } else {
-            rad_sai = sil.getRadical().substring(0, index);
+            rad_sai = sil.getRadical().substring(index);
         }
         sil.setRad_sai(rad_sai);
 

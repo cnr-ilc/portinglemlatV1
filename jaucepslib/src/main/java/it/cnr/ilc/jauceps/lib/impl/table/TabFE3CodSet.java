@@ -21,9 +21,13 @@ public class TabFE3CodSet {
     Vars vars = new Vars();
     private String EOS = vars.getEOS();
 
-    String C01 = EOS;
-    String C02 = EOS;
-    String C03 = EOS;
+//    String C01 = EOS;
+//    String C02 = EOS;
+//    String C03 = EOS;
+    
+    String C01 = "";
+    String C02 = "";
+    String C03 = "";
 
     String codes = "";
 

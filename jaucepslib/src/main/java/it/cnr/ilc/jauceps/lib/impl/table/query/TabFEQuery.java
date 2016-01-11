@@ -129,7 +129,7 @@ public class TabFEQuery extends ATabFEQuery{
         selectRec = String.format(sel, C01, C02, C03,
                 C01, C02, C03,
                 TAB_FE_NAME, LES_ID, les_id);
-
+        //System.err.println("ESTICAXXI "+C03);
         if (sqlDebug) {
             logmess = String.format("SQL Executing %s in TabFEQuery.java with query: %s", routine, selectRec);
             log.debug(logmess);
@@ -142,7 +142,7 @@ public class TabFEQuery extends ATabFEQuery{
             tabscodset = loopOverRSCodSet(resultSet);
 
         } catch (Exception e) {
-            logmess = String.format("FATAL SQL Error in %s. Message from DB: %s. Qyery: %s", routine, e.getMessage(), selectRec);
+            logmess = String.format("FATAL SQL Error in %s. Message from DB: %s. Query: %s", routine, e.getMessage(), selectRec);
             log.fatal(logmess);
             System.exit(-1);
         }
@@ -239,16 +239,16 @@ public class TabFEQuery extends ATabFEQuery{
     private List<TabFE3CodSet> loopOverRSCodSet(ResultSet rs) throws SQLException {
         List<TabFE3CodSet> tabs = new ArrayList<>();
         String codes = "";
-        String C01 = "";
-        String C02 = "";
-        String C03 = "";
+        String C1 = "";
+        String C2 = "";
+        String C3 = "";
         while (rs.next()) {
             codes = rs.getString(1);
-            C01 = rs.getString(2);
-            C02 = rs.getString(3);
-            C03 = rs.getString(4);
+            C1 = rs.getString(2);
+            C2 = rs.getString(3);
+            C3 = rs.getString(4);
 
-            tabs.add(new TabFE3CodSet(C01, C02, C03, codes));
+            tabs.add(new TabFE3CodSet(C1, C2, C3, codes));
         }
         return tabs;
     }
@@ -256,19 +256,23 @@ public class TabFEQuery extends ATabFEQuery{
     private List<TabFECodMorSet> loopOverRSCodMorSet(ResultSet rs, String lesId) throws SQLException {
         List<TabFECodMorSet> tabs = new ArrayList<>();
         String codes = "";
-        String C04 = "";
-        String C05 = "";
-        String C06 = "";
-        String C07 = "";
-        String C08 = "";
-        String C09 = "";
+        String C4 = "";
+        String C5 = "";
+        String C6 = "";
+        String C7 = "";
+        String C8 = "";
+        String C9 = "";
         String C10 = "";
         while (rs.next()) {
-            codes = rs.getString("codes");
-            C01 = rs.getString(1);
-            C02 = rs.getString(1);
-            C03 = rs.getString(3);
-            TabFECodMorSet tab = new TabFECodMorSet(C04, C05, C06, C07, C08, C09, C10, codes);
+            codes = rs.getString(8);
+            C4 = rs.getString(1);
+            C5 = rs.getString(2);
+            C6 = rs.getString(3);
+            C7 = rs.getString(4);
+            C8 = rs.getString(5);
+            C9 = rs.getString(6);
+            C10 = rs.getString(7);
+            TabFECodMorSet tab = new TabFECodMorSet(C4, C5, C6, C7, C8, C9, C10, codes);
             tab.setLesId(lesId);
             tabs.add(tab);
 

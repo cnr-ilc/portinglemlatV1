@@ -73,7 +73,7 @@ public class Comparator {
             log.debug(logmess);
         }
 
-        System.err.println("MARCO+RICCARDO a_gra -" + a_gra + "- sai_cod -" + SAI_cod + "-");
+        //System.err.println("MARCO+RICCARDO a_gra -" + a_gra + "- sai_cod -" + SAI_cod + "-");
 
         /*
          if (!strcmp(areavs.a_gra, getSAI_cod())) {
@@ -557,7 +557,7 @@ public class Comparator {
             logmess = String.format("DEEPFLOW STOP Executing %s in Sillib.java with parameters areavs_smv -%s-", routine, areavs_smv);
             log.debug(logmess);
         }
-        //System.err.println("CCCCC "+sil);
+        ////System.err.println("CCCCC "+sil);
         return response;
 
     } // end compsm2
@@ -716,7 +716,7 @@ public class Comparator {
         String lesId = "";
         Sillib sillib = new Sillib();
         SilType sil = response.getSil();
-//         System.err.println("BBBBB "+sil);
+//         //System.err.println("BBBBB "+sil);
 
         //tables
         TabLessario areal = travellingtables.getCopiedLessario();
@@ -1165,8 +1165,8 @@ public class Comparator {
             log.debug(logmess);
         }
 
-        System.err.println("GIULIA 5 in COMPSF  AS " + response.getAnalyses().toString() + "-" + response.getAnalyses().getNumAnalysis() + "-");
-        System.err.println("GIULIA 5 in COMPSF CA " + response.getCur_analysis().toString());
+        //System.err.println("GIULIA 5 in COMPSF  AS " + response.getAnalyses().toString() + "-" + response.getAnalyses().getNumAnalysis() + "-");
+        //System.err.println("GIULIA 5 in COMPSF CA " + response.getCur_analysis().toString());
         return response;
     }// end compsf
 

@@ -129,8 +129,8 @@ public class RunAnalyses {
         }
         silSegs = sil.getSegment();
         anaSegs = cur_analysis.getSegments();
-        System.err.println("MARONNA X0NA " + response.toString());
-        System.err.println("MARONNA X0NA  CURRENT LEMMA "+ response.getSil().getLemma() + " CURRENT SIL "+sil);
+        //System.err.println("MARONNA X0NA " + response.toString());
+        //System.err.println("MARONNA X0NA  CURRENT LEMMA "+ response.getSil().getLemma() + " CURRENT SIL "+sil);
         /*
          this is used for checking both logs
          we can use curAnalysis.setSegments(sil.getSegment());
@@ -193,8 +193,8 @@ public class RunAnalyses {
             logmess = String.format("DEEPFLOW STOP Executing %s in %s. #Analysis -%d-", routine, CLASS_NAME, numA);
             log.debug(logmess);
         }
-        System.err.println("MARONNA X0NAAIL " + response.toString());
-        System.err.println("MARONNA X0NAAIL  CURRENT LEMMA "+ response.getSil().getLemma() + " CURRENT SIL "+sil);
+        //System.err.println("MARONNA X0NAAIL " + response.toString());
+        //System.err.println("MARONNA X0NAAIL  CURRENT LEMMA "+ response.getSil().getLemma() + " CURRENT SIL "+sil);
         return response;
     }
 
@@ -354,8 +354,8 @@ public class RunAnalyses {
                 }
                 response = comp(response, travellingtables, travellingqueries, rad);
 
-                System.err.println("GIULIA 7 in ANALYSIS INLOOP AS " + response.getAnalyses().toString() + "-" + response.getAnalyses().getNumAnalysis() + "-");
-                System.err.println("GIULIA 7 in ANALYSIS INLOOP CA " + response.getCur_analysis().toString());
+                //System.err.println("GIULIA 7 in ANALYSIS INLOOP AS " + response.getAnalyses().toString() + "-" + response.getAnalyses().getNumAnalysis() + "-");
+                //System.err.println("GIULIA 7 in ANALYSIS INLOOP CA " + response.getCur_analysis().toString());
                 les++;
             }// rof getLES
             travellingtables.setIsanyLes(false);
@@ -421,8 +421,8 @@ public class RunAnalyses {
                     log.debug(logmess);
                 }
                 response = comp(response, travellingtables, travellingqueries, rad);
-                System.err.println("GIULIA 7 in ANALYSIS OUTLOOP AS " + response.getAnalyses().toString() + "-" + response.getAnalyses().getNumAnalysis() + "-");
-                System.err.println("GIULIA 7 in ANALYSIS OUTLOOP CA " + response.getCur_analysis().toString());
+                //System.err.println("GIULIA 7 in ANALYSIS OUTLOOP AS " + response.getAnalyses().toString() + "-" + response.getAnalyses().getNumAnalysis() + "-");
+                //System.err.println("GIULIA 7 in ANALYSIS OUTLOOP CA " + response.getCur_analysis().toString());
                 les++;
             }// rof getLES 
             travellingtables.setIsanyLes(false);
@@ -437,8 +437,8 @@ public class RunAnalyses {
             //setSil(lsil);
         }
         
-        System.err.println("GIULIA 8 in ANALYSIS AS " + response.getAnalyses().toString() + "-" + response.getAnalyses().getNumAnalysis() + "-");
-        System.err.println("GIULIA 8 in ANALYSIS CA " + response.getCur_analysis().toString());
+        //System.err.println("GIULIA 8 in ANALYSIS AS " + response.getAnalyses().toString() + "-" + response.getAnalyses().getNumAnalysis() + "-");
+        //System.err.println("GIULIA 8 in ANALYSIS CA " + response.getCur_analysis().toString());
         return response;
     }
 
@@ -472,7 +472,7 @@ public class RunAnalyses {
         TabSM tabsm_2 = travellingtables.getSecondTabSm();
 
         a_gra = tabLessario.getA_gra();
-        System.err.println("AAAAAA " + tabLessario.getCodles());
+        //System.err.println("AAAAAA " + tabLessario.getCodles());
         SAI_cod = tabSai.getSAI_cod();
 
         /* SAIset is 0 or 1 record
@@ -483,7 +483,7 @@ public class RunAnalyses {
          */
         //if (!sil.getInd_alt().equals("")) {
         //if (sil.getInd_alt().equals(EOS) || sil.getInd_alt().length()>=0) { /*ind_alt !='\0' check initialized */ 
-        //  System.err.println("AAAAA "+sil);
+        //  //System.err.println("AAAAA "+sil);
         if (!sil.getInd_alt().equals("")) { //ind_alt <> ''
             if (deepFlowDebug) {
                 logmess = String.format("DEEPFLOW ****CHECKED sil.ind_alt -%s- in %s: WAS NOT NULL", sil.getInd_alt(), routine);
@@ -540,7 +540,7 @@ public class RunAnalyses {
             log.debug(logmess);
         }
 
-        //System.err.println("SPF: "+tabspf_2.getSPF());
+        ////System.err.println("SPF: "+tabspf_2.getSPF());
         if (travellingtables.isIsanySI() && !tabSi.getSI().equals("")) {// getSI<>''
             if (deepFlowDebug) {
                 logmess = String.format("DEEPFLOW ****CHECKED tabSi.getSI() -%s- in %s: WAS NOT ''", tabSi.getSI(), routine);
@@ -706,7 +706,7 @@ public class RunAnalyses {
             travellingtables = comparator.getTravellingtables();
             setTravellingtables(travellingtables);
             sil = comparator.getSil();
-//             System.err.println("DDDDD "+sil);
+//             //System.err.println("DDDDD "+sil);
             response.setSil(sil);
         } else { // else  getSPF_2
             if (deepFlowDebug) {
@@ -774,8 +774,8 @@ public class RunAnalyses {
         setTravellingtables(travellingtables);
         response.setExitInComp(true);
 
-        System.err.println("GIULIA 6 in COMP  AS " + response.getAnalyses().toString() + "-" + response.getAnalyses().getNumAnalysis() + "-");
-        System.err.println("GIULIA 6 in COMP  CA " + response.getCur_analysis().toString() + "-" + response.getAnalyses().getNumAnalysis() + "-");
+        //System.err.println("GIULIA 6 in COMP  AS " + response.getAnalyses().toString() + "-" + response.getAnalyses().getNumAnalysis() + "-");
+        //System.err.println("GIULIA 6 in COMP  CA " + response.getCur_analysis().toString() + "-" + response.getAnalyses().getNumAnalysis() + "-");
         return response;
     } // end comp
 

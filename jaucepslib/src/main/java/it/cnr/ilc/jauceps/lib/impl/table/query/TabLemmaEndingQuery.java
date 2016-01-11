@@ -70,25 +70,25 @@ public class TabLemmaEndingQuery extends ATabLemmaEndingQuery{
             log.debug(logmess);
         }
         
-//        sel = "SELECT CONCAT(INSERT('%s',LENGTH('%s')-LENGTH(%s)+1,"
-//                + "LENGTH(%s),%s), %s) as %s FROM %s WHERE %s='%s' "
-//                + "AND %s=RIGHT('%s',LENGTH(%s)) "
-//                + "ORDER BY LENGTH(%s) DESC LIMIT 1";
-//       
-//        selectRec = String.format(sel,
-//                in_str, in_str, IN_ENDING,
-//                IN_ENDING, OUT_ENDING, OUT_ENDING,CUR_LEMMA, TAB_LEMEMDING_NAME, CODLES,
-//                cod, IN_ENDING, in_str, IN_ENDING, IN_ENDING);
-
-        sel = "SELECT INSERT('%s',LENGTH('%s')-LENGTH(%s)+1,"
-                + "LENGTH(%s),%s) as %s FROM %s WHERE %s='%s' "
+        sel = "SELECT CONCAT(INSERT('%s',LENGTH('%s')-LENGTH(%s)+1,"
+                + "LENGTH(%s),%s), %s) as %s FROM %s WHERE %s='%s' "
                 + "AND %s=RIGHT('%s',LENGTH(%s)) "
                 + "ORDER BY LENGTH(%s) DESC LIMIT 1";
        
         selectRec = String.format(sel,
                 in_str, in_str, IN_ENDING,
-                IN_ENDING, OUT_ENDING, CUR_LEMMA, TAB_LEMEMDING_NAME, CODLES,
+                IN_ENDING, OUT_ENDING, OUT_ENDING,CUR_LEMMA, TAB_LEMEMDING_NAME, CODLES,
                 cod, IN_ENDING, in_str, IN_ENDING, IN_ENDING);
+
+//        sel = "SELECT INSERT('%s',LENGTH('%s')-LENGTH(%s)+1,"
+//                + "LENGTH(%s),%s) as %s FROM %s WHERE %s='%s' "
+//                + "AND %s=RIGHT('%s',LENGTH(%s)) "
+//                + "ORDER BY LENGTH(%s) DESC LIMIT 1";
+//       
+//        selectRec = String.format(sel,
+//                in_str, in_str, IN_ENDING,
+//                IN_ENDING, OUT_ENDING, CUR_LEMMA, TAB_LEMEMDING_NAME, CODLES,
+//                cod, IN_ENDING, in_str, IN_ENDING, IN_ENDING);
 
 //"SELECT INSERT(\'%s\',LENGTH(\'%s\')-LENGTH(%s)+1,LENGTH(%s),%s) \
         //FROM %s WHERE %s=\'%s\' AND %s=RIGHT(\'%s\',LENGTH(%s)) \

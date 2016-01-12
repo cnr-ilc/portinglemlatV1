@@ -1,6 +1,7 @@
 package it.cnr.ilc.jauceps.lib.travellingobjects;
 
 import it.cnr.ilc.jauceps.lib.impl.table.query.TabCodLeQuery;
+import it.cnr.ilc.jauceps.lib.impl.table.query.TabCodMorfQuery;
 import it.cnr.ilc.jauceps.lib.impl.table.query.TabEaglesQuery;
 import it.cnr.ilc.jauceps.lib.impl.table.query.TabFEQuery;
 import it.cnr.ilc.jauceps.lib.impl.table.query.TabLeQuery;
@@ -48,6 +49,7 @@ public class TravellingQueries {
     private TabEaglesQuery tab3eq = new TabEaglesQuery(conn);
     private TabCodLeQuery tabcodleq = new TabCodLeQuery(conn);
     private TabLemmaEndingQuery tablemmaendq = new TabLemmaEndingQuery(conn);
+    private TabCodMorfQuery tabcodmorfq = new TabCodMorfQuery(conn);
 
     /**
      * @return the conn
@@ -261,5 +263,19 @@ public class TravellingQueries {
      */
     public void setTqId(String tqId) {
         this.tqId = tqId;
+    }
+
+    /**
+     * @return the tabcodmorfq
+     */
+    public TabCodMorfQuery getTabcodmorfq() {
+        return tabcodmorfq;
+    }
+
+    /**
+     * @param tabcodmorfq the tabcodmorfq to set
+     */
+    public void setTabcodmorfq(TabCodMorfQuery tabcodmorfq) {
+        this.tabcodmorfq = tabcodmorfq;
     }
 }

@@ -180,11 +180,16 @@ public class Sillib {
         String routine = Sillib.class.getName() + "/siric";
         String logmess = "";
         int length;
-        String rad_si = "", rad_spf = "";
+        String rad_si = tab.getSI(), rad_spf = "";
+        
+        
 
         rad_spf = sil.getRad_spf();
-        length = rad_spf.length();
-        rad_si = rad_spf.substring(0, length);
+        length = rad_si.length();
+        //System.err.println("PRIMA rad_spf-"+rad_spf+"- length -"+length+ "- rad_si -"+rad_si+"-");
+        rad_si = rad_spf.substring(length);
+        //System.err.println("DOPO rad_spf-"+rad_spf+"- length -"+length+ "- rad_si -"+rad_si+"-");
+        
         if (flowDebug || deepFlowDebug) {
             logmess = String.format("DEEPFLOW START Executing %s in Sillib.java", routine);
             log.debug(logmess);

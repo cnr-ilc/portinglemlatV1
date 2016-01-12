@@ -66,7 +66,7 @@ public class TabLemmaEndingQuery extends ATabLemmaEndingQuery{
         setLemma(in_str);
 
         if (flowDebug || deepFlowDebug) {
-            logmess = String.format("DEEPFLOW START Executing %s in TabEaglesQuery.java. Parameters in_str -%s- cod -%s-", routine, in_str,cod);
+            logmess = String.format("DEEPFLOW START Executing %s in TabLemmaEndingQuery.java. Parameters in_str -%s- cod -%s-", routine, in_str,cod);
             log.debug(logmess);
         }
         

@@ -89,7 +89,7 @@ public class InputFunctions {
     static Logger log = Logger.getLogger(CLASS_NAME);
 
     public AucepsResponse silcall(Connection conn, SilType sil, String wordform) {
-        String routine = InputFunctions.class.getName() + "/silcall";
+        String routine = CLASS_NAME + "/silcall";
         String logmess = "";
         String origWf = wordform;
 
@@ -103,7 +103,7 @@ public class InputFunctions {
          3- Change wordfom j->i 
          4- Assign changed wordform to sil.form
          */
-        /*1*/
+ /*1*/
         if (deepFlowDebug) {
             logmess = String.format("DEEPFLOW ****CHANGING wordform -%s- to lowercase", wordform);
             log.debug(logmess);
@@ -605,8 +605,10 @@ public class InputFunctions {
                             log.debug(logmess);
                         }
                         for (int i = 0; i < segment.length; i++) {
-                            logmess = String.format("****VALUES IN LOOP getSI Segment at index -%d- with value -%s-", i, segment[i]);
-                            log.debug(logmess);
+                            if (valueDebug) {
+                                logmess = String.format("****VALUES IN LOOP getSI Segment at index -%d- with value -%s-", i, segment[i]);
+                                log.debug(logmess);
+                            }
                         }
 
                         if (callerDebug && deepFlowDebug) {
@@ -1287,8 +1289,8 @@ public class InputFunctions {
         }
         //if (!sil.getInd_alt().equals("")) {
         //if (sil.getInd_alt().equals(EOS) || sil.getInd_alt().length()>=0) { /*ind_alt !='\0' check initialized */ 
-        if(!sil.getInd_alt().equals("")){
-        //if (sil.getInd_alt() != null) {
+        if (!sil.getInd_alt().equals("")) {
+            //if (sil.getInd_alt() != null) {
             if (deepFlowDebug) {
                 logmess = String.format("DEEPFLOW ****CHECKED sil.ind_alt -%s- in %s: WAS NOT NULL", sil.getInd_alt(), routine);
                 log.debug(logmess);
@@ -1340,12 +1342,10 @@ public class InputFunctions {
             setTravellingtables(travellingtables);
             tabLessario = travellingtables.getTabLessario();
 
-        } else {// else sil.ind_alt
-            if (deepFlowDebug) {
-                logmess = String.format("DEEPFLOW ****CHECKED sil.ind_alt -%s- in %s: WAS NULL", sil.getInd_alt(), routine);
-                log.debug(logmess);
-            }
-
+        } else// else sil.ind_alt
+        if (deepFlowDebug) {
+            logmess = String.format("DEEPFLOW ****CHECKED sil.ind_alt -%s- in %s: WAS NULL", sil.getInd_alt(), routine);
+            log.debug(logmess);
         } // end /*ind_alt !='\0'*/
         // getSI
         if (deepFlowDebug) {
@@ -1404,11 +1404,10 @@ public class InputFunctions {
             travellingtables = comparator.getTravellingtables();
             setTravellingtables(travellingtables);
             tabLessario = travellingtables.getTabLessario();
-        } else { // else  getSI
-            if (deepFlowDebug) {
-                logmess = String.format("DEEPFLOW ****CHECKED tabSi.getSI() -%s- in %s: WAS ''", tabSi.getSI(), routine);
-                log.debug(logmess);
-            }
+        } else // else  getSI
+        if (deepFlowDebug) {
+            logmess = String.format("DEEPFLOW ****CHECKED tabSi.getSI() -%s- in %s: WAS ''", tabSi.getSI(), routine);
+            log.debug(logmess);
         } // end getSI
         ////System.err.println("SPF: "+tabspf_2.getSPF());
 
@@ -1477,11 +1476,10 @@ public class InputFunctions {
             setTravellingtables(travellingtables);
             sil = comparator.getSil();
             response.setSil(sil);
-        } else { // else  getSPF_1
-            if (deepFlowDebug) {
-                logmess = String.format("DEEPFLOW ****CHECKED tabspf_1.getSPF() -%s- in %s: WAS ''", tabspf_1.getSPF(), routine);
-                log.debug(logmess);
-            }
+        } else // else  getSPF_1
+        if (deepFlowDebug) {
+            logmess = String.format("DEEPFLOW ****CHECKED tabspf_1.getSPF() -%s- in %s: WAS ''", tabspf_1.getSPF(), routine);
+            log.debug(logmess);
         } // end getSPF_1
 
         if (deepFlowDebug) {
@@ -1545,11 +1543,10 @@ public class InputFunctions {
             setTravellingtables(travellingtables);
             sil = comparator.getSil();
             response.setSil(sil);
-        } else { // else  getSPF_2
-            if (deepFlowDebug) {
-                logmess = String.format("DEEPFLOW ****CHECKED isanyspf2 -%s- in %s: WAS FALSE", travellingtables.isIsanySPF2(), routine);
-                log.debug(logmess);
-            }
+        } else // else  getSPF_2
+        if (deepFlowDebug) {
+            logmess = String.format("DEEPFLOW ****CHECKED isanyspf2 -%s- in %s: WAS FALSE", travellingtables.isIsanySPF2(), routine);
+            log.debug(logmess);
         } // end getSPF_2
 
         if (callerDebug) {

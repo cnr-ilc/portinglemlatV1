@@ -5,6 +5,8 @@
  */
 package it.cnr.ilc.jauceps.app.api;
 
+import com.sun.org.apache.xalan.internal.xsltc.compiler.Template;
+import it.cnr.ilc.jauceps.app.utils.JsonResponse;
 import it.cnr.ilc.jauceps.lib.impl.Vars;
 import it.cnr.ilc.jauceps.lib.impl.table.TabCodMorfDescr;
 import it.cnr.ilc.jauceps.lib.impl.table.query.TabCodMorfQuery;
@@ -62,14 +64,22 @@ public class PrintAnalyses {
     public void printAnalyses(OutFormat f, PrintStream po, PrintStream pu) {
         switch (f) {
             case COMPLETE:
-                printComplete(response, po);
+                printComplete(response, po, pu);
                 break;
             case OLD_LL:
                 conOutLemmas(response, po, pu);
+                break;
+            case COMPACT:
+                printCompact(response, po, pu);
+                break;
+            case JSON:
+                printJson(response, po, pu);
+                break;
+
         }
     }
 
-    private void printComplete(AucepsResponse response, PrintStream ps) {
+    private void printComplete(AucepsResponse response, PrintStream ps, PrintStream pu) {
         Analyses analyses = response.getAnalyses();
         List<Analysis> lofanalyses = analyses.getListOfAnalysis();
         int numL = 0;
@@ -311,8 +321,9 @@ public class PrintAnalyses {
 
         } //rof analyses
         footer = String.format("\n%s\n", "This is the end my friend");
-
-        //po.println(footer);
+        if (!"end".equals(in_form) || response != null) {
+            po.println(footer);
+        }
 
         po.flush();
 
@@ -333,4 +344,74 @@ public class PrintAnalyses {
             log.debug(logmess);
         }
     }
+
+    private void printCompact(AucepsResponse response, PrintStream po, PrintStream pu) {
+        String routine = CLASS_NAME + "/printCompact";
+        String logmess = "";
+        Analyses analyses = response.getAnalyses();
+        Analysis curAnalysis;
+        Lemmas lemmas;
+        //Lemma lemma;
+        String header = "";
+        String anaHeader = "", codmorfHeader = "";
+        String footer = "";
+
+        String outStr = "";
+        String in_form, alt_form;
+        int numAnalyses = 0;
+        String[] segments;// = new String[7];
+        String lemma_sep = "\t";
+        String lemma_pos_sep = "/";
+
+        in_form = analyses.getIn_form();
+        alt_form = analyses.getAlt_in_form();
+        String enc = "", part = "";
+        int hasPart = 0;
+        int numeroLemmi = 0, numeroLemmi_agg = 0;
+        String[] codmofs = new String[20];
+        numAnalyses = (int) analyses.getListOfAnalysis().size();
+        String eagles = "";
+        if (flowDebug || deepFlowDebug) {
+            logmess = String.format("DEEPFLOW START Executing %s in %s ", routine, CLASS_NAME);
+            log.debug(logmess);
+        }
+
+        String temp = "";
+        outStr = String.format("%s%s%s", in_form, lemma_sep, alt_form);
+        for (int a = 0; a < numAnalyses; a++) {
+            
+            segments = null;
+            curAnalysis = analyses.getListOfAnalysis().get(a);
+            lemmas = curAnalysis.getLemmas();
+
+            for (Lemma lemma : lemmas.getLemmas()) {
+                if (a == 0) {
+                    temp = String.format("%s%s%s", lemma.getOut_lemma(), lemma_pos_sep, lemma.getCod_morf_1_3()[0]);
+                } else {
+                    temp = String.format("%s%s%s%s%s", temp, lemma_sep,lemma.getOut_lemma(), lemma_pos_sep, lemma.getCod_morf_1_3()[0]);
+                }
+                //System.err.println("CCC 1 "+ temp+ " for "+a);
+
+            }
+        }
+        if (numAnalyses==0)
+            temp="not-found/-";
+        outStr = String.format("%s%s%s", outStr, lemma_sep, temp);
+        po.println(outStr);
+        po.flush();
+        if (flowDebug || deepFlowDebug) {
+            logmess = String.format("DEEPFLOW STOP Executing %s in %s ", routine, CLASS_NAME);
+            log.debug(logmess);
+        }
+
+    }
+    
+    private void printJson(AucepsResponse response, PrintStream po, PrintStream pu) {
+        JsonResponse jsonr=new JsonResponse(response);
+        String ret=jsonr.dump();
+        po.println(ret);
+        po.flush();
+    }
+    
+    
 }

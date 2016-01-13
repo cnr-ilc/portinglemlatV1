@@ -184,7 +184,7 @@ public class JAucepsApp {
 
                         try {
                             PrintAnalyses printanalyses = new PrintAnalyses(response,travellingqueries, travellingtables);
-                            printanalyses.printAnalyses(OutFormat.OLD_LL, System.out, System.out);
+                            printanalyses.printAnalyses(OutFormat.JSON, System.out, System.out);
                             sil=new SilType();
                         
                         } catch (Exception e) {
@@ -208,8 +208,8 @@ public class JAucepsApp {
                     logmess = String.format("CALLING -printAnalyses- in PrintAnalyses.java. CALLER: %s", routine);
                     log.debug(logmess);
                 }
-                PrintAnalyses printanalyses = new PrintAnalyses(response,travellingqueries, travellingtables);
-                printanalyses.printAnalyses(OutFormat.OLD_LL, System.out, System.out);
+//                PrintAnalyses printanalyses = new PrintAnalyses(response,travellingqueries, travellingtables);
+//                printanalyses.printAnalyses(OutFormat.OLD_LL, System.out, System.out);
             } catch (Exception e) {
                 System.err.println("EXIT WITH RESPONSE " + e.getMessage());
             }

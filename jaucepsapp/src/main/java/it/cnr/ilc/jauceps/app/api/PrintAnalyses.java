@@ -5,7 +5,8 @@
  */
 package it.cnr.ilc.jauceps.app.api;
 
-import com.sun.org.apache.xalan.internal.xsltc.compiler.Template;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import it.cnr.ilc.jauceps.app.utils.JsonResponse;
 import it.cnr.ilc.jauceps.lib.impl.Vars;
 import it.cnr.ilc.jauceps.lib.impl.table.TabCodMorfDescr;
@@ -74,6 +75,7 @@ public class PrintAnalyses {
                 break;
             case JSON:
                 printJson(response, po, pu);
+
                 break;
 
         }
@@ -379,7 +381,7 @@ public class PrintAnalyses {
         String temp = "";
         outStr = String.format("%s%s%s", in_form, lemma_sep, alt_form);
         for (int a = 0; a < numAnalyses; a++) {
-            
+
             segments = null;
             curAnalysis = analyses.getListOfAnalysis().get(a);
             lemmas = curAnalysis.getLemmas();
@@ -388,14 +390,15 @@ public class PrintAnalyses {
                 if (a == 0) {
                     temp = String.format("%s%s%s", lemma.getOut_lemma(), lemma_pos_sep, lemma.getCod_morf_1_3()[0]);
                 } else {
-                    temp = String.format("%s%s%s%s%s", temp, lemma_sep,lemma.getOut_lemma(), lemma_pos_sep, lemma.getCod_morf_1_3()[0]);
+                    temp = String.format("%s%s%s%s%s", temp, lemma_sep, lemma.getOut_lemma(), lemma_pos_sep, lemma.getCod_morf_1_3()[0]);
                 }
                 //System.err.println("CCC 1 "+ temp+ " for "+a);
 
             }
         }
-        if (numAnalyses==0)
-            temp="not-found/-";
+        if (numAnalyses == 0) {
+            temp = "not-found/-";
+        }
         outStr = String.format("%s%s%s", outStr, lemma_sep, temp);
         po.println(outStr);
         po.flush();
@@ -405,13 +408,28 @@ public class PrintAnalyses {
         }
 
     }
-    
+
     private void printJson(AucepsResponse response, PrintStream po, PrintStream pu) {
-        JsonResponse jsonr=new JsonResponse(response);
-        String ret=jsonr.dump();
-        po.println(ret);
+        JsonResponse jsonr = new JsonResponse(response);
+        jsonr.setTravellingqueries(travellingqueries);
+        jsonr.setTravellingtables(travellingtables);
+        String ret = jsonr.dump();
+        String indented="";
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.enable(SerializationFeature.INDENT_OUTPUT);
+        try {
+            Object json = mapper.readValue(ret, Object.class);
+            indented = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
+
+           
+
+            System.out.println(indented);//This print statement show correct way I need
+        } catch (Exception e) {
+        }
+
+        
+        po.println(indented);
         po.flush();
     }
-    
-    
+
 }

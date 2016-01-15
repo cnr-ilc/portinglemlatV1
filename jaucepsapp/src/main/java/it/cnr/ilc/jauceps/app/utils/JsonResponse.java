@@ -9,6 +9,8 @@ import it.cnr.ilc.jauceps.lib.outputobjects.AucepsResponse;
 import it.cnr.ilc.jauceps.lib.structs.Analyses;
 import it.cnr.ilc.jauceps.lib.structs.Analysis;
 import it.cnr.ilc.jauceps.lib.structs.Lemma;
+import it.cnr.ilc.jauceps.lib.travellingobjects.TravellingQueries;
+import it.cnr.ilc.jauceps.lib.travellingobjects.TravellingTables;
 import java.math.BigDecimal;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -23,12 +25,17 @@ public class JsonResponse {
 
     AucepsResponse response;
 
+    private TravellingTables travellingtables;
+    private TravellingQueries travellingqueries;
+
     public JsonResponse(AucepsResponse response) {
         this.response = response;
     }
 
     public String dump() {
         ResponseManager manager = new ResponseManager();
+        manager.setTravellingqueries(getTravellingqueries());
+        manager.setTravellingtables(getTravellingtables());
         String ret = "";
         JsonObjectBuilder responseBuilder = Json.createObjectBuilder();
 
@@ -38,8 +45,8 @@ public class JsonResponse {
         JsonArrayBuilder lemmasArrayBuilder;// = Json.createArrayBuilder();
         JsonObjectBuilder lemmaObjBuilder;//=Json.createObjectBuilder();
 
-        JsonObjectBuilder lemmaMorfCode;
-        JsonArrayBuilder formMorfCodesBuilder;// = Json.createArrayBuilder();
+        JsonObjectBuilder formMorfCode;
+        JsonArrayBuilder formArrayMorfCodesBuilder;// = Json.createArrayBuilder();
 
         JsonArrayBuilder lemmaMorfCodesArrayBuilder;
         JsonObjectBuilder lemmaObjMorfCodesBuilder;// = Json.createArrayBuilder();
@@ -73,6 +80,7 @@ public class JsonResponse {
         int id = 1;
         for (Analysis analysis : analyses.getListOfAnalysis()) {
             lemmasArrayBuilder = Json.createArrayBuilder();
+            formArrayMorfCodesBuilder = Json.createArrayBuilder();
 
             analysisObjBuilder = Json.createObjectBuilder();
             segs = manager.segmentizer(analysis.getSegments(), analysis.getPart());
@@ -86,22 +94,50 @@ public class JsonResponse {
             }
             analysisObjBuilder.add(labelNumL, analysis.getLemmas().getNumL());
             analysisObjBuilder.add(labelSegments, segs[2]);
+
+            // form morphocodes
+            for (short i = 0; i < analysis.getN_cod_morf(); i++) {
+                String code = analysis.getCod_morf_4_10()[i];
+                String[] codes;
+                formMorfCode = Json.createObjectBuilder();
+                formMorfCode.add(labelId, i + 1);
+                formMorfCode.add(labelValues, code);
+                codes = manager.getCodMorfDescription(code.split(""),4);
+                for (String val : codes) {
+                    try {
+                        formMorfCode.add(val.split(":")[0], val.split(":")[1]);
+                    } catch (Exception e) {
+                    }
+                }
+                formArrayMorfCodesBuilder.add(formMorfCode);
+
+            }
+            analysisObjBuilder.add(labelMorfCodes, formArrayMorfCodesBuilder);
             // lemmas
             int l = 1;
             for (Lemma lemma : analysis.getLemmas().getLemmas()) {
+                String[] codes;
                 lemmaObjBuilder = Json.createObjectBuilder();
                 lemmaObjBuilder.add(labelId, l);
                 lemmaObjBuilder.add(labelLemma, lemma.getOut_lemma());
-                
-                // morfocodes
-                lemmaObjMorfCodesBuilder=Json.createObjectBuilder();
-                lemmaMorfCodesArrayBuilder=Json.createArrayBuilder();
-                
+
+                // lemma morfocodes
+                lemmaObjMorfCodesBuilder = Json.createObjectBuilder();
+                lemmaMorfCodesArrayBuilder = Json.createArrayBuilder();
+
                 lemmaObjMorfCodesBuilder.add(labelValues, manager.getlemmaMorfCodes(lemma.getCod_morf_1_3()));
-                
+
+                codes = manager.getCodMorfDescription(lemma.getCod_morf_1_3(),1);
+                for (String val : codes) {
+                    try {
+                        lemmaObjMorfCodesBuilder.add(val.split(":")[0], val.split(":")[1]);
+                    } catch (Exception e) {
+                    }
+                }
+
                 lemmaMorfCodesArrayBuilder.add(lemmaObjMorfCodesBuilder);
                 lemmaObjBuilder.add(labelMorfCodes, lemmaMorfCodesArrayBuilder);
-                
+
                 lemmasArrayBuilder.add(lemmaObjBuilder);
                 l++;
             }
@@ -114,6 +150,34 @@ public class JsonResponse {
         responseBuilder.add(labelAnalysis, analysesArrayBuilder);
         JsonObject obj = responseBuilder.build();
         return obj.toString();
+    }
+
+    /**
+     * @return the travellingtables
+     */
+    public TravellingTables getTravellingtables() {
+        return travellingtables;
+    }
+
+    /**
+     * @param travellingtables the travellingtables to set
+     */
+    public void setTravellingtables(TravellingTables travellingtables) {
+        this.travellingtables = travellingtables;
+    }
+
+    /**
+     * @return the travellingqueries
+     */
+    public TravellingQueries getTravellingqueries() {
+        return travellingqueries;
+    }
+
+    /**
+     * @param travellingqueries the travellingqueries to set
+     */
+    public void setTravellingqueries(TravellingQueries travellingqueries) {
+        this.travellingqueries = travellingqueries;
     }
 
 }

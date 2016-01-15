@@ -5,11 +5,21 @@
  */
 package it.cnr.ilc.jauceps.app.utils;
 
+import it.cnr.ilc.jauceps.lib.impl.table.TabCodMorfDescr;
+import it.cnr.ilc.jauceps.lib.impl.table.query.TabCodMorfQuery;
+import it.cnr.ilc.jauceps.lib.travellingobjects.TravellingQueries;
+import it.cnr.ilc.jauceps.lib.travellingobjects.TravellingTables;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  *
  * @author Riccardo Del Gratta &lt;riccardo.delgratta@ilc.cnr.it&gt;
  */
 public class ResponseManager {
+
+    private TravellingTables travellingtables;
+    private TravellingQueries travellingqueries;
 
     public String[] segmentizer(String[] segments, short hasPart) {
         String[] retStr = new String[3];// 
@@ -58,6 +68,52 @@ public class ResponseManager {
             ret = ret + code;
         }
         return ret;
+    }
+
+    public String[] getCodMorfDescription(String[] codes, int offset) {
+        TabCodMorfQuery tabcodmordescq = travellingqueries.getTabcodmorfq();
+        tabcodmordescq.setConn(travellingqueries.getConn());
+        String[] retcodes=new String[codes.length];
+        //System.err.println("CVCVV "+Arrays.toString(codes));
+        for (int k = 0; k < codes.length; k++) {
+            if (!"-".equals(codes[k])) {
+                List<TabCodMorfDescr> tabs = tabcodmordescq.getCodMorfDescrSet(k + offset, codes[k]);
+                for (TabCodMorfDescr tab : tabs) {
+                    retcodes[k]=tab.getField_descr()+":"+tab.getValue_descr();
+                    //po.println(String.format("%s:\t%s", tab.getField_descr(), tab.getValue_descr()));
+                }
+            }
+        }
+        //System.err.println("CVCVV "+Arrays.toString(retcodes));
+        return retcodes;
+    }
+
+    /**
+     * @return the travellingtables
+     */
+    public TravellingTables getTravellingtables() {
+        return travellingtables;
+    }
+
+    /**
+     * @param travellingtables the travellingtables to set
+     */
+    public void setTravellingtables(TravellingTables travellingtables) {
+        this.travellingtables = travellingtables;
+    }
+
+    /**
+     * @return the travellingqueries
+     */
+    public TravellingQueries getTravellingqueries() {
+        return travellingqueries;
+    }
+
+    /**
+     * @param travellingqueries the travellingqueries to set
+     */
+    public void setTravellingqueries(TravellingQueries travellingqueries) {
+        this.travellingqueries = travellingqueries;
     }
 
 }

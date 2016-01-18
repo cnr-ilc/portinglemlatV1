@@ -391,7 +391,7 @@ public class TabSfQuery extends ATabSfQuery {
             tabscset = loopOverRS(resultSet, mode);
 
         } catch (Exception e) {
-            logmess = String.format("FATAL SQL Error in %s. Message from DB: %s. Query: %s", routine, e.getMessage(), selectRec);
+            logmess = String.format("FATAL SQL Error in %s with mode -%d- and condition -%s-. Message from DB: %s. Query: %s", routine, mode,condition,e.getMessage(), selectRec);
             log.fatal(logmess);
             System.exit(-1);
         }
@@ -575,7 +575,7 @@ public class TabSfQuery extends ATabSfQuery {
                 selectRec = String.format("%s AND (%s='%s') ", selectRec, C07F, gender);
                 break;
             case "1":
-                selectRec = String.format("%s AND ( (%s='m') OR (%s='n')  ", selectRec, C07F, C07F);
+                selectRec = String.format("%s AND ( (%s='m') OR (%s='n') ) ", selectRec, C07F, C07F);
                 break;
             case "2":
                 selectRec = String.format("%s AND ( (%s='m') OR (%s='f') ) ", selectRec, C07F, C07F);

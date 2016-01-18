@@ -1066,7 +1066,7 @@ public class Comparator {
 
                     break;
                 case "1":
-                    condition = String.format("%s AND ( (%s='m') OR (%s='n')  ", condition, C07F, C07F);
+                    condition = String.format("%s AND ( (%s='m') OR (%s='n') ) ", condition, C07F, C07F);
 
                     break;
                 case "2":

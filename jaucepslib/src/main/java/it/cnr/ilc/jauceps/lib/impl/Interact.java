@@ -7,10 +7,12 @@ package it.cnr.ilc.jauceps.lib.impl;
 
 import it.cnr.ilc.jauceps.lib.headers.AInteract;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import org.apache.log4j.Logger;
 
@@ -18,13 +20,13 @@ import org.apache.log4j.Logger;
  *
  * @author Riccardo Del Gratta &lt;riccardo.delgratta@ilc.cnr.it&gt;
  */
-public class Interact extends AInteract{
-    
-    int loglevel = 0; /* only info */
-    static final String CLASS_NAME=Interact.class.getName();
+public class Interact extends AInteract {
+
+    int loglevel = 0;
+    /* only info */
+    static final String CLASS_NAME = Interact.class.getName();
 
     static Logger log = Logger.getLogger(CLASS_NAME);
-    
 
     private File piFile;
     private File poFile;
@@ -32,25 +34,24 @@ public class Interact extends AInteract{
 
     private PrintStream po = System.out;
     private PrintStream pu = System.out;
+    private BufferedWriter pubw;// = new BufferedWriter(new OutputStreamWriter(pu));
+    private BufferedWriter pobw; //= new BufferedWriter(new OutputStreamWriter(po));
 
     /* Init the Vars */
     Vars vars = new Vars();
-    private final boolean sqlDebug = vars.isSqlDebug();
+
     private final boolean flowDebug = vars.isFlowDebug();
-    private final boolean valueDebug = vars.isValueDebug();
+
     private final boolean deepFlowDebug = vars.isDeepFlowDebug();
-    private final boolean printSplash = vars.isPrintSplash();
-    private final boolean callerDebug = vars.isCallerDebug();
-    private final boolean analysisDebug = vars.isAnalysisDebug();
-    private final boolean printStructDebug = vars.isPrintStructDebug();
+
     private int printFormatted = vars.getPrintFormatted();
-    private final boolean debugJson = vars.isDebugJson();
+
     private final boolean useInPipe = vars.isUseInPipe();
 
     private String filename = "";
     private int sw_file = 0;
     private String wordform = "";
-    
+
     @Override
     public void startroutine(String[] args) {
         boolean fileFound = false;
@@ -68,6 +69,7 @@ public class Interact extends AInteract{
             switch (a) {
                 case "+f":
                     filename = args[i + 1];
+                    setPiFile(new File(filename));
                     fileFound = true;
                 //break;
                 case "+p":
@@ -87,6 +89,7 @@ public class Interact extends AInteract{
         }
         if (fileFound) {
             sw_file = fileExist(filename);
+            setPiFile(piFile);
         } else {
             sw_file = 0;
         }
@@ -108,11 +111,16 @@ public class Interact extends AInteract{
                 pu = System.out;
 
             }
+
         }
+        pubw = new BufferedWriter(new OutputStreamWriter(pu));
+        pobw = new BufferedWriter(new OutputStreamWriter(po));
         setPrintFormatted(printFormatted);
         setSw_file(sw_file);
         setPo(po);
         setPu(pu);
+        setPobw(pobw);
+        setPubw(pubw);
 
         if (flowDebug || deepFlowDebug) {
             logmess = String.format("DEEPFLOW STOP Executing %s in class Interact.java", routine);
@@ -125,9 +133,9 @@ public class Interact extends AInteract{
     public String prompt(String message) {
         String phrase = "";
         String routine = Interact.class.getName() + "/prompt";
-        String logmess="";
+        String logmess = "";
         if (flowDebug || deepFlowDebug) {
-            logmess=String.format("DEEPFLOW START Executing %s in class Interact.java", routine);
+            logmess = String.format("DEEPFLOW START Executing %s in class Interact.java", routine);
             log.debug(logmess);
         }
 
@@ -152,15 +160,15 @@ public class Interact extends AInteract{
 
         } catch (IOException e) {
             if (flowDebug || deepFlowDebug) {
-                logmess=String.format("DEEPFLOW SOME  ERRORS ON IO: %s", e.getMessage());
+                logmess = String.format("DEEPFLOW SOME  ERRORS ON IO: %s", e.getMessage());
                 log.fatal(logmess);
             }
             return null;
         }
 
         if (flowDebug || deepFlowDebug) {
-            
-            logmess=String.format("DEEPFLOW STOP Executing %s in class Interact.java. Wordform: %s", routine,phrase);
+
+            logmess = String.format("DEEPFLOW STOP Executing %s in class Interact.java. Wordform: %s", routine, phrase);
             log.debug(logmess);
         }
         return phrase;
@@ -292,5 +300,46 @@ public class Interact extends AInteract{
         this.wordform = wordform;
     }
 
-    
+    /**
+     * @return the piFile
+     */
+    public File getPiFile() {
+        return piFile;
+    }
+
+    /**
+     * @param piFile the piFile to set
+     */
+    public void setPiFile(File piFile) {
+        this.piFile = piFile;
+    }
+
+    /**
+     * @return the pubw
+     */
+    public BufferedWriter getPubw() {
+        return pubw;
+    }
+
+    /**
+     * @param pubw the pubw to set
+     */
+    public void setPubw(BufferedWriter pubw) {
+        this.pubw = pubw;
+    }
+
+    /**
+     * @return the pobw
+     */
+    public BufferedWriter getPobw() {
+        return pobw;
+    }
+
+    /**
+     * @param pobw the pobw to set
+     */
+    public void setPobw(BufferedWriter pobw) {
+        this.pobw = pobw;
+    }
+
 }

@@ -22,6 +22,9 @@ import static it.cnr.ilc.latmorphlib.structs.LEM_TYPE.IPERLEMMA;
 import static it.cnr.ilc.latmorphlib.structs.LEM_TYPE.IPERLEMMA_INT;
 import static it.cnr.ilc.latmorphlib.structs.LEM_TYPE.IPOLEMMA;
 import static it.cnr.ilc.latmorphlib.structs.LEM_TYPE.LEMMA_AGG;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.util.List;
 import org.apache.log4j.Logger;
@@ -62,26 +65,26 @@ public class PrintAnalyses {
         this.travellingqueries = travellingqueries;
     }
 
-    public void printAnalyses(OutFormat f, PrintStream po, PrintStream pu) {
+    public void printAnalyses(OutFormat f, BufferedWriter pobw, BufferedWriter pubw) throws IOException {
         switch (f) {
             case COMPLETE:
-                printComplete(response, po, pu);
+                printComplete(response, pobw, pubw);
                 break;
             case OLD_LL:
-                conOutLemmas(response, po, pu);
+                conOutLemmas(response, pobw, pubw);
                 break;
             case COMPACT:
-                printCompact(response, po, pu);
+                printCompact(response, pobw, pubw);
                 break;
             case JSON:
-                printJson(response, po, pu);
+                printJson(response, pobw, pubw);
 
                 break;
 
         }
     }
 
-    private void printComplete(AucepsResponse response, PrintStream ps, PrintStream pu) {
+    private void printComplete(AucepsResponse response, BufferedWriter ps, BufferedWriter pu) throws IOException {
         Analyses analyses = response.getAnalyses();
         List<Analysis> lofanalyses = analyses.getListOfAnalysis();
         int numL = 0;
@@ -94,7 +97,9 @@ public class PrintAnalyses {
         statStr = String.format("# of Analysis for word -%s- -%d- and # lemmas -%d-", response.getAnalyses().getIn_form(), numanalysis, numL);
 
         // print stats #analysis and # lemmas 
-        ps.println("AAAAAAAAAAAAAAAAAAAAA " + statStr);
+        ps.write("AAAAAAAAAAAAAAAAAAAAA " + statStr);
+        ps.newLine();
+        ps.close();
 
     }
 
@@ -102,10 +107,10 @@ public class PrintAnalyses {
      * This function prints the output in the format
      *
      * @param response
-     * @param po
-     * @param pu
+     * @param pobw
+     * @param pubw
      */
-    private void conOutLemmas(AucepsResponse response, PrintStream po, PrintStream pu) {
+    private void conOutLemmas(AucepsResponse response, BufferedWriter pobw, BufferedWriter pubw) throws IOException {
         String routine = CLASS_NAME + "/conOutLemmas";
         String logmess = "";
         Analyses analyses = response.getAnalyses();
@@ -135,10 +140,12 @@ public class PrintAnalyses {
         }
 
         header = String.format("\nInput wordform : -%s-\nAnalyzed wordform : -%s-\nNumber of Analyses : -%d-", in_form, alt_form, numAnalyses);
-        po.println(header);
+        pobw.write(header);
+        pobw.newLine();
         if (numAnalyses == 0) {
-            pu.println(header);
-            pu.flush();
+            pubw.write(header);
+            pobw.newLine();
+            //pubw.flush();
             if (flowDebug || deepFlowDebug) {
                 logmess = String.format("DEEPFLOW STOP NOT-FOUND Executing %s in %s ", routine, CLASS_NAME);
                 log.debug(logmess);
@@ -165,13 +172,15 @@ public class PrintAnalyses {
             }
             if (!"".equals(enc)) {
                 String encStr = String.format("\nenclitica : -%s-", enc);
-                po.println(encStr);
+                pobw.write(encStr);
+                pobw.newLine();
 
             }
 
             if (hasPart == 1) {
                 String partStr = String.format("particella : -%s-", part);
-                po.println(partStr);
+                pobw.write(partStr);
+                pobw.newLine();
 
             }
             // SEGMENTS
@@ -193,22 +202,27 @@ public class PrintAnalyses {
                 outSegStr = outSegStr + " -" + part;
             }
             segStr = String.format(segStr, outSegStr);
-            po.println(anaHeader);
-            po.println(segStr);
+            pobw.write(anaHeader);
+            pobw.newLine();
+            pobw.write(segStr);
+            pobw.newLine();
 
             //"------------------------codici morf. %u-------------------\n"
             for (short i = 0; i < curAnalysis.getN_cod_morf(); i++) {
                 codmorfHeader = String.format("------------------------codici morf. %d-------------------", i + 1);
                 String temp = curAnalysis.getCod_morf_4_10()[i];
-                po.println(codmorfHeader);
-                po.println(temp + "\n");
+                pobw.write(codmorfHeader);
+                pobw.newLine();
+                pobw.write(temp + "\n");
+                pobw.newLine();
                 String[] codes;// = new String[7];
                 codes = curAnalysis.getCod_morf_4_10()[i].split("");
                 for (int k = 0; k < 7; k++) {
                     if (!"-".equals(codes[k])) {
                         List<TabCodMorfDescr> tabs = tabcodmordescq.getCodMorfDescrSet(k + 4, codes[k]);
                         for (TabCodMorfDescr tab : tabs) {
-                            po.println(String.format("%s:\t%s", tab.getField_descr(), tab.getValue_descr()));
+                            pobw.write(String.format("%s:\t%s", tab.getField_descr(), tab.getValue_descr()));
+                            pobw.newLine();
                         }
                     }
                 }
@@ -230,7 +244,8 @@ public class PrintAnalyses {
             }
 
             if (curAnalysis.getLemmas().getNumL() > 1) {
-                po.println("\nLEMMI:");
+                pobw.write("\nLEMMI:");
+                pobw.newLine();
             }
             int l = 0;
             for (l = 0; l < curAnalysis.getLemmas().getNumL(); l++) {
@@ -242,28 +257,35 @@ public class PrintAnalyses {
                         || (lemma.getType() == IPERLEMMA_INT)) {
                     if (curAnalysis.getLemmas().getNumL() > 1) {
                         if (lemma.getType() == IPERLEMMA) {
-                            po.println(String.format("\t============================LEMMA %d: IPER=========================", l + 1));
+                            pobw.write(String.format("\t============================LEMMA %d: IPER=========================", l + 1));
+                            pobw.newLine();
                         } else {
-                            po.println(String.format("\t============================LEMMA %d: IPO =========================", l + 1));
+                            pobw.write(String.format("\t============================LEMMA %d: IPO =========================", l + 1));
+                            pobw.newLine();
                         }
                     } else {
-                        po.println("\t============================LEMMA ================================");
+                        pobw.write("\t============================LEMMA ================================");
+                        pobw.newLine();
                     }
 
-                    po.println(String.format("\t%-30s%-5s%-6s%s\n",
+                    pobw.write(String.format("\t%-30s%-5s%-6s%s\n",
                             lemma.getOut_lemma(),
                             lemma.getCod_lemma(),
                             lemma.getN_id(),
                             lemma.getGen()));
+                    pobw.newLine();
 
                     //codici morfologici
                     if ((lemma.getType() == IPERLEMMA) || (curAnalysis.getLemmas().getNumL() == 1)) {
-                        po.println("\t------------------------codici morfologici---------------------\n\t");
+                        pobw.write("\t------------------------codici morfologici---------------------\n\t");
+                        pobw.newLine();
                         for (int j = 0; j < 3; j++) {
                             eagles = eagles + lemma.getCod_morf_1_3()[j];
                         }
-                        po.print(String.format("\t%-30s", eagles));
-                        po.println("\n");
+                        pobw.write(String.format("\t%-30s", eagles));
+                        pobw.newLine();
+                        pobw.write("\n");
+                        pobw.newLine();
 
                         for (int j = 0; j < 3; j++) {
                             String code = lemma.getCod_morf_1_3()[j];
@@ -272,7 +294,8 @@ public class PrintAnalyses {
                             if (!"-".equals(code)) {
                                 List<TabCodMorfDescr> tabs = tabcodmordescq.getCodMorfDescrSet(j + 1, code);
                                 for (TabCodMorfDescr tab : tabs) {
-                                    po.println(String.format("\t%s:\t%s", tab.getField_descr(), tab.getValue_descr()));
+                                    pobw.write(String.format("\t%s:\t%s", tab.getField_descr(), tab.getValue_descr()));
+                                    pobw.newLine();
                                 }
                             }
 
@@ -289,18 +312,24 @@ public class PrintAnalyses {
                 eagles = "";
 
                 if (lemma.getType() == LEMMA_AGG) {
-                    po.println("\t============================LEMMA================================");
-                    po.println(String.format("\t%-30s%-5s%-6s%s\n",
+                    pobw.write("\t============================LEMMA================================");
+                    pobw.newLine();
+
+                    pobw.write(String.format("\t%-30s%-5s%-6s%s\n",
                             lemma.getOut_lemma(),
                             lemma.getCod_lemma(),
                             lemma.getN_id(),
                             lemma.getGen()));
-                    po.println("\t------------------------codici morfologici---------------------\n\t");
+                    pobw.newLine();
+                    pobw.write("\t------------------------codici morfologici---------------------\n\t");
+                    pobw.newLine();
                     for (int j = 0; j < 3; j++) {
                         eagles = eagles + lemma.getCod_morf_1_3()[j];
                     }
-                    po.print(String.format("\t%-30s", eagles));
-                    po.println("\n");
+                    pobw.write(String.format("\t%-30s", eagles));
+                    pobw.newLine();
+                    pobw.write("\n");
+                    pobw.newLine();
                     for (int j = 0; j < 3; j++) {
                         String code = lemma.getCod_morf_1_3()[j];
 
@@ -308,7 +337,8 @@ public class PrintAnalyses {
                         if (!"-".equals(code)) {
                             List<TabCodMorfDescr> tabs = tabcodmordescq.getCodMorfDescrSet(j + 1, code);
                             for (TabCodMorfDescr tab : tabs) {
-                                po.println(String.format("\t%s:\t%s", tab.getField_descr(), tab.getValue_descr()));
+                                pobw.write(String.format("\t%s:\t%s", tab.getField_descr(), tab.getValue_descr()));
+                                pobw.newLine();
                             }
                         }
 
@@ -324,10 +354,11 @@ public class PrintAnalyses {
         } //rof analyses
         footer = String.format("\n%s\n", "This is the end my friend");
         if (!"end".equals(in_form) || response != null) {
-            po.println(footer);
+            pobw.write(footer);
+            pobw.newLine();
         }
 
-        po.flush();
+        //pobw.flush();
 
         /*
         
@@ -347,8 +378,9 @@ public class PrintAnalyses {
         }
     }
 
-    private void printCompact(AucepsResponse response, PrintStream po, PrintStream pu) {
+    private String printCompact(AucepsResponse response, BufferedWriter pobw, BufferedWriter pubw) throws IOException {
         String routine = CLASS_NAME + "/printCompact";
+
         String logmess = "";
         Analyses analyses = response.getAnalyses();
         Analysis curAnalysis;
@@ -398,38 +430,52 @@ public class PrintAnalyses {
         }
         if (numAnalyses == 0) {
             temp = "not-found/-";
+            outStr = String.format("%s%s%s", outStr, lemma_sep, temp);
+            try {
+                pubw.write(outStr);
+                pubw.newLine();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+//            pu.println(outStr);
+//            pu.flush();
+        } else {
+            outStr = String.format("%s%s%s", outStr, lemma_sep, temp);
+            try {
+                pobw.write(outStr);
+                pobw.newLine();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        outStr = String.format("%s%s%s", outStr, lemma_sep, temp);
-        po.println(outStr);
-        po.flush();
         if (flowDebug || deepFlowDebug) {
             logmess = String.format("DEEPFLOW STOP Executing %s in %s ", routine, CLASS_NAME);
             log.debug(logmess);
         }
 
+        return outStr;
     }
 
-    private void printJson(AucepsResponse response, PrintStream po, PrintStream pu) {
+    private void printJson(AucepsResponse response, BufferedWriter pobw, BufferedWriter pubw) {
         JsonResponse jsonr = new JsonResponse(response);
         jsonr.setTravellingqueries(travellingqueries);
         jsonr.setTravellingtables(travellingtables);
         String ret = jsonr.dump();
-        String indented="";
+        String indented = "";
         ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         try {
             Object json = mapper.readValue(ret, Object.class);
             indented = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
+            pobw.write(indented);
+            
 
-           
-
-            System.out.println(indented);//This print statement show correct way I need
+            //System.out.println(indented);//This print statement show correct way I need
         } catch (Exception e) {
         }
 
         
-        po.println(indented);
-        po.flush();
+        //pobw.flush();
     }
 
 }

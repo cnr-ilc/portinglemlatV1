@@ -14,9 +14,16 @@ import it.cnr.ilc.jauceps.lib.outputobjects.AucepsResponse;
 import it.cnr.ilc.jauceps.lib.structs.SilType;
 import it.cnr.ilc.jauceps.lib.travellingobjects.TravellingQueries;
 import it.cnr.ilc.jauceps.lib.travellingobjects.TravellingTables;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 import java.io.PrintStream;
 import java.sql.Connection;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.log4j.*;
 import utils.OutFormat;
 
@@ -62,6 +69,8 @@ public class JAucepsApp {
         //fields
         PrintStream po = null;
         PrintStream pu = null;
+        BufferedWriter pubw = null;// = new BufferedWriter(new OutputStreamWriter(pu));
+        BufferedWriter pobw = null; //= new BufferedWriter(new OutputStreamWriter(po));
         String wordform = "";
         String logmess = "";
 
@@ -159,7 +168,11 @@ public class JAucepsApp {
 
             do {
                 if (interact.getSw_file() == 0) {
-                    sil=lib.resetSil(sil);
+                    po = interact.getPo();
+                    pu = interact.getPu();
+                    pobw = interact.getPobw();
+                    pubw = interact.getPubw();
+                    sil = lib.resetSil(sil);
                     wordform = interact.prompt("type the WORD-FORM you wish to analyze. end to exit");
                     if (wordform != null) {
 
@@ -167,7 +180,7 @@ public class JAucepsApp {
                             logmess = String.format("DEEPFLOW Instantiating AucepsResponse with silId -%s-", sil.getSilId());
                             log.debug(logmess);
                         }
-                        
+
                         response = new AucepsResponse(sil);
                         response.setResId(sil.getSilId());
                         if (operationDebug) {
@@ -183,10 +196,10 @@ public class JAucepsApp {
                         response = inputfunctions.silcall(conn, sil, wordform);
 
                         try {
-                            PrintAnalyses printanalyses = new PrintAnalyses(response,travellingqueries, travellingtables);
-                            printanalyses.printAnalyses(OutFormat.JSON, System.out, System.out);
-                            sil=new SilType();
-                        
+                            PrintAnalyses printanalyses = new PrintAnalyses(response, travellingqueries, travellingtables);
+                            printanalyses.printAnalyses(OutFormat.COMPACT, pobw, pubw);
+                            sil = new SilType();
+
                         } catch (Exception e) {
                             e.printStackTrace();
 
@@ -196,23 +209,100 @@ public class JAucepsApp {
 
                 }
                 if (interact.getSw_file() == 1) {
-                    System.err.println("LEGGOFILE");
+
+                    File ini = interact.getPiFile();
+                    po = interact.getPo();
+                    pu = interact.getPu();
+                    pobw = interact.getPobw();
+                    pubw = interact.getPubw();
+                    BufferedReader br = null;
+                    List<String> words = new ArrayList<>();
+                    sil = lib.resetSil(sil);
+                    if (operationDebug) {
+                        logmess = String.format("DEEPFLOW Reading file -%s- with silId -%s-", ini.getAbsolutePath(), sil.getSilId());
+                        log.debug(logmess);
+                    }
+                    try {
+
+                        String sCurrentLine;
+
+                        br = new BufferedReader(new FileReader(ini));
+
+                        while ((sCurrentLine = br.readLine()) != null) {
+                            //po.println(sCurrentLine);
+                            words.add(sCurrentLine);
+
+                        }
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    } finally {
+                        try {
+                            if (br != null) {
+                                br.close();
+                            }
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                    }
+                    try {
+                        int c = 0;
+                        for (String word : words) {
+
+                            response = new AucepsResponse(sil);
+                            response.setResId(sil.getSilId());
+                            if (operationDebug) {
+                                logmess = String.format("DEEPFLOW Instantiating InputFunctions with travellingtables and travellingqueries status -%s- and id -%s-", travellingtables.getStatus(), response.getResId());
+                                log.debug(logmess);
+                            }
+                            if (analysisDebug) {
+                                logmess = String.format("ANALYSES DEBUG in -%s- AucepsResponse -%s-", routine, response.toString());
+                                log.debug(logmess);
+
+                            }
+                            if ((c %  10000) ==0){
+                                System.err.println("WordForm: " + word+ " "+c);
+                            }
+                            
+                            
+                            
+                                
+                            System.err.println("WordForm: " + word);
+                            inputfunctions = new InputFunctions(response, travellingtables, travellingqueries);
+                            response = inputfunctions.silcall(conn, sil, word);
+
+                            try {
+                                PrintAnalyses printanalyses = new PrintAnalyses(response, travellingqueries, travellingtables);
+                                printanalyses.printAnalyses(OutFormat.COMPACT, pobw, pubw);
+                                sil = new SilType();
+
+                            } catch (Exception e) {
+                                //e.printStackTrace();
+
+                                System.err.println("EXIT WITH RESPONSE " + e.getMessage());
+                            }
+
+                        } //rof words
+                        pubw.close();
+                        pobw.close();
+                    } catch (IOException e) {
+                    }
                     wordform = null;
                 }
 
             } while (wordform != null);
 
-            try {
-                //System.out.println("XXXX " + response.toString());
-                if (callerDebug) {
-                    logmess = String.format("CALLING -printAnalyses- in PrintAnalyses.java. CALLER: %s", routine);
-                    log.debug(logmess);
-                }
-//                PrintAnalyses printanalyses = new PrintAnalyses(response,travellingqueries, travellingtables);
-//                printanalyses.printAnalyses(OutFormat.OLD_LL, System.out, System.out);
-            } catch (Exception e) {
-                System.err.println("EXIT WITH RESPONSE " + e.getMessage());
-            }
+//            try {
+//                //System.out.println("XXXX " + response.toString());
+//                if (callerDebug) {
+//                    logmess = String.format("CALLING -printAnalyses- in PrintAnalyses.java. CALLER: %s", routine);
+//                    log.debug(logmess);
+//                }
+////                PrintAnalyses printanalyses = new PrintAnalyses(response,travellingqueries, travellingtables);
+////                printanalyses.printAnalyses(OutFormat.OLD_LL, System.out, System.out);
+//            } catch (Exception e) {
+//                System.err.println("EXIT WITH RESPONSE " + e.getMessage());
+//            }
         }
 
         // print the results//

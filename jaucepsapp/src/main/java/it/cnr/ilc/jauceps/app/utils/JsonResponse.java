@@ -71,11 +71,14 @@ public class JsonResponse {
 
         responseBuilder.add(labelInForm, analyses.getIn_form());
         responseBuilder.add(labelAltForm, analyses.getAlt_in_form());
-        responseBuilder.add(labelnumA, (int) (analyses.getNumAnalysis() - 1));
+
+        
         if (analyses.getNumAnalysis() == 0) {
             responseBuilder.add(labelFound, "false");
+            responseBuilder.add(labelnumA, (int) (0));
         } else {
             responseBuilder.add(labelFound, "true");
+            responseBuilder.add(labelnumA, (int) (analyses.getNumAnalysis() - 1));
         }
         int id = 1;
         for (Analysis analysis : analyses.getListOfAnalysis()) {
@@ -102,7 +105,7 @@ public class JsonResponse {
                 formMorfCode = Json.createObjectBuilder();
                 formMorfCode.add(labelId, i + 1);
                 formMorfCode.add(labelValues, code);
-                codes = manager.getCodMorfDescription(code.split(""),4);
+                codes = manager.getCodMorfDescription(code.split(""), 4);
                 for (String val : codes) {
                     try {
                         formMorfCode.add(val.split(":")[0], val.split(":")[1]);
@@ -127,7 +130,7 @@ public class JsonResponse {
 
                 lemmaObjMorfCodesBuilder.add(labelValues, manager.getlemmaMorfCodes(lemma.getCod_morf_1_3()));
 
-                codes = manager.getCodMorfDescription(lemma.getCod_morf_1_3(),1);
+                codes = manager.getCodMorfDescription(lemma.getCod_morf_1_3(), 1);
                 for (String val : codes) {
                     try {
                         lemmaObjMorfCodesBuilder.add(val.split(":")[0], val.split(":")[1]);

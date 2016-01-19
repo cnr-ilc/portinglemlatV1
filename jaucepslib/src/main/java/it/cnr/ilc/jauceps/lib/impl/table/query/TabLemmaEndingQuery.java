@@ -29,7 +29,8 @@ import org.apache.log4j.Logger;
  *
  * @author Riccardo Del Gratta &lt;riccardo.delgratta@ilc.cnr.it&gt;
  */
-public class TabLemmaEndingQuery extends ATabLemmaEndingQuery{
+public class TabLemmaEndingQuery extends ATabLemmaEndingQuery {
+
     static final String CLASS_NAME = TabLemmaEndingQuery.class.getName();
 
     static Logger log = Logger.getLogger(CLASS_NAME);
@@ -47,6 +48,7 @@ public class TabLemmaEndingQuery extends ATabLemmaEndingQuery{
 
     /**
      * Constructor
+     *
      * @param conn the connection to use
      */
     public TabLemmaEndingQuery(Connection conn) {
@@ -66,20 +68,29 @@ public class TabLemmaEndingQuery extends ATabLemmaEndingQuery{
         setLemma(in_str);
 
         if (flowDebug || deepFlowDebug) {
-            logmess = String.format("DEEPFLOW START Executing %s in TabLemmaEndingQuery.java. Parameters in_str -%s- cod -%s-", routine, in_str,cod);
+            logmess = String.format("DEEPFLOW START Executing %s in TabLemmaEndingQuery.java. Parameters in_str -%s- cod -%s-", routine, in_str, cod);
             log.debug(logmess);
         }
-        
-        sel = "SELECT CONCAT(INSERT('%s',LENGTH('%s')-LENGTH(%s)+1,"
-                + "LENGTH(%s),%s), %s) as %s FROM %s WHERE %s='%s' "
+
+        //CONCAT(SUBSTRING('ros',1,(LENGTH('ros')-LENGTH(in_ending))),out_ending) as cur_lemma
+        sel = "SELECT CONCAT(SUBSTRING('%s',1,(LENGTH('%s')-LENGTH(%s))),%s) as %s FROM %s WHERE %s='%s' "
                 + "AND %s=RIGHT('%s',LENGTH(%s)) "
                 + "ORDER BY LENGTH(%s) DESC LIMIT 1";
-       
+
         selectRec = String.format(sel,
                 in_str, in_str, IN_ENDING,
-                IN_ENDING, OUT_ENDING, OUT_ENDING,CUR_LEMMA, TAB_LEMEMDING_NAME, CODLES,
+                OUT_ENDING, CUR_LEMMA, TAB_LEMEMDING_NAME, CODLES,
                 cod, IN_ENDING, in_str, IN_ENDING, IN_ENDING);
 
+//        sel = "SELECT CONCAT(INSERT('%s',LENGTH('%s')-LENGTH(%s)+1,"
+//                + "LENGTH(%s),%s), %s) as %s FROM %s WHERE %s='%s' "
+//                + "AND %s=RIGHT('%s',LENGTH(%s)) "
+//                + "ORDER BY LENGTH(%s) DESC LIMIT 1";
+//       
+//        selectRec = String.format(sel,
+//                in_str, in_str, IN_ENDING,
+//                IN_ENDING, OUT_ENDING, OUT_ENDING,CUR_LEMMA, TAB_LEMEMDING_NAME, CODLES,
+//                cod, IN_ENDING, in_str, IN_ENDING, IN_ENDING);
 //        sel = "SELECT INSERT('%s',LENGTH('%s')-LENGTH(%s)+1,"
 //                + "LENGTH(%s),%s) as %s FROM %s WHERE %s='%s' "
 //                + "AND %s=RIGHT('%s',LENGTH(%s)) "
@@ -89,7 +100,6 @@ public class TabLemmaEndingQuery extends ATabLemmaEndingQuery{
 //                in_str, in_str, IN_ENDING,
 //                IN_ENDING, OUT_ENDING, CUR_LEMMA, TAB_LEMEMDING_NAME, CODLES,
 //                cod, IN_ENDING, in_str, IN_ENDING, IN_ENDING);
-
 //"SELECT INSERT(\'%s\',LENGTH(\'%s\')-LENGTH(%s)+1,LENGTH(%s),%s) \
         //FROM %s WHERE %s=\'%s\' AND %s=RIGHT(\'%s\',LENGTH(%s)) \
         //ORDER BY LENGTH(%s) DESC LIMIT 1",
@@ -107,7 +117,7 @@ public class TabLemmaEndingQuery extends ATabLemmaEndingQuery{
             // Result set get the result of the SQL query
             resultSet = statement
                     .executeQuery(selectRec);
-            tabs = loopOverRS(in_str,resultSet);
+            tabs = loopOverRS(in_str, resultSet);
 
         } catch (Exception e) {
             logmess = String.format("FATAL SQL Error in %s. Message from DB: %s. Qyery: %s", routine, e.getMessage(), selectRec);
@@ -134,7 +144,7 @@ public class TabLemmaEndingQuery extends ATabLemmaEndingQuery{
      * @return
      * @throws SQLException
      */
-    private List<TabLemmaEnding> loopOverRS(String in_str,ResultSet rs) throws SQLException {
+    private List<TabLemmaEnding> loopOverRS(String in_str, ResultSet rs) throws SQLException {
         List<TabLemmaEnding> tabs = new ArrayList<>();
         String cur_lemma = "";
         String logmess = "";
@@ -169,5 +179,4 @@ public class TabLemmaEndingQuery extends ATabLemmaEndingQuery{
         this.lemma = lemma;
     }
 
-    
 }

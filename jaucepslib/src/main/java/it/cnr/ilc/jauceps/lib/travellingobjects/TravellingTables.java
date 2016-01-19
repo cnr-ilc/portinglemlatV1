@@ -225,7 +225,8 @@ public class TravellingTables {
      * @return the status
      */
     public String getStatus() {
-        return status+"-";
+        //return status+"-";
+        return status;//+"-";
     }
 
     /**

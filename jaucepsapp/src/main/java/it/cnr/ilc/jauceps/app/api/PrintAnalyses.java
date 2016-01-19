@@ -394,7 +394,8 @@ public class PrintAnalyses {
         String in_form, alt_form;
         int numAnalyses = 0;
         String[] segments;// = new String[7];
-        String lemma_sep = "\t";
+        String lemma_sep = ",";
+        String field_sep = "\t";
         String lemma_pos_sep = "/";
 
         in_form = analyses.getIn_form();
@@ -411,7 +412,7 @@ public class PrintAnalyses {
         }
 
         String temp = "";
-        outStr = String.format("%s%s%s", in_form, lemma_sep, alt_form);
+        outStr = String.format("%s%s%s", in_form, field_sep, alt_form);
         for (int a = 0; a < numAnalyses; a++) {
 
             segments = null;
@@ -430,7 +431,7 @@ public class PrintAnalyses {
         }
         if (numAnalyses == 0) {
             temp = "not-found/-";
-            outStr = String.format("%s%s%s", outStr, lemma_sep, temp);
+            outStr = String.format("%s%s%s", outStr, field_sep, temp);
             try {
                 pubw.write(outStr);
                 pubw.newLine();
@@ -440,7 +441,7 @@ public class PrintAnalyses {
 //            pu.println(outStr);
 //            pu.flush();
         } else {
-            outStr = String.format("%s%s%s", outStr, lemma_sep, temp);
+            outStr = String.format("%s%s%s", outStr, field_sep, temp);
             try {
                 pobw.write(outStr);
                 pobw.newLine();

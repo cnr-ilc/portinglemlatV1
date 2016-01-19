@@ -26,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.*;
 import utils.OutFormat;
+import java.sql.Timestamp;
+import java.util.Date;
 
 /**
  *
@@ -150,24 +152,24 @@ public class JAucepsApp {
         }
 
         if (retIniVal) {
-            if (operationDebug) {
-                logmess = String.format("OPERATION Instantiating TravellingQueries with conn -%s- and id -%s-", conn.toString(), sil.getSilId());
-                log.debug(logmess);
-                logmess = String.format("OPERATION Instantiating TravellingTables with conn -%s- and id -%s-", conn.toString(), sil.getSilId());
-                log.debug(logmess);
-            }
-            travellingtables = new TravellingTables(conn);
-            travellingtables.setTtId(sil.getSilId());
-            travellingqueries = new TravellingQueries(conn);
-            travellingqueries.setTqId(sil.getSilId());
 
             if (callerDebug) {
                 logmess = String.format("CALLING -prompt- in Interact.java. CALLER: %s", routine);
                 log.debug(logmess);
             }
 
-            do {
-                if (interact.getSw_file() == 0) {
+            if (interact.getSw_file() == 0) {
+                do {
+                    if (operationDebug) {
+                        logmess = String.format("OPERATION Instantiating TravellingQueries with conn -%s- and id -%s-", conn.toString(), sil.getSilId());
+                        log.debug(logmess);
+                        logmess = String.format("OPERATION Instantiating TravellingTables with conn -%s- and id -%s-", conn.toString(), sil.getSilId());
+                        log.debug(logmess);
+                    }
+                    travellingtables = new TravellingTables(conn);
+                    travellingtables.setTtId(sil.getSilId());
+                    travellingqueries = new TravellingQueries(conn);
+                    travellingqueries.setTqId(sil.getSilId());
                     po = interact.getPo();
                     pu = interact.getPu();
                     pobw = interact.getPobw();
@@ -199,6 +201,8 @@ public class JAucepsApp {
                             PrintAnalyses printanalyses = new PrintAnalyses(response, travellingqueries, travellingtables);
                             printanalyses.printAnalyses(OutFormat.COMPACT, pobw, pubw);
                             sil = new SilType();
+                            pobw.flush();
+                            pubw.flush();
 
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -206,91 +210,107 @@ public class JAucepsApp {
                             System.err.println("EXIT WITH RESPONSE " + e.getMessage());
                         }
                     }
+                } while (wordform != null);
 
+            }
+            if (interact.getSw_file() == 1) {
+
+                File ini = interact.getPiFile();
+                po = interact.getPo();
+                pu = interact.getPu();
+                pobw = interact.getPobw();
+                pubw = interact.getPubw();
+                BufferedReader br = null;
+                List<String> words = new ArrayList<>();
+                sil = lib.resetSil(sil);
+                if (operationDebug) {
+                    logmess = String.format("DEEPFLOW Reading file -%s- with silId -%s-", ini.getAbsolutePath(), sil.getSilId());
+                    log.debug(logmess);
                 }
-                if (interact.getSw_file() == 1) {
+                try {
 
-                    File ini = interact.getPiFile();
-                    po = interact.getPo();
-                    pu = interact.getPu();
-                    pobw = interact.getPobw();
-                    pubw = interact.getPubw();
-                    BufferedReader br = null;
-                    List<String> words = new ArrayList<>();
-                    sil = lib.resetSil(sil);
-                    if (operationDebug) {
-                        logmess = String.format("DEEPFLOW Reading file -%s- with silId -%s-", ini.getAbsolutePath(), sil.getSilId());
-                        log.debug(logmess);
+                    String sCurrentLine;
+
+                    br = new BufferedReader(new FileReader(ini));
+
+                    while ((sCurrentLine = br.readLine()) != null) {
+                        //po.println(sCurrentLine);
+                        words.add(sCurrentLine);
+
                     }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } finally {
                     try {
+                        if (br != null) {
+                            br.close();
+                        }
+                    } catch (IOException ex) {
+                        ex.printStackTrace();
+                    }
+                }
+                try {
+                    int c = 0;
+                    java.util.Date date_init = new java.util.Date();
+                    java.util.Date date_start = new java.util.Date();
+                    for (String word : words) {
+                        if (operationDebug) {
+                            logmess = String.format("OPERATION Instantiating TravellingQueries with conn -%s- and id -%s-", conn.toString(), sil.getSilId());
+                            log.debug(logmess);
+                            logmess = String.format("OPERATION Instantiating TravellingTables with conn -%s- and id -%s-", conn.toString(), sil.getSilId());
+                            log.debug(logmess);
+                        }
+                        travellingtables = new TravellingTables(conn);
+                        travellingtables.setTtId(sil.getSilId());
+                        travellingqueries = new TravellingQueries(conn);
+                        travellingqueries.setTqId(sil.getSilId());
 
-                        String sCurrentLine;
+                        response = new AucepsResponse(sil);
+                        response.setResId(sil.getSilId());
+                        if (operationDebug) {
+                            logmess = String.format("DEEPFLOW Instantiating InputFunctions with travellingtables and travellingqueries status -%s- and id -%s-", travellingtables.getStatus(), response.getResId());
+                            log.debug(logmess);
+                        }
+                        if (analysisDebug) {
+                            logmess = String.format("ANALYSES DEBUG in -%s- AucepsResponse -%s-", routine, response.toString());
+                            log.debug(logmess);
 
-                        br = new BufferedReader(new FileReader(ini));
-
-                        while ((sCurrentLine = br.readLine()) != null) {
-                            //po.println(sCurrentLine);
-                            words.add(sCurrentLine);
+                        }
+                        if ((c % 1000) == 0) {
+                            java.util.Date date = new java.util.Date();
+                            //System.err.println("WordForm: " + word+ " "+c+ " at "+new Timestamp(date.getTime()));
+                            System.err.println("WordForm: " + word + " " + c + " at " + new Timestamp(date.getTime())
+                                    + " lasting " + (date.getTime() - date_init.getTime()) + " (" + (date.getTime() - date_start.getTime()) + ")");
+                            date_init = date;
+                            pobw.flush();
+                            pubw.flush();
 
                         }
 
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    } finally {
+                        //System.err.println("WordForm: " + word);
+                        inputfunctions = new InputFunctions(response, travellingtables, travellingqueries);
+                        response = inputfunctions.silcall(conn, sil, word);
+
                         try {
-                            if (br != null) {
-                                br.close();
-                            }
-                        } catch (IOException ex) {
-                            ex.printStackTrace();
+                            PrintAnalyses printanalyses = new PrintAnalyses(response, travellingqueries, travellingtables);
+                            printanalyses.printAnalyses(OutFormat.COMPACT, pobw, pubw);
+                            sil = new SilType();
+
+                        } catch (Exception e) {
+                            //e.printStackTrace();
+
+                            System.err.println("EXIT WITH RESPONSE " + e.getMessage());
                         }
-                    }
-                    try {
-                        int c = 0;
-                        for (String word : words) {
+                        c++;
 
-                            response = new AucepsResponse(sil);
-                            response.setResId(sil.getSilId());
-                            if (operationDebug) {
-                                logmess = String.format("DEEPFLOW Instantiating InputFunctions with travellingtables and travellingqueries status -%s- and id -%s-", travellingtables.getStatus(), response.getResId());
-                                log.debug(logmess);
-                            }
-                            if (analysisDebug) {
-                                logmess = String.format("ANALYSES DEBUG in -%s- AucepsResponse -%s-", routine, response.toString());
-                                log.debug(logmess);
-
-                            }
-                            if ((c %  10000) ==0){
-                                System.err.println("WordForm: " + word+ " "+c);
-                            }
-                            
-                            
-                            
-                                
-                            System.err.println("WordForm: " + word);
-                            inputfunctions = new InputFunctions(response, travellingtables, travellingqueries);
-                            response = inputfunctions.silcall(conn, sil, word);
-
-                            try {
-                                PrintAnalyses printanalyses = new PrintAnalyses(response, travellingqueries, travellingtables);
-                                printanalyses.printAnalyses(OutFormat.COMPACT, pobw, pubw);
-                                sil = new SilType();
-
-                            } catch (Exception e) {
-                                //e.printStackTrace();
-
-                                System.err.println("EXIT WITH RESPONSE " + e.getMessage());
-                            }
-
-                        } //rof words
-                        pubw.close();
-                        pobw.close();
-                    } catch (IOException e) {
-                    }
-                    wordform = null;
+                    } //rof words
+                    pubw.close();
+                    pobw.close();
+                } catch (IOException e) {
                 }
-
-            } while (wordform != null);
+                wordform = null;
+            }
 
 //            try {
 //                //System.out.println("XXXX " + response.toString());

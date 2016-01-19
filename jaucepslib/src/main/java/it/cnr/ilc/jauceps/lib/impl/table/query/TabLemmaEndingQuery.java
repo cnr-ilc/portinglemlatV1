@@ -152,7 +152,7 @@ public class TabLemmaEndingQuery extends ATabLemmaEndingQuery {
 
         int l = 0;
         while (rs.next()) {
-            cur_lemma = rs.getString(CUR_LEMMA);
+            cur_lemma = rs.getString(1);
 
             tabs.add(new TabLemmaEnding(cur_lemma));
             l++;

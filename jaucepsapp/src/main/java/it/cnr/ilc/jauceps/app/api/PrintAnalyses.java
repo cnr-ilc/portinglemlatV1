@@ -396,7 +396,7 @@ public class PrintAnalyses {
         String[] segments;// = new String[7];
         String lemma_sep = ",";
         String field_sep = "\t";
-        String lemma_pos_sep = "/";
+        String lemma_pos_sep = "#";
 
         in_form = analyses.getIn_form();
         alt_form = analyses.getAlt_in_form();
@@ -430,7 +430,7 @@ public class PrintAnalyses {
             }
         }
         if (numAnalyses == 0) {
-            temp = "not-found/-";
+            temp = "not-found#-";
             outStr = String.format("%s%s%s", outStr, field_sep, temp);
             try {
                 pubw.write(outStr);

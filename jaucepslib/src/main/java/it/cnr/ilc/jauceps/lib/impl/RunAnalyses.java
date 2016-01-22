@@ -374,13 +374,13 @@ public class RunAnalyses {
             log.debug(logmess);
         }
 
-        if (les > 0) {
-            response.setSil(sil);
-            if (flowDebug || deepFlowDebug) {
-                logmess = String.format("DEEPFLOW STOP Executing %s in Sillib.java with sil.rad_sf -%s-", routine, rad);
-                log.debug(logmess);
-            }
-        } else {
+//        if (les > 0) {
+//            response.setSil(sil);
+//            if (flowDebug || deepFlowDebug) {
+//                logmess = String.format("DEEPFLOW STOP Executing %s in Sillib.java with sil.rad_sf -%s-", routine, rad);
+//                log.debug(logmess);
+//            }
+       // } else {
             // no records in tabsai.Do something similar
             if (deepFlowDebug) {
                 logmess = String.format("DEEPFLOW ****ASSIGNING EOS to sil.Ind_alt in routine %s", routine);
@@ -435,7 +435,7 @@ public class RunAnalyses {
                 log.debug(logmess);
             }
             //setSil(lsil);
-        }
+       // }
         
         //System.err.println("GIULIA 8 in ANALYSIS AS " + response.getAnalyses().toString() + "-" + response.getAnalyses().getNumAnalysis() + "-");
         //System.err.println("GIULIA 8 in ANALYSIS CA " + response.getCur_analysis().toString());

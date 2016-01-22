@@ -11,7 +11,6 @@ import it.cnr.ilc.jauceps.lib.structs.Analysis;
 import it.cnr.ilc.jauceps.lib.structs.Lemma;
 import it.cnr.ilc.jauceps.lib.travellingobjects.TravellingQueries;
 import it.cnr.ilc.jauceps.lib.travellingobjects.TravellingTables;
-import java.math.BigDecimal;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;

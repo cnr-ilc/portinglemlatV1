@@ -24,8 +24,7 @@ import static it.cnr.ilc.latmorphlib.structs.LEM_TYPE.IPOLEMMA;
 import static it.cnr.ilc.latmorphlib.structs.LEM_TYPE.LEMMA_AGG;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
 import utils.OutFormat;
@@ -362,15 +361,15 @@ public class PrintAnalyses {
 
         /*
         
-        if (analyses.numAnalysis > 1)
-            fprintf(po, "\n============================RESULTS OF ANALYSIS %u==============================\n", a + 1);
-        else
-            fprintf(po, "\n============================RESULT OF ANALYSIS ================================\n");
-        //segmentazione
-        if (*(curAnalysis->segments[6])) {
-            fprintf(po, "enclitica : %s\n", curAnalysis->segments[6]);
-            fprintf(po, "----------------------------------------------------------\n");
-        }
+         if (analyses.numAnalysis > 1)
+         fprintf(po, "\n============================RESULTS OF ANALYSIS %u==============================\n", a + 1);
+         else
+         fprintf(po, "\n============================RESULT OF ANALYSIS ================================\n");
+         //segmentazione
+         if (*(curAnalysis->segments[6])) {
+         fprintf(po, "enclitica : %s\n", curAnalysis->segments[6]);
+         fprintf(po, "----------------------------------------------------------\n");
+         }
          */
         if (flowDebug || deepFlowDebug) {
             logmess = String.format("DEEPFLOW STOP Executing %s in %s ", routine, CLASS_NAME);
@@ -413,6 +412,7 @@ public class PrintAnalyses {
 
         String temp = "";
         outStr = String.format("%s%s%s", in_form, field_sep, alt_form);
+        List<String> written = new ArrayList<>();
         for (int a = 0; a < numAnalyses; a++) {
 
             segments = null;
@@ -420,15 +420,24 @@ public class PrintAnalyses {
             lemmas = curAnalysis.getLemmas();
 
             for (Lemma lemma : lemmas.getLemmas()) {
-                if (a == 0) {
-                    temp = String.format("%s%s%s", lemma.getOut_lemma(), lemma_pos_sep, lemma.getCod_morf_1_3()[0]);
-                } else {
-                    temp = String.format("%s%s%s%s%s", temp, lemma_sep, lemma.getOut_lemma(), lemma_pos_sep, lemma.getCod_morf_1_3()[0]);
+                String str = lemma.getOut_lemma() + lemma_pos_sep + lemma.getCod_morf_1_3()[0];
+                if (!written.contains(str)) {
+                    written.add(str);
                 }
+
+                //System.err.println("not written " + written.toString());
+//                if (a == 0) {
+//                    temp = String.format("%s%s%s", lemma.getOut_lemma(), lemma_pos_sep, lemma.getCod_morf_1_3()[0]);
+//                } else {
+//                    temp = String.format("%s%s%s%s%s", temp, lemma_sep, lemma.getOut_lemma(), lemma_pos_sep, lemma.getCod_morf_1_3()[0]);
+//                }
                 //System.err.println("CCC 1 "+ temp+ " for "+a);
+                //written.add(lemma.getOut_lemma() + lemma_pos_sep + lemma.getCod_morf_1_3()[0]);
 
             }
+
         }
+        //System.err.println("WRITTEN " + written.toString());
         if (numAnalyses == 0) {
             temp = "not-found#-";
             outStr = String.format("%s%s%s", outStr, field_sep, temp);
@@ -441,6 +450,12 @@ public class PrintAnalyses {
 //            pu.println(outStr);
 //            pu.flush();
         } else {
+            for (int w = 0; w < written.size(); w++) {
+                if (w == 0) {
+                    temp = written.get(w);
+                } else 
+                    temp=temp+","+written.get(w);
+            }
             outStr = String.format("%s%s%s", outStr, field_sep, temp);
             try {
                 pobw.write(outStr);
@@ -469,13 +484,11 @@ public class PrintAnalyses {
             Object json = mapper.readValue(ret, Object.class);
             indented = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(json);
             pobw.write(indented);
-            
 
             //System.out.println(indented);//This print statement show correct way I need
         } catch (Exception e) {
         }
 
-        
         //pobw.flush();
     }
 

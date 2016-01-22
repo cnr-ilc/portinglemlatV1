@@ -15,17 +15,17 @@ public class Vars extends AVars {
 
     private String EOS = "";
 
-    private boolean sqlDebug = false;
+    private boolean sqlDebug = true;
 
-    private boolean flowDebug = false;
+    private boolean flowDebug = true;
 
-    private boolean valueDebug = false;
+    private boolean valueDebug = true;
 
-    private boolean deepFlowDebug = false;
+    private boolean deepFlowDebug = true;
 
     private boolean printSplash = false;
 
-    private boolean callerDebug = false;
+    private boolean callerDebug = true;
 
     private boolean analysisDebug = false;
 

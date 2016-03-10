@@ -199,7 +199,7 @@ public class JAucepsApp {
 
                         try {
                             PrintAnalyses printanalyses = new PrintAnalyses(response, travellingqueries, travellingtables);
-                            printanalyses.printAnalyses(OutFormat.COMPACT, pobw, pubw);
+                            printanalyses.printAnalyses(OutFormat.OLD_LL, pobw, pubw);
                             sil = new SilType();
                             pobw.flush();
                             pubw.flush();

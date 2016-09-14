@@ -205,7 +205,7 @@ public class PrintAnalyses {
             pobw.newLine();
             pobw.write(segStr);
             pobw.newLine();
-
+            //System.err.println("XXXX " + curAnalysis.toString());
             //"------------------------codici morf. %u-------------------\n"
             for (short i = 0; i < curAnalysis.getN_cod_morf(); i++) {
                 codmorfHeader = String.format("------------------------codici morf. %d-------------------", i + 1);
@@ -433,7 +433,6 @@ public class PrintAnalyses {
 //                }
                 //System.err.println("CCC 1 "+ temp+ " for "+a);
                 //written.add(lemma.getOut_lemma() + lemma_pos_sep + lemma.getCod_morf_1_3()[0]);
-
             }
 
         }
@@ -453,8 +452,9 @@ public class PrintAnalyses {
             for (int w = 0; w < written.size(); w++) {
                 if (w == 0) {
                     temp = written.get(w);
-                } else 
-                    temp=temp+","+written.get(w);
+                } else {
+                    temp = temp + "," + written.get(w);
+                }
             }
             outStr = String.format("%s%s%s", outStr, field_sep, temp);
             try {

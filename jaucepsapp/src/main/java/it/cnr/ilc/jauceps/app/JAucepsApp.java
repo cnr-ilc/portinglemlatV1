@@ -175,7 +175,12 @@ public class JAucepsApp {
                     pobw = interact.getPobw();
                     pubw = interact.getPubw();
                     sil = lib.resetSil(sil);
-                    wordform = interact.prompt("type the WORD-FORM you wish to analyze. end to exit");
+                    //wordform = interact.prompt("type the WORD-FORM you wish to analyze. end to exit");
+                    if (!interact.isCallPrompt()) {
+                        wordform = interact.prompt("type the WORD-FORM you wish to analyze. end to exit");
+                    } else {
+                        wordform = interact.getWordform();
+                    }
                     if (wordform != null) {
 
                         if (operationDebug) {
@@ -199,7 +204,23 @@ public class JAucepsApp {
 
                         try {
                             PrintAnalyses printanalyses = new PrintAnalyses(response, travellingqueries, travellingtables);
-                            printanalyses.printAnalyses(OutFormat.OLD_LL, pobw, pubw);
+                            System.err.println("PRINT FORMAT " + interact.getPrintFormatted());
+
+                            switch (interact.getPrintFormatted()) {
+                                case 0:
+                                    printanalyses.printAnalyses(OutFormat.OLD_LL, pobw, pubw);
+                                    break;
+                                case 1:
+                                    printanalyses.printAnalyses(OutFormat.COMPACT, pobw, pubw);
+                                    break;
+                                case 2:
+                                    printanalyses.printAnalyses(OutFormat.JSON, pobw, pubw);
+                                    break;
+                                default:
+                                    printanalyses.printAnalyses(OutFormat.OLD_LL, pobw, pubw);
+                                    break;
+
+                            }
                             sil = new SilType();
                             pobw.flush();
                             pubw.flush();
@@ -209,6 +230,9 @@ public class JAucepsApp {
 
                             System.err.println("EXIT WITH RESPONSE " + e.getMessage());
                         }
+                    }
+                    if (interact.isCallPrompt()) {
+                        wordform = null;
                     }
                 } while (wordform != null);
 

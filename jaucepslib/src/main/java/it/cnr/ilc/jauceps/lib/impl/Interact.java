@@ -47,6 +47,7 @@ public class Interact extends AInteract {
     private int printFormatted = vars.getPrintFormatted();
 
     private final boolean useInPipe = vars.isUseInPipe();
+    private boolean callPrompt = false;
 
     private String filename = "";
     private int sw_file = 0;
@@ -74,12 +75,32 @@ public class Interact extends AInteract {
                 //break;
                 case "+p":
                     printFormatted = 0;
+                    setPrintFormatted(printFormatted);
                     break;
                 case "+c":
                     printFormatted = 1;
+                    setPrintFormatted(printFormatted);
                     break;
                 case "+j":
                     printFormatted = 2;
+                    setPrintFormatted(printFormatted);
+                    break;
+                case "+w":
+                    callPrompt = true;
+                    
+                    try {
+                        wordform = args[i + 1];
+//                        if (!wordform.trim().equals("")) {
+//                            wordform = "error";
+//                        }
+                    } catch (Exception e) {
+                        if (wordform.trim().equals("")) {
+                            wordform = "error";
+                        }
+                    }
+
+                    setCallPrompt(callPrompt);
+                    setWordform(wordform);
                     break;
                 default:
                     printFormatted = 0;
@@ -340,6 +361,20 @@ public class Interact extends AInteract {
      */
     public void setPobw(BufferedWriter pobw) {
         this.pobw = pobw;
+    }
+
+    /**
+     * @return the callPrompt
+     */
+    public boolean isCallPrompt() {
+        return callPrompt;
+    }
+
+    /**
+     * @param callPrompt the callPrompt to set
+     */
+    public void setCallPrompt(boolean callPrompt) {
+        this.callPrompt = callPrompt;
     }
 
 }

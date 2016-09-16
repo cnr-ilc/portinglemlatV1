@@ -204,7 +204,7 @@ public class JAucepsApp {
 
                         try {
                             PrintAnalyses printanalyses = new PrintAnalyses(response, travellingqueries, travellingtables);
-                            System.err.println("PRINT FORMAT " + interact.getPrintFormatted());
+                            //System.err.println("PRINT FORMAT " + interact.getPrintFormatted());
 
                             switch (interact.getPrintFormatted()) {
                                 case 0:

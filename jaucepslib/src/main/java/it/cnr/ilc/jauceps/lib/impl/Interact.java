@@ -72,7 +72,7 @@ public class Interact extends AInteract {
                     filename = args[i + 1];
                     setPiFile(new File(filename));
                     fileFound = true;
-                //break;
+                    break;
                 case "+p":
                     printFormatted = 0;
                     setPrintFormatted(printFormatted);
@@ -87,7 +87,7 @@ public class Interact extends AInteract {
                     break;
                 case "+w":
                     callPrompt = true;
-                    
+
                     try {
                         wordform = args[i + 1];
 //                        if (!wordform.trim().equals("")) {
@@ -102,8 +102,8 @@ public class Interact extends AInteract {
                     setCallPrompt(callPrompt);
                     setWordform(wordform);
                     break;
-                default:
-                    printFormatted = 0;
+//                default:
+//                    printFormatted = 0;
 
             }
             i++;

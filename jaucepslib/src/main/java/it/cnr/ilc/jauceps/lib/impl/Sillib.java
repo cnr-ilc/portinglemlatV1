@@ -181,15 +181,13 @@ public class Sillib {
         String logmess = "";
         int length;
         String rad_si = tab.getSI(), rad_spf = "";
-        
-        
 
         rad_spf = sil.getRad_spf();
         length = rad_si.length();
         //System.err.println("PRIMA rad_spf-"+rad_spf+"- length -"+length+ "- rad_si -"+rad_si+"-");
         rad_si = rad_spf.substring(length);
         //System.err.println("DOPO rad_spf-"+rad_spf+"- length -"+length+ "- rad_si -"+rad_si+"-");
-        
+
         if (flowDebug || deepFlowDebug) {
             logmess = String.format("DEEPFLOW START Executing %s in Sillib.java", routine);
             log.debug(logmess);
@@ -327,7 +325,6 @@ public class Sillib {
         //System.err.println("GIULIA 3a in LEMTIZ  CA " + cur_analysis.toString() + "-" + numA + "-");
         //System.err.println("GIULIA 3b in LEMTIZ LOS " + analyses.getListOfAnalysis() + "-" + numA + "-");
         //System.err.println("GIULIA 3c in LEMTIZ RES " + response.toString() + "-" + numA + "-");
-
         // tables
         TabLessario areal = travellingtables.getCopiedLessario();
         TabLE tabLe = travellingtables.getTabLe();
@@ -367,7 +364,7 @@ public class Sillib {
         List<TabLessario> tabsLessario;// = travellingtables.getListOfTabLessario();
         /* TABS LESSARIO */
 
-        /* FIRST BLOCK */
+ /* FIRST BLOCK */
         if (areal.getCodles().compareTo("fe") == 0) { // getCodLes IS fe
             if (deepFlowDebug) {
                 logmess = String.format("DEEPFLOW ****CHECKED in %s areal.codles==fe -%s- a OK", routine, areal.getCodles());
@@ -401,7 +398,7 @@ public class Sillib {
         }
         /* END FIRST BLOCK */
 
-        /* SECOND  BLOCK */
+ /* SECOND  BLOCK */
         if (areal.getLem() != null && !areal.getLem().equals("")) { // if second block IFSB_2
 
             if (areal.getLem().startsWith("-") || areal.getLem().startsWith("=")) { //if third block IFSB_3
@@ -480,6 +477,9 @@ public class Sillib {
             }
             // ARRIVATOQUI//
             /*areal=copiedlessario*/
+ /* RDG*/
+            travellingtables.setCopiedLessario(areal);
+            /* set areal as copiedlessario */
             response = pushLemma(response, travellingtables, travellingqueries, lem_type);
             if (analysisDebug) {
                 logmess = String.format("ANALYSES DEBUG in -%s- after pushLemma SECOND BLOCK AucepsResponse -%s-", routine, response.toString());
@@ -543,127 +543,132 @@ public class Sillib {
             //System.err.println("GIULIA 3a in LEMTIZ II BLOCK IFSB_1 AS  CA " + cur_analysis.toString() + "-" + numA + "-");
             //System.err.println("GIULIA 3b in LEMTIZ II BLOCK IFSB_1 AS LOS " + analyses.getListOfAnalysis() + "-" + numA + "-");
             //System.err.println("GIULIA 3c in LEMTIZ II BLOCK IFSB_1 AS RES " + response.toString() + "-" + numA + "-");
-
             return response;
 
         } else // else if second block IFSB_2 (ELSESB_2)
-        if (areal.getCodles().compareTo("fe") != 0) { //if areal->codles, "fe" IFSB_4
-            if (deepFlowDebug) {
-                logmess = String.format("DEEPFLOW ****CHECKED in %s strcmp(areal->codles, fe) THEY ARE DIFFERENT OK IFSB_4", routine);
-                log.debug(logmess);
-            }
-            if (sil.getIsLE() == 1) { // sil.isLE is true if=1 isLE IFSB_5
+        {
+            if (areal.getCodles().compareTo("fe") != 0) { //if areal->codles, "fe" IFSB_4
                 if (deepFlowDebug) {
-                    logmess = String.format("DEEPFLOW ****CHECKED in %s sil.isLE -%d- OK (1) IFSB_5", routine, sil.getIsLE());
-                    log.debug(logmess);
-                    logmess = String.format("DEEPFLOW ****COPYING in %s getLE -%s- on sil.lemma -%s-",
-                            routine, tabLe.getLE_LEMMA(), sil.getLemma());
-                    log.debug(logmess);
-                    logmess = String.format("DEEPFLOW ****COPYING in %s areal.codles -%s- on sil.codice -%s-",
-                            routine, areal.getCodles(), sil.getCodice());
+                    logmess = String.format("DEEPFLOW ****CHECKED in %s strcmp(areal->codles, fe) THEY ARE DIFFERENT OK IFSB_4", routine);
                     log.debug(logmess);
                 }
-                sil.setLemma(tabLe.getLE_LEMMA());
-                sil.setCodice(areal.getCodles());
-                response.setSil(sil);
-                if (deepFlowDebug) {
+                if (sil.getIsLE() == 1) { // sil.isLE is true if=1 isLE IFSB_5
+                    if (deepFlowDebug) {
+                        logmess = String.format("DEEPFLOW ****CHECKED in %s sil.isLE -%d- OK (1) IFSB_5", routine, sil.getIsLE());
+                        log.debug(logmess);
+                        logmess = String.format("DEEPFLOW ****COPYING in %s getLE -%s- on sil.lemma -%s-",
+                                routine, tabLe.getLE_LEMMA(), sil.getLemma());
+                        log.debug(logmess);
+                        logmess = String.format("DEEPFLOW ****COPYING in %s areal.codles -%s- on sil.codice -%s-",
+                                routine, areal.getCodles(), sil.getCodice());
+                        log.debug(logmess);
+                    }
+                    sil.setLemma(tabLe.getLE_LEMMA());
+                    sil.setCodice(areal.getCodles());
+                    response.setSil(sil);
+                    if (deepFlowDebug) {
 
-                    logmess = String.format("DEEPFLOW ****COPIED in %s getLE -%s- on sil.lemma -%s-",
-                            routine, tabLe.getLE_LEMMA(), sil.getLemma());
-                    log.debug(logmess);
-                    logmess = String.format("DEEPFLOW ****COPIED in %s areal.codles -%s- on sil.codice -%s-",
-                            routine, areal.getCodles(), sil.getCodice());
-                    log.debug(logmess);
-                }
-                if (analysisDebug) {
-                    logmess = String.format("ANALYSES DEBUG in -%s- IFSB_5 AucepsResponse -%s-", routine, response.toString());
-                    log.debug(logmess);
+                        logmess = String.format("DEEPFLOW ****COPIED in %s getLE -%s- on sil.lemma -%s-",
+                                routine, tabLe.getLE_LEMMA(), sil.getLemma());
+                        log.debug(logmess);
+                        logmess = String.format("DEEPFLOW ****COPIED in %s areal.codles -%s- on sil.codice -%s-",
+                                routine, areal.getCodles(), sil.getCodice());
+                        log.debug(logmess);
+                    }
+                    if (analysisDebug) {
+                        logmess = String.format("ANALYSES DEBUG in -%s- IFSB_5 AucepsResponse -%s-", routine, response.toString());
+                        log.debug(logmess);
 
-                }
+                    }
 
-            } else { //ELSESB_5
-                if (deepFlowDebug) {
-                    logmess = String.format("DEEPFLOW ****CHECKED in %s sil.isLE -%d- KO (0) ELSESB_5", routine, sil.getIsLE());
-                    log.debug(logmess);
-                    logmess = String.format("DEEPFLOW ****COPYING in %s areal.les -%s- on sil.lemma -%s-",
-                            routine, areal.getLes(), sil.getLemma());
-                    log.debug(logmess);
-                    logmess = String.format("DEEPFLOW ****COPYING in %s areal.codles -%s- on sil.codice -%s-",
-                            routine, areal.getCodles(), sil.getCodice());
-                    log.debug(logmess);
-                }
-                sil.setLemma(areal.getLes());
-                sil.setCodice(areal.getCodles());
-                response.setSil(sil);
-                if (deepFlowDebug) {
+                } else { //ELSESB_5
+                    if (deepFlowDebug) {
+                        logmess = String.format("DEEPFLOW ****CHECKED in %s sil.isLE -%d- KO (0) ELSESB_5", routine, sil.getIsLE());
+                        log.debug(logmess);
+                        logmess = String.format("DEEPFLOW ****COPYING in %s areal.les -%s- on sil.lemma -%s-",
+                                routine, areal.getLes(), sil.getLemma());
+                        log.debug(logmess);
+                        logmess = String.format("DEEPFLOW ****COPYING in %s areal.codles -%s- on sil.codice -%s-",
+                                routine, areal.getCodles(), sil.getCodice());
+                        log.debug(logmess);
+                    }
+                    sil.setLemma(areal.getLes());
+                    sil.setCodice(areal.getCodles());
+                    response.setSil(sil);
+                    if (deepFlowDebug) {
 
-                    logmess = String.format("DEEPFLOW ****COPIED in %s areal.les -%s- on sil.lemma -%s-",
-                            routine, areal.getLes(), sil.getLemma());
-                    log.debug(logmess);
-                    logmess = String.format("DEEPFLOW ****COPIED in %s areal.codles -%s- on sil.codice -%s-",
-                            routine, areal.getCodles(), sil.getCodice());
-                    log.debug(logmess);
-                }
-                if (analysisDebug) {
-                    logmess = String.format("ANALYSES DEBUG in -%s- ELSESB_5 AucepsResponse -%s-", routine, response.toString());
-                    log.debug(logmess);
+                        logmess = String.format("DEEPFLOW ****COPIED in %s areal.les -%s- on sil.lemma -%s-",
+                                routine, areal.getLes(), sil.getLemma());
+                        log.debug(logmess);
+                        logmess = String.format("DEEPFLOW ****COPIED in %s areal.codles -%s- on sil.codice -%s-",
+                                routine, areal.getCodles(), sil.getCodice());
+                        log.debug(logmess);
+                    }
+                    if (analysisDebug) {
+                        logmess = String.format("ANALYSES DEBUG in -%s- ELSESB_5 AucepsResponse -%s-", routine, response.toString());
+                        log.debug(logmess);
 
-                }
+                    }
+
+                    if (callerDebug) {
+                        logmess = String.format("CALLING build_lemma CALLER -%s- in LemmaEnding.java SECOND BLOCK ELSESB_5 with sil.lemma-%s- sil.codice -%s- sil.lemma -%s- and #Analysis -%d-);",
+                                routine, sil.getLemma(), sil.getCodice(), sil.getLemma(), numA);
+                        log.debug(logmess);
+                    }
+
+                    tablemmaendingq.getBuildLemmaSet(sil.getLemma(), sil.getCodice());
+                    sil.setLemma(tablemmaendingq.build_lemma());
+                    response.setSil(sil);
+                    if (analysisDebug) {
+                        logmess = String.format("ANALYSES DEBUG in -%s- ELSESB_5 after build_lemma AucepsResponse -%s-", routine, response.toString());
+                        log.debug(logmess);
+
+                    }
+
+                } // end isLE IFSB_5
 
                 if (callerDebug) {
-                    logmess = String.format("CALLING build_lemma CALLER -%s- in LemmaEnding.java SECOND BLOCK ELSESB_5 with sil.lemma-%s- sil.codice -%s- sil.lemma -%s- and #Analysis -%d-);",
-                            routine, sil.getLemma(), sil.getCodice(), sil.getLemma(), numA);
+                    logmess = String.format("CALLING set_codlem3eagles in  Sillib.java and #Analysis -%d-. CALLER %s", numA, routine);
                     log.debug(logmess);
                 }
-
-                tablemmaendingq.getBuildLemmaSet(sil.getLemma(), sil.getCodice());
-                sil.setLemma(tablemmaendingq.build_lemma());
-                response.setSil(sil);
+                //System.err.println("MARONNA X0PLB4SC3E" + response + "-" + numA + "-");
+                response = set_codlem3eagles(response, travellingtables, travellingqueries, "");
                 if (analysisDebug) {
-                    logmess = String.format("ANALYSES DEBUG in -%s- ELSESB_5 after build_lemma AucepsResponse -%s-", routine, response.toString());
+                    logmess = String.format("ANALYSES DEBUG in -%s- IFSB_4 after set_codlem3eagles AucepsResponse -%s-", routine, response.toString());
                     log.debug(logmess);
 
                 }
+                //System.err.println("MARONNA X0PLASC3E" + response + "-" + numA + "-");
 
-            } // end isLE IFSB_5
+                if (callerDebug) {
+                    logmess = String.format("CALLING pushLemma in  Sillib.java and #Analysis -%d-. CALLER %s", numA, routine);
+                    log.debug(logmess);
+                }
+                /* RDG*/
+                travellingtables.setCopiedLessario(areal);
+                /* set areal as copiedlessario */
 
-            if (callerDebug) {
-                logmess = String.format("CALLING set_codlem3eagles in  Sillib.java and #Analysis -%d-. CALLER %s", numA, routine);
-                log.debug(logmess);
-            }
-            //System.err.println("MARONNA X0PLB4SC3E" + response + "-" + numA + "-");
-            response = set_codlem3eagles(response, travellingtables, travellingqueries, "");
-            if (analysisDebug) {
-                logmess = String.format("ANALYSES DEBUG in -%s- IFSB_4 after set_codlem3eagles AucepsResponse -%s-", routine, response.toString());
-                log.debug(logmess);
+                response = pushLemma(response, travellingtables, travellingqueries, lem_type);
+                if (analysisDebug) {
+                    logmess = String.format("ANALYSES DEBUG in -%s- IFSB_4 after pushLemma AucepsResponse -%s-", routine, response.toString());
+                    log.debug(logmess);
 
-            }
-            //System.err.println("MARONNA X0PLASC3E" + response + "-" + numA + "-");
-            
-            if (callerDebug) {
-                logmess = String.format("CALLING pushLemma in  Sillib.java and #Analysis -%d-. CALLER %s", numA, routine);
-                log.debug(logmess);
-            }
-            response = pushLemma(response, travellingtables, travellingqueries, lem_type);
-            if (analysisDebug) {
-                logmess = String.format("ANALYSES DEBUG in -%s- IFSB_4 after pushLemma AucepsResponse -%s-", routine, response.toString());
-                log.debug(logmess);
+                }
+                //pushLemma(areal, lem_type);
+                if (flowDebug || deepFlowDebug) {
+                    logmess = String.format("DEEPFLOW STOP Executing %s in Sillib.java with s.pr_key -%s- II BLOCK IFSB_4", routine, areal.getPr_key());
+                    log.debug(logmess);
+                }
+                response.setSil(sil);
+                response.setExitInLemtiz(true);
 
-            }
-            //pushLemma(areal, lem_type);
-            if (flowDebug || deepFlowDebug) {
-                logmess = String.format("DEEPFLOW STOP Executing %s in Sillib.java with s.pr_key -%s- II BLOCK IFSB_4", routine, areal.getPr_key());
-                log.debug(logmess);
-            }
-            response.setSil(sil);
-            response.setExitInLemtiz(true);
-            
-            //System.err.println("GIULIA 3a in LEMTIZ II BLOCK IFSB_4   CA " + cur_analysis.toString() + "-" + numA + "-");
-            //System.err.println("GIULIA 3b in LEMTIZ II BLOCK IFSB_4  LOS " + analyses.getListOfAnalysis() + "-" + numA + "-");
-            //System.err.println("GIULIA 3c in LEMTIZ II BLOCK IFSB_4  RES " + response.toString() + "-" + numA + "-");
-            return response;
+                //System.err.println("GIULIA 3a in LEMTIZ II BLOCK IFSB_4   CA " + cur_analysis.toString() + "-" + numA + "-");
+                //System.err.println("GIULIA 3b in LEMTIZ II BLOCK IFSB_4  LOS " + analyses.getListOfAnalysis() + "-" + numA + "-");
+                //System.err.println("GIULIA 3c in LEMTIZ II BLOCK IFSB_4  RES " + response.toString() + "-" + numA + "-");
+                return response;
 
-        }//end if areal->codles, "fe" IFSB_4 // end if second block IFSB_2
+            }//end if areal->codles, "fe" IFSB_4 // end if second block IFSB_2
+        }
         /* END SECOND BLOCK */
         //response.setSil(sil);
         if (flowDebug || deepFlowDebug) {
@@ -758,7 +763,7 @@ public class Sillib {
             } else { //else IF2 ELSE2
                 codice = areal.getCodles();
                 if (callerDebug) {
-                    logmess = String.format("CALLING get3EaglesSet cod2search=-%s- CALLER %s and BY_CODLES ELSE IF2 and #Analysis -%d-", codice, routine, numA);
+                    logmess = String.format("CALLING get3EaglesSet cod2search(areal)=-%s- CALLER %s and BY_CODLES ELSE IF2 and #Analysis -%d-", codice, routine, numA);
                     log.debug(logmess);
                 }
                 //System.err.println("MARONNA X0SC3EI d " + response + "-" + numA + "-");
@@ -775,7 +780,7 @@ public class Sillib {
             travellingtables.setListOfTab3Eagles(tabs3e);
             //System.err.println("MARONNA X0SC3EI e1 " + response + "-" + numA + "-");
 
-            String[] codes=new String[3];// = sil.getEagles3();
+            String[] codes = new String[3];// = sil.getEagles3();
             //System.err.println("MARONNA X0SC3EI e2 " + response + "-" + numA + "-");
             String eCodLem;
             Tab3Eagles tab3e = tabs3e.iterator().next();
@@ -878,7 +883,11 @@ public class Sillib {
                 log.debug(logmess);
 
             }
-            travellingtables.setTabLessario(tabLessario);
+            /*RDG
+            was areal=tabLessario
+             */
+            travellingtables.setTabLessario(areavs);
+            /* set areavs as tabLessario */
             travellingtables.setStatus("8");
 
             if (operationDebug) {
@@ -887,13 +896,14 @@ public class Sillib {
 
             }
             areal = tabLessario;
-            travellingtables.setCopiedLessario(areal);
+            travellingtables.setCopiedLessario(tabLessario);
 
             if ((areavs.getLes().compareTo(areal.getLes()) != 0) || (areavs.getCodles().compareTo(areal.getCodles()) != 0)) {
                 if (deepFlowDebug) {
-                    logmess = String.format("DEEPFLOW ****CHECKED in %s areavs.les -%s- and areavs.codles -%s- and areal.les -%s- and areal.codles -%s-", routine,
-                            areavs.getLes(), areal.getLes(),
-                            areavs.getCodles(), areal.getCodles());
+                    logmess = String.format("DEEPFLOW ****CHECKED in %s areavs.les -%s- and areavs.codles -%s- with areal.les -%s- and areal.codles -%s-",
+                            routine,
+                            areavs.getLes(), areavs.getCodles(),
+                            areal.getLes(), areal.getCodles());
                     log.debug(logmess);
 
                 }
@@ -948,10 +958,12 @@ public class Sillib {
         List<TabFECodMorSet> tabsFeCodMorSet = travellingtables.getListOfTabFECodMorSet();
 
         List<String> codes = addElemToList();
-        String codLE = areal.getCodLE();
-
+        /*RDG*/
+        String codLE
+                = //areal.getCodLE();
+                travellingtables.getTabLe().getLE_CODLE(); /* get the codle from table */
         int n_cod_morf = 0;
-        
+
         //System.err.println("MARONNA X0  CURRENT LEMMA " + response.getSil().getLemma() + " CURRENT SIL " + sil);
         // queries
         TabCodLeQuery tabcodleq = travellingqueries.getTabcodleq();
@@ -964,7 +976,7 @@ public class Sillib {
         tabfeq.setConn(travellingqueries.getConn());
 
         if (flowDebug || deepFlowDebug) {
-            logmess = String.format("DEEPFLOW START Executing %s in -%s- with s.pr_key -%s- and lem_type -%s- #Analysis -%d- for lemma -%s-", routine, CLASS_NAME, areal.getPr_key(), lem_type.toString(), numA, response.getSil().getLemma());
+            logmess = String.format("DEEPFLOW START Executing %s in -%s- with s.pr_key -%s- and lem_type -%s- #Analysis -%d- for lemma -%s- and areavs.codles -%s-", routine, CLASS_NAME, areal.getPr_key(), lem_type.toString(), numA, response.getSil().getLemma(), areavs.getCodles());
             log.debug(logmess);
         }
         if (analysisDebug) {
@@ -1118,7 +1130,6 @@ public class Sillib {
 
                             //System.err.println("MARONNA X0PLAGCMS " + response.toString());
                             //System.err.println("MARONNA X0PLAGCMS  CURRENT LEMMA " + response.getSil().getLemma() + " CURRENT SIL " + sil);
-
                         } // rof tabsSfCodMorSet
                         setTravellingtables(travellingtables);
                         response.setCur_analysis(cur_analysis);
@@ -1457,7 +1468,7 @@ public class Sillib {
             codes[1] = tabFe3CodSet.getC02();
             codes[2] = tabFe3CodSet.getC03();
             //System.err.println("GIULIA 2b NOT NULL in NEWLEMMA LEMMA  " + curLemma.getOut_lemma() + "-" + numA + "-"
-                   // + Arrays.toString(curLemma.getCod_morf_1_3()));
+            // + Arrays.toString(curLemma.getCod_morf_1_3()));
             curLemma.setCod_morf_1_3(codes);
             //System.err.println("GIULIA 2b NOT NULL in NEWLEMMA LEMMA  " + curLemma.getOut_lemma() + "-" + numA + "-" + Arrays.toString(curLemma.getCod_morf_1_3()));
             //System.err.println("GIULIA 2b1 NOT NULL in NEWLEMMA LEMMA  " + response.toString() + "-" + numA + "-" + lemmas.toString());

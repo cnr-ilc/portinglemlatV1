@@ -351,8 +351,8 @@ public class Comparator {
                 log.debug(logmess);
             }
             return true;
-        } else {// else areavs.spf, getSPF_cod(SPF2 //ELSE3
-
+        } else// else areavs.spf, getSPF_cod(SPF2 //ELSE3
+        {
             if (flowDebug || deepFlowDebug) {
                 logmess = String.format("DEEPFLOW CONTINUING Executing %s in Comparator.java with parameters getSPF(SPF1) -%s-  ELSE3", routine, spf2);
                 log.debug(logmess);
@@ -849,6 +849,8 @@ public class Comparator {
             logmess = String.format("CALLING  pushLemma  with parameters areal.pr_key -%s-, IPOLEMMA", routine, areal.getPr_key());
             log.debug(logmess);
         }
+        /* RDG*/
+        travellingtables.setCopiedLessario(areal); /* set areal as copiedlessario */
         response = sillib.pushLemma(response, travellingtables, travellingqueries, IPOLEMMA);
 //pushLemma(areal, IPOLEMMA);
         if (flowDebug || deepFlowDebug) {
@@ -968,6 +970,9 @@ public class Comparator {
             logmess = String.format("CALLING  pushLemma  with parameters areal.pr_key -%s-, IPERLEMMA_INT", routine, areal.getPr_key());
             log.debug(logmess);
         }
+        /* RDG*/
+        travellingtables.setCopiedLessario(areal);  /* set areal as copiedlessario */ 
+
         response = sillib.pushLemma(response, travellingtables, travellingqueries, IPERLEMMA_INT);
         sil = response.getSil();
         //pushLemma(areal, IPOLEMMA);
@@ -1153,7 +1158,7 @@ public class Comparator {
                     log.debug(logmess);
                 }
                 if (callerDebug) {
-                    logmess = String.format("CALLING lemv with tabLes with pr_key: -%s- and IPERLEMMA  CALLER %s ", areal.getPr_key(), routine);
+                    logmess = String.format("CALLING lemv with tabLes with pr_key: -%s- and IPOLEMMA  CALLER %s ", areal.getPr_key(), routine);
                     log.debug(logmess);
                 }
                 response = sillib.lemv(response, travellingtables, travellingqueries, IPOLEMMA);

@@ -1096,10 +1096,10 @@ public class InputFunctions {
         travellingtables.setListOfTabLE(tabsLe);
         isanyle = travellingtables.isIsanyLE();
 
-        if (callerDebug && deepFlowDebug) {
-            logmess = String.format("CALLING getLEset with parameters rad_si: -%s- CALLER %s ", rad_si, routine);
-            log.debug(logmess);
-        }
+//        if (callerDebug && deepFlowDebug) {
+//            logmess = String.format("CALLING getLEset with parameters rad_si: -%s- CALLER %s ", rad_si, routine);
+//            log.debug(logmess);
+//        }
         if (valueDebug) {
             logmess = String.format("****VALUES of getListOfTabLE  -%d-", travellingtables.getListOfTabLE().size());
             log.debug(logmess);
@@ -1289,7 +1289,8 @@ public class InputFunctions {
         }
         //if (!sil.getInd_alt().equals("")) {
         //if (sil.getInd_alt().equals(EOS) || sil.getInd_alt().length()>=0) { /*ind_alt !='\0' check initialized */ 
-        if (!sil.getInd_alt().equals("")) {
+        /* RDG */
+        if (sil.getInd_alt().equals("")) { /* was !sil.getInd_alt().equals("") to ask */
             //if (sil.getInd_alt() != null) {
             if (deepFlowDebug) {
                 logmess = String.format("DEEPFLOW ****CHECKED sil.ind_alt -%s- in %s: WAS NOT NULL", sil.getInd_alt(), routine);
@@ -1343,10 +1344,10 @@ public class InputFunctions {
             tabLessario = travellingtables.getTabLessario();
 
         } else// else sil.ind_alt
-        if (deepFlowDebug) {
-            logmess = String.format("DEEPFLOW ****CHECKED sil.ind_alt -%s- in %s: WAS NULL", sil.getInd_alt(), routine);
-            log.debug(logmess);
-        } // end /*ind_alt !='\0'*/
+            if (deepFlowDebug) {
+                logmess = String.format("DEEPFLOW ****CHECKED sil.ind_alt -%s- in %s: WAS NULL", sil.getInd_alt(), routine);
+                log.debug(logmess);
+            } // end /*ind_alt !='\0'*/
         // getSI
         if (deepFlowDebug) {
             logmess = String.format("DEEPFLOW ****CHECKING getSI -%s- in %s", tabSi.getSI(), routine);
@@ -1405,11 +1406,12 @@ public class InputFunctions {
             setTravellingtables(travellingtables);
             tabLessario = travellingtables.getTabLessario();
         } else // else  getSI
-        if (deepFlowDebug) {
-            logmess = String.format("DEEPFLOW ****CHECKED tabSi.getSI() -%s- in %s: WAS ''", tabSi.getSI(), routine);
-            log.debug(logmess);
-        } // end getSI
-        ////System.err.println("SPF: "+tabspf_2.getSPF());
+        {
+            if (deepFlowDebug) {
+                logmess = String.format("DEEPFLOW ****CHECKED tabSi.getSI() -%s- in %s: WAS ''", tabSi.getSI(), routine);
+                log.debug(logmess);
+            } // end getSI
+        }        ////System.err.println("SPF: "+tabspf_2.getSPF());
 
         if (deepFlowDebug) {
             logmess = String.format("DEEPFLOW ****CHECKING getSPF_1 -%s- in %s", tabspf_1.getSPF(), routine);
@@ -1477,11 +1479,12 @@ public class InputFunctions {
             sil = comparator.getSil();
             response.setSil(sil);
         } else // else  getSPF_1
-        if (deepFlowDebug) {
-            logmess = String.format("DEEPFLOW ****CHECKED tabspf_1.getSPF() -%s- in %s: WAS ''", tabspf_1.getSPF(), routine);
-            log.debug(logmess);
-        } // end getSPF_1
-
+        {
+            if (deepFlowDebug) {
+                logmess = String.format("DEEPFLOW ****CHECKED tabspf_1.getSPF() -%s- in %s: WAS ''", tabspf_1.getSPF(), routine);
+                log.debug(logmess);
+            } // end getSPF_1
+        }
         if (deepFlowDebug) {
             logmess = String.format("DEEPFLOW ****CHECKING isanyspf2 -%s- in %s", travellingtables.isIsanySPF2(), routine);
             log.debug(logmess);
@@ -1544,11 +1547,12 @@ public class InputFunctions {
             sil = comparator.getSil();
             response.setSil(sil);
         } else // else  getSPF_2
-        if (deepFlowDebug) {
-            logmess = String.format("DEEPFLOW ****CHECKED isanyspf2 -%s- in %s: WAS FALSE", travellingtables.isIsanySPF2(), routine);
-            log.debug(logmess);
-        } // end getSPF_2
-
+        {
+            if (deepFlowDebug) {
+                logmess = String.format("DEEPFLOW ****CHECKED isanyspf2 -%s- in %s: WAS FALSE", travellingtables.isIsanySPF2(), routine);
+                log.debug(logmess);
+            } // end getSPF_2
+        }
         if (callerDebug) {
             logmess = String.format("CALLING areacp with lessario with pr_key: -%s-  CALLER %s ", tabLessario.getPr_key(), routine);
             log.debug(logmess);

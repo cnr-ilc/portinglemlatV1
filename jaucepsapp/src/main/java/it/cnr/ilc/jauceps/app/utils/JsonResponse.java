@@ -77,7 +77,7 @@ public class JsonResponse {
             responseBuilder.add(labelnumA, (int) (0));
         } else {
             responseBuilder.add(labelFound, "true");
-            responseBuilder.add(labelnumA, (int) (analyses.getNumAnalysis() - 1));
+            responseBuilder.add(labelnumA, (int) (analyses.getNumAnalysis()));
         }
         int id = 1;
         for (Analysis analysis : analyses.getListOfAnalysis()) {
@@ -151,6 +151,7 @@ public class JsonResponse {
 
         responseBuilder.add(labelAnalysis, analysesArrayBuilder);
         JsonObject obj = responseBuilder.build();
+        System.err.println("JSON ARRAY "+obj.toString());
         return obj.toString();
     }
 

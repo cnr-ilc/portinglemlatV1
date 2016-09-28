@@ -25,7 +25,7 @@ import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.*;
-import utils.OutFormat;
+import it.cnr.ilc.jauceps.app.utils.OutFormat;
 import java.sql.Timestamp;
 import java.util.Date;
 

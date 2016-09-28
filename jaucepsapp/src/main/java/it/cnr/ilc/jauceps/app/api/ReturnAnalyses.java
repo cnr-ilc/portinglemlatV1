@@ -27,8 +27,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
-import utils.OutFormat;
-import static utils.OutFormat.COMPLETE;
+import it.cnr.ilc.jauceps.app.utils.OutFormat;
+import static it.cnr.ilc.jauceps.app.utils.OutFormat.COMPLETE;
 
 /**
  *

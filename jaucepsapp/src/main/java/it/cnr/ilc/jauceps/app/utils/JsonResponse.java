@@ -65,6 +65,7 @@ public class JsonResponse {
         String labelLemma = "lemma";
         String labelValues = "values";
         String labelMorfCodes = "morpho_codes";
+        String labelLemType = "lem_type";
 
         String[] segs;
 
@@ -77,7 +78,9 @@ public class JsonResponse {
             responseBuilder.add(labelnumA, (int) (0));
         } else {
             responseBuilder.add(labelFound, "true");
-            responseBuilder.add(labelnumA, (int) (analyses.getNumAnalysis()));
+            //responseBuilder.add(labelnumA, (int) (analyses.getNumAnalysis()));
+            responseBuilder.add(labelnumA, (int) (analyses.getListOfAnalysis().size()));
+            
         }
         int id = 1;
         for (Analysis analysis : analyses.getListOfAnalysis()) {
@@ -122,6 +125,7 @@ public class JsonResponse {
                 lemmaObjBuilder = Json.createObjectBuilder();
                 lemmaObjBuilder.add(labelId, l);
                 lemmaObjBuilder.add(labelLemma, lemma.getOut_lemma());
+                lemmaObjBuilder.add(labelLemType,lemma.getType().toString());
 
                 // lemma morfocodes
                 lemmaObjMorfCodesBuilder = Json.createObjectBuilder();
@@ -136,6 +140,7 @@ public class JsonResponse {
                     } catch (Exception e) {
                     }
                 }
+                
 
                 lemmaMorfCodesArrayBuilder.add(lemmaObjMorfCodesBuilder);
                 lemmaObjBuilder.add(labelMorfCodes, lemmaMorfCodesArrayBuilder);
@@ -151,7 +156,7 @@ public class JsonResponse {
 
         responseBuilder.add(labelAnalysis, analysesArrayBuilder);
         JsonObject obj = responseBuilder.build();
-        System.err.println("JSON ARRAY "+obj.toString());
+        //System.err.println("JSON ARRAY "+obj.toString());
         return obj.toString();
     }
 

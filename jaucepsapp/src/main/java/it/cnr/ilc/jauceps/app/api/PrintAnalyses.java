@@ -27,8 +27,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.log4j.Logger;
-import utils.OutFormat;
-import static utils.OutFormat.COMPLETE;
+import it.cnr.ilc.jauceps.app.utils.OutFormat;
+import static it.cnr.ilc.jauceps.app.utils.OutFormat.COMPLETE;
 
 /**
  *
@@ -82,7 +82,13 @@ public class PrintAnalyses {
 
         }
     }
-
+    /**
+     * @deprecated 
+     * @param response
+     * @param ps
+     * @param pu
+     * @throws IOException 
+     */
     private void printComplete(AucepsResponse response, BufferedWriter ps, BufferedWriter pu) throws IOException {
         Analyses analyses = response.getAnalyses();
         List<Analysis> lofanalyses = analyses.getListOfAnalysis();

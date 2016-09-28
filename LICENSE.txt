@@ -1,4 +1,4 @@
-DISTRIBUTION LICENCE 
+DISTRIBUTION LICENSE 
 
 
 LEMLAT 3.0 - New version of the Latin Lemmatizer and Morphological Analyzer LEMLAT 2.0 

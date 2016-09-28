@@ -1,0 +1,26 @@
+DISTRIBUTION LICENCE 
+
+
+LEMLAT 3.0 - New version of the Latin Lemmatizer and Morphological Analyzer LEMLAT 2.0 
+
+Copyright © 2016 
+-Istituto di Linguistica Computazionale “A. Zampolli”, CNR, Pisa Italy (CNR-ILC) 
+-Centro Interdisciplinare di Ricerche per la Computerizzazione dei Segni dell’Espressione, Università Cattolica del Sacro Cuore, Milan, Italy (UCSC-CIRCSE)
+
+===SOFTWARE=== 
+
+LEMLAT 3.0 is a derivative work from LEMLAT 2.0, Copyright © 2002-2004 -Andrea Bozzi, Marco Carlo Passarotti, Paolo Ruffolo - Istituto di Linguistica Computazionale “A. Zampolli”, CNR, Pisa, Italy. 
+
+LEMLAT 2.0 reimplements and extends LEMLAT, Copyright © 1992 ([expired] patent n. 564244 March 18th , 1992) - Andrea Bozzi (CNR-ILC), Giuseppe Cappelli (CNR-ILC), Nino Marinone (Università di Torino). 
+
+LEMLAT 3.0 is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version. 
+
+LEMLAT 3.0 is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details. 
+
+You should have received a copy of the GNU General Public License along with this program. If not, see <http://www.gnu.org/licenses/>.
+
+===DATA=== 
+
+The program LEMLAT 3.0 makes use of data stored in tables, made available in a SQL database (“lemlat_db”). 
+
+All tables are released under CC-BY-NC-SA 4.0. 

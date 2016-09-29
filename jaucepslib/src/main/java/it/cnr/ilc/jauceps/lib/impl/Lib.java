@@ -157,7 +157,19 @@ public class Lib extends ALib {
 
     @Override
     public void finalize(int stopServer) {
-        String routine = Lib.class.getName() + "/initialize";
+        String logmess = "";
+        
+        String routine = Lib.class.getName() + "/finalize";
+        if (flowDebug || deepFlowDebug) {
+            logmess = String.format("DEEPFLOW START Executing %s in class Lib.java", routine);
+            log.debug(logmess);
+        }
+        ds.ll_disconnect(conn);
+        if (flowDebug || deepFlowDebug) {
+            logmess = String.format("DEEPFLOW STOP Executing %s in class Lib.java", routine);
+            log.debug(logmess);
+        }
+        
 
     }
 

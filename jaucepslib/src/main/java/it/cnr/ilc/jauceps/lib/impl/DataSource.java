@@ -56,7 +56,8 @@ public class DataSource extends ADataSource {
             logmess = String.format("DEEPFLOW START Executing %s in class DataSource.java", routine);
             log.debug(logmess);
         }
-        conn = db_connect(app_name,lf, ef);
+        if(conn==null)
+            conn = db_connect(app_name, lf, ef);
         if (flowDebug || deepFlowDebug) {
             logmess = String.format("DEEPFLOW STOP Executing %s in class DataSource.java. Connection Id -%s-", routine, conn.toString());
             log.debug(logmess);
@@ -67,8 +68,8 @@ public class DataSource extends ADataSource {
 
     @Override
     public boolean ll_disconnect(Connection db) {
-        boolean stopServer=false;
-        stopServer=db_disconnect(db);
+        boolean stopServer = false;
+        stopServer = db_disconnect(db);
         return stopServer;
     }
 
@@ -97,23 +98,27 @@ public class DataSource extends ADataSource {
      * @param ef error file, usually standard output
      * @return a pointer to the connection
      */
-    private Connection db_connect(String app_name,PrintStream lf, PrintStream ef) {
+    private Connection db_connect(String app_name, PrintStream lf, PrintStream ef) {
         String connStr = "jdbc:mysql://" + host + "/" + database + "?" + "user=" + user + "&password=" + passwd;
         String routine = DataSource.class.getName() + "/db_connect";
         String logmess = "";
-        try {
+        if (conn == null) {
+            try {
 
-            Class.forName("com.mysql.jdbc.Driver");
-            if (conn == null) {
-                conn = DriverManager
-                        .getConnection(connStr);
+                Class.forName("com.mysql.jdbc.Driver");
+                if (conn == null) {
+                    conn = DriverManager
+                            .getConnection(connStr);
+                }
+
+            } catch (SQLException | ClassNotFoundException sqle) {
+                logmess = app_name + " - " + routine + " " + sqle.getMessage();
+                log.fatal(logmess);
+                System.exit((-1));
+
             }
-
-        } catch (SQLException | ClassNotFoundException sqle) {
-            logmess = app_name + " - " + routine + " " + sqle.getMessage();
-            log.fatal(logmess);
-            System.exit((-1));
-
+        } else {
+            System.err.println("XXXCONN " + conn);
         }
         return conn;
     }
@@ -121,13 +126,13 @@ public class DataSource extends ADataSource {
     private boolean db_disconnect(Connection db) {
         String routine = DataSource.class.getName() + "/db_disconnect";
         String logmess = "";
-        boolean stopServer=false;
+        boolean stopServer = false;
         if (db != null) {
             try {
                 db.close();
-                stopServer=true;
+                stopServer = true;
             } catch (SQLException sqle) {
-                
+
                 logmess = routine + " " + sqle.getMessage();
                 log.fatal(logmess);
 
